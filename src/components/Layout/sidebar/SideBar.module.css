@@ -1,15 +1,21 @@
 .wrapper {
     list-style: none;
     background-color: #dfdfdf;
-    height: 90vh;
-    margin-top: 72px;
+    height: 100vh;
+    /* margin-top: 72px; */
     position: fixed;
+    border-right: 1px solid black;
 }
 
 .mainMenu {
     width: 250px;
+    margin-top: 25px;
     display: block;
     overflow: hidden;
+}
+
+li {
+    margin: 10px 0 10px 0;
 }
 
 .item {
