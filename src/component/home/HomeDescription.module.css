@@ -1,0 +1,17 @@
+.homeDescription {
+    display: flex;
+    flex-flow: column;
+}
+
+.homeDescription h1 {
+    font-family: 'Pretendard-SemiBold';
+    font-size: 54px;
+    line-height: 59.4px;
+}
+
+.homeDescription h2 {
+    font-family: 'Pretendard-Regular';
+    font-size: 18px;
+    margin-top: 34px;
+    line-height: 25.2px;
+}
