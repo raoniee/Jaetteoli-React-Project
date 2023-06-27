@@ -81,7 +81,10 @@
 }
 
 
-.button-div {}
+.button-div {
+    display: flex;
+    flex-direction: row;
+}
 
 button {
     width: 122px;
