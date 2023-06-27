@@ -1,26 +1,23 @@
 .wrapper {
     list-style: none;
     background-color: #dfdfdf;
-    height: 100vh;
+    height: 100%;
     /* margin-top: 72px; */
     position: fixed;
     border-right: 1px solid black;
 }
 
 .mainMenu {
-    width: 250px;
+    width: 202px;
     margin-top: 25px;
     display: block;
-    overflow: hidden;
 }
 
 li {
     margin: 10px 0 10px 0;
 }
 
-.item {
-    overflow: hidden;
-}
+.item {}
 
 .btn {
     display: block;
@@ -36,26 +33,12 @@ li {
     height: 20px;
 }
 
-.btn:before {
-    content: '';
-    position: absolute;
-    width: 0;
-    height: 0;
-    border-left: 8px solid transparent;
-    border-right: 8px solid transparent;
-    right: 15px;
-    bottom: -10px;
-    z-index: 9;
-}
-
 .btn i {
     margin-right: 10px;
 }
 
 .subMenu {
-    overflow: hidden;
     transition: max-height 0.7s;
-    max-height: 0;
     list-style: circle;
 }
 
@@ -66,42 +49,6 @@ li {
     margin-left: 25px;
     font-size: 14px;
     position: relative;
-}
-
-.subMenu a:before {
-    content: '';
-    opacity: 0;
-    transition: opacity 0.3s;
-}
-
-.subMenu a:hover:before {
-    content: '';
-    position: absolute;
-    height: 0;
-    width: 6px;
-    left: 0;
-    top: 0;
-    opacity: 1;
-    border-top: 24px solid transparent;
-    border-bottom: 24px solid transparent;
-}
-
-.subMenu a:after {
-    content: '';
-    opacity: 0;
-    transition: opacity 0.3s;
-}
-
-.subMenu a:hover:after {
-    content: '';
-    position: absolute;
-    height: 0;
-    width: 6px;
-    right: 0px;
-    top: 0;
-    opacity: 1;
-    border-top: 24px solid transparent;
-    border-bottom: 24px solid transparent;
 }
 
 .subMenu a:hover {
