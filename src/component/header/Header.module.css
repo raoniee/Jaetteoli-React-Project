@@ -11,16 +11,12 @@ header {
     top: 0;
     left: 0;
     background-color: white;
-}
-
-.logo {
-    display: flex;
-    align-items: flex-end;
-    font-size: 22px;
+    z-index: 1;
+    border-bottom: 1px solid black;
 }
 
 .logoImg {
-    width: 34px;
-    height: 34px;
-    margin-right: 12px;
+    width: 81px;
+    height: 24px;
+    margin-bottom: 4px;
 }
