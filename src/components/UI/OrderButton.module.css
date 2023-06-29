@@ -19,7 +19,7 @@
     height: 12%;
 }
 
-button:hover {
+.order-button:hover {
     background-color: #604EF8;
     color: white;
 }

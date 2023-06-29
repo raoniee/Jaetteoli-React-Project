@@ -7,12 +7,12 @@ const OrderItems = (props) => {
         <div className={classes['outer-container']}>
             <OrderStatus />
             <div className={classes['inner-container']}>
-                <OrderItem />
-                <OrderItem />
-                <OrderItem />
-                <OrderItem />
-                <OrderItem />
-                <OrderItem />
+                <OrderItem isStatus={props.isStatus} />
+                <OrderItem isStatus={props.isStatus} />
+                <OrderItem isStatus={props.isStatus} />
+                <OrderItem isStatus={props.isStatus} />
+                <OrderItem isStatus={props.isStatus} />
+                <OrderItem isStatus={props.isStatus} />
             </div>
         </div>
 
