@@ -1,11 +1,6 @@
 .download {
     font-family: 'Pretendard-Regular';
-    font-size: 18px;
+    font-size: 20px;
     margin-top: 10vh;
-}
-
-svg {
-    margin-top: 18px;
-    width: 152px;
-    height: 152px;
+    line-height: 200%;
 }
