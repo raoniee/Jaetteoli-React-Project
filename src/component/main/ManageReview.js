@@ -1,6 +1,6 @@
 import style from './ManageReview.module.css'
-import starRatingUp from '../../image/star_rating_up.png'
-import starRatingDown from '../../image/star_rating_down.png'
+import starRatingUp from '../../assets/images/star_rating_up.png'
+import starRatingDown from '../../assets/images/star_rating_down.png'
 import ReviewContainer from './ReviewContainer'
 
 const ManageReview = () => {
