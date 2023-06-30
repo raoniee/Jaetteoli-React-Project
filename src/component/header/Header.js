@@ -1,9 +1,9 @@
 import Nav from './Nav';
 import style from './Header.module.css'
-import logo from '../../image/logo.png'
+import logo from '../../assets/images/logo.png'
 
 const Header = () => {
-    return(
+    return (
         <header>
             <div className={style.logo}>
                 <img className={style.logoImg} src={logo}></img>

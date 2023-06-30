@@ -5,14 +5,14 @@ import classes from './OrderItems.module.css'
 const OrderItems = (props) => {
     return (
         <div className={classes['outer-container']}>
-            <OrderStatus />
+            <OrderStatus onShowStore={props.onShowStore} />
             <div className={classes['inner-container']}>
-                <OrderItem isStatus={props.isStatus} />
-                <OrderItem isStatus={props.isStatus} />
-                <OrderItem isStatus={props.isStatus} />
-                <OrderItem isStatus={props.isStatus} />
-                <OrderItem isStatus={props.isStatus} />
-                <OrderItem isStatus={props.isStatus} />
+                <OrderItem isStatus={props.isStatus} onClick={props.onShowPrint} />
+                <OrderItem isStatus={props.isStatus} onClick={props.onShowPrint} />
+                <OrderItem isStatus={props.isStatus} onClick={props.onShowPrint} />
+                <OrderItem isStatus={props.isStatus} onClick={props.onShowPrint} />
+                <OrderItem isStatus={props.isStatus} onClick={props.onShowPrint} />
+                <OrderItem isStatus={props.isStatus} onClick={props.onShowPrint} />
             </div>
         </div>
 

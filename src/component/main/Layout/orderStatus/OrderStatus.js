@@ -1,5 +1,5 @@
-import OrderButton from "../../UI/OrderButton";
 import classes from './OrderStatus.module.css'
+import OrderButton from '../../UI/OrderButton'
 
 const OrderStatus = (props) => {
     return (
@@ -8,7 +8,7 @@ const OrderStatus = (props) => {
             <OrderButton classes='order' content='처리중' />
             <OrderButton classes='order' content='완료' />
             <OrderButton classes='order' content='떨이 등록 / 수정' />
-            <OrderButton classes='finish' content='영업 종료' />
+            <OrderButton classes='finish' content='영업 종료' onShowStore={props.onShowStore} />
         </div>
     )
 }

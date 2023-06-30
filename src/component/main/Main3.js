@@ -1,14 +1,15 @@
-import Header from "../Layout/header/Header"
-import OrderItems from "../Layout/orderItems/OrderItems"
-import SideBar from "../Layout/sidebar/SideBar"
+import React from 'react'
+import Header from '../header/Header'
+import SideBar from '../sidebar/SideBar'
+import OrderItems from './Layout/orderItems/OrderItems'
 
 const Main3 = (props) => {
     return (
-        <div>
+        <React.Fragment>
             <Header />
             <SideBar />
             <OrderItems isStatus='complete' />
-        </div>
+        </React.Fragment>
     )
 }
 
