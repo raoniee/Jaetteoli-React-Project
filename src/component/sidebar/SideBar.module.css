@@ -52,7 +52,7 @@ li {
 }
 
 .subMenu a:hover {
-    transition: all 0.3s;
+    transition: all 0.1s;
     color: #604EF8;
 }
 
