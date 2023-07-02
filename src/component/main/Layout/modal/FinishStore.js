@@ -6,7 +6,7 @@ const FinishStore = (props) => {
         <Modal onClose={props.onClose}>
             <div className={classes.container}>
                 <div className={classes.top}>
-                    <span>주문표</span>
+                    <span>영업 종료</span>
                     <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg" onClick={props.onClose} >
                         <g id="Frame" clip-path="url(#clip0_811_577)">
                             <path id="Color" d="M12 1.5L10.5 0L6 4.5L1.5 0L0 1.5L4.5 6L0 10.5L1.5 12L6 7.5L10.5 12L12 10.5L7.5 6L12 1.5Z" fill="white" />

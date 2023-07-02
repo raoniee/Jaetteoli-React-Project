@@ -1,3 +1,4 @@
+import { NavLink } from 'react-router-dom'
 import classes from './SideBar.module.css'
 
 const SideBar = (props) => {
@@ -5,10 +6,14 @@ const SideBar = (props) => {
         <div className={classes.wrapper}>
             <ui className={classes.mainMenu}>
                 <li id="tteoli" className={classes.item}>
-                    <a href="#tteoli" className={classes.btn}><i></i>오늘의 떨이</a>
+                    <a href="/tteoli" className={classes.btn}><i></i>오늘의 떨이</a>
                     <div className={classes.subMenu}>
-                        <a href="">· 떨이 등록/수정</a>
-                        <a href="">· 주문 현황</a>
+                        <NavLink to='/tteoli' className={({ isActive }) =>
+                            isActive ? classes.active : undefined
+                        } ><i></i>· 떨이 등록/수정</NavLink>
+                        <NavLink to='/main2' className={({ isActive }) =>
+                            isActive ? classes.active : undefined
+                        } ><i></i>· 주문 현황</NavLink>
                     </div>
                 </li>
                 <li className={classes.item} id="management">

@@ -1,7 +1,11 @@
 .order-button {
+    box-sizing: border-box;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     margin: 0;
     width: 100%;
-    border: 2px solid #604EF8;
+    border: 1px solid #604EF8;
     background-color: #fff;
     color: #604EF8;
     text-align: center;
@@ -19,7 +23,18 @@
     height: 12%;
 }
 
-.order-button:hover {
+.order-button:hover,
+.order-button.active {
     background-color: #604EF8;
     color: white;
+}
+
+.order-button:last-child:hover {
+    background-color: red;
+    color: white;
+}
+
+.order-button:last-child.active {
+    background-color: #fff;
+    color: #604EF8;
 }

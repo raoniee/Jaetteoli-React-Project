@@ -1,11 +1,20 @@
-import classes from './OrderButton.module.css'
+import { NavLink } from 'react-router-dom';
+import classes from './OrderButton.module.css';
 
 const OrderButton = (props) => {
-    return (
-        <button className={`${classes['order-button']} ${classes[props.classes]}`} onClick={props.onShowStore ? props.onShowStore : ''}>
-            {props.content}
-        </button>
-    )
-}
+    const clickHandler = () => {
+        if (typeof props.onShowStore === 'function') {
+            props.onShowStore();
+        }
+    };
 
-export default OrderButton
+    return (
+        <NavLink to={props.to} className={({ isActive }) =>
+            isActive ? `${classes['order-button']} ${classes[props.classes]} ${classes.active}` : `${classes['order-button']} ${classes[props.classes]}`
+        } onClick={clickHandler}>
+            {props.content}
+        </NavLink>
+    );
+};
+
+export default OrderButton;
