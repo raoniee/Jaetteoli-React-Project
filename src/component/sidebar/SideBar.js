@@ -6,12 +6,12 @@ const SideBar = (props) => {
         <div className={classes.wrapper}>
             <ui className={classes.mainMenu}>
                 <li id="tteoli" className={classes.item}>
-                    <NavLink to='/tteoli' className={classes.btn}><i></i>· 오늘의 떨이</NavLink>
+                    <NavLink to='/today/menu' className={classes.btn}><i></i>· 오늘의 떨이</NavLink>
                     <div className={classes.subMenu}>
-                        <NavLink to='/tteoli' className={({ isActive }) =>
+                        <NavLink to='/today/menu' className={({ isActive }) =>
                             isActive ? classes.active : undefined
                         } ><i></i>· 떨이 등록/수정</NavLink>
-                        <NavLink to='/main3/waiting' className={({ isActive }) =>
+                        <NavLink to='/today/order/wait' className={({ isActive }) =>
                             isActive ? classes.active : undefined
                         } ><i></i>· 주문 현황</NavLink>
                     </div>
