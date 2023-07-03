@@ -10,7 +10,6 @@ const OrderButton = (props) => {
     };
 
     const onReceptionHandler = () => {
-        console.log(props.reception)
         props.onActiveHandler(props.reception)
         props.onReceptionHandler(props.reception)
     }

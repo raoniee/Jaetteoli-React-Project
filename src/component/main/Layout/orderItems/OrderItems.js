@@ -14,7 +14,9 @@ const OrderItems = (props) => {
 
     return (
         <div className={classes['outer-container']}>
-            <OrderStatus onShowStore={props.onShowStore} onReceptionHandler={onReceptionHandler} />
+            <div className={classes['button-container']}>
+                <OrderStatus onShowStore={props.onShowStore} onReceptionHandler={onReceptionHandler} />
+            </div>
             <div className={classes['inner-container']}>
                 <OrderItem isStatus={receptionStatus} onClick={props.onShowPrint} />
                 <OrderItem isStatus={receptionStatus} onClick={props.onShowPrint} />

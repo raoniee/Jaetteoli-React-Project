@@ -7,7 +7,6 @@ const OrderStatus = (props) => {
     const [activeButton, setActiveButton] = useState('waiting');
 
     const onReceptionHandler = (reception) => {
-        console.log('123')
         props.onReceptionHandler(reception)
     }
 
