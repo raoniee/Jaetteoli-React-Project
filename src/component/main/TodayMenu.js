@@ -3,7 +3,7 @@ import Header from '../header/Header'
 import SideBar from '../sidebar/SideBar'
 import Items from './Layout/registerItems/Items'
 import Button from './UI/Button'
-import classes from './Main1.module.css'
+import classes from './TodayMenu.module.css'
 
 const Main1 = (props) => {
     return (

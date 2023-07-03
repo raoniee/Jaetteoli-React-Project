@@ -11,7 +11,7 @@ const SideBar = (props) => {
                         <NavLink to='/today/menu' className={({ isActive }) =>
                             isActive ? classes.active : undefined
                         } ><i></i>· 떨이 등록/수정</NavLink>
-                        <NavLink to='/today/order/wait' className={({ isActive }) =>
+                        <NavLink to='/today/order' className={({ isActive }) =>
                             isActive ? classes.active : undefined
                         } ><i></i>· 주문 현황</NavLink>
                     </div>
