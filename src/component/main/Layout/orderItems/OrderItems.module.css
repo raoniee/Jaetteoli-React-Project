@@ -8,3 +8,8 @@
     width: 100%;
     overflow: scroll;
 }
+
+.button-container {
+    position: fixed;
+    height: calc(100vh - 72px);
+}
