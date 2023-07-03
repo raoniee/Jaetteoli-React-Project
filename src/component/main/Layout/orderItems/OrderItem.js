@@ -47,7 +47,7 @@ const OrderItem = (props) => {
                         </button>
                     </div>}
                 {props.isStatus === 'process' &&
-                    <div className={`classes['button-div']`}>
+                    <div className={classes['button-div']}>
                         <button className={`${classes.btn} ${classes['order-print']}`} onClick={props.onClick} >
                             주문표<br />인쇄
                         </button>
