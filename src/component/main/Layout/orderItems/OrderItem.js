@@ -52,10 +52,10 @@ const OrderItem = (props) => {
                             주문표<br />인쇄
                         </button>
                         <button className={`${classes.btn} ${classes['order-cancel']}`}>
-                            주문<br />취소하기
+                            픽업까지<br />10분 남음
                         </button>
                         <button className={`${classes.btn} ${classes['do-order']}`} >
-                            영수증<br />인쇄
+                            픽업<br />완료
                         </button>
                     </div>}
                 {props.isStatus === 'complete' &&
