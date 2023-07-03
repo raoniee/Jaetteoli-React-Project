@@ -2,8 +2,8 @@ import style from './Nav.module.css'
 
 const Nav = () => {
     return(
-        <nav>
-            <ul>
+        <nav className={style.nav}>
+            <ul className={style.navList}>
                 <li>facebook</li>
                 <li>insta</li>
                 <li>blog</li>
