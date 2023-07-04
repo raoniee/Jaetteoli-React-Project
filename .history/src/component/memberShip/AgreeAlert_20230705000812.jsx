@@ -9,7 +9,7 @@ export default function AgreeAlert() {
     fetch(`data/agree_alert0.json`)
       .then((res) => res.json())
       .then((data) => {
-        console.log("데이터를 받아왔음");
+        console.log("데이터를 받아옴");
         setAgrees(data);
       });
     return () => {
