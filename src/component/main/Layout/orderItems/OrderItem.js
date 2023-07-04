@@ -36,26 +36,26 @@ const OrderItem = (props) => {
                 </div>
                 {props.isStatus === 'waiting' &&
                     <div className={classes['button-div']}>
-                        <button className={classes['order-print']}>
-                            주문표<br />인쇄
-                        </button>
-                        <button className={classes['order-cancel']}>
-                            주문<br />취소하기
-                        </button>
-                        <button className={classes['do-order']}>
-                            접수<br />하기
-                        </button>
-                    </div>}
-                {props.isStatus === 'process' &&
-                    <div className={`classes['button-div']`}>
-                        <button className={`${classes.btn} ${classes['order-print']}`}>
+                        <button className={`${classes.btn} ${classes['order-print']}`} onClick={props.onClick}>
                             주문표<br />인쇄
                         </button>
                         <button className={`${classes.btn} ${classes['order-cancel']}`}>
                             주문<br />취소하기
                         </button>
+                        <button className={`${classes.btn} ${classes['do-order']}`}>
+                            접수<br />하기
+                        </button>
+                    </div>}
+                {props.isStatus === 'process' &&
+                    <div className={classes['button-div']}>
+                        <button className={`${classes.btn} ${classes['order-print']}`} onClick={props.onClick} >
+                            주문표<br />인쇄
+                        </button>
+                        <button className={`${classes.btn} ${classes['order-cancel']}`}>
+                            픽업까지<br />10분 남음
+                        </button>
                         <button className={`${classes.btn} ${classes['do-order']}`} >
-                            영수증<br />인쇄
+                            픽업<br />완료
                         </button>
                     </div>}
                 {props.isStatus === 'complete' &&

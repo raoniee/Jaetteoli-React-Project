@@ -1,27 +1,17 @@
-import React, { useCallback } from 'react';
-import { Router, Routes, Route, BrowserRouter } from 'react-router-dom';
+import TodayMenu from "./component/main/TodayMenu";
+import TodayOrder from "./component/main/TodayOrder";
 
-import styled from 'styled-components';
-import { ReactComponent as SelectButton } from './img/Vector 30.svg';
-import { ReactComponent as DeleteButton } from "./img/Group 8.svg";
-import { useRef, useState } from "react";
+import { RouterProvider, createBrowserRouter } from "react-router-dom";
 
-import './aa/SideBar'
-import SideBar from "./aa/SideBar";
+const router = createBrowserRouter([
+    { path: '/', element: <TodayMenu /> },
+    { path: '/today/menu', element: <TodayMenu /> },
+    { path: '/today/order', element: <TodayOrder /> },
+])
 
 function App() {
     return (
-        <BrowserRouter>
-            <Head />
-            <HeadBorderStyled />
-            <Routes>
-                <Route path='/regist1' element={<Regist1 />} />
-                <Route path='/regist2' element={<Regist2 />} />
-                <Route path='/regist3' element={<Regist3 />} />
-                <Route path='/modify1' element={<Modify1 />} />
-            </Routes>
-            <Foot />
-        </BrowserRouter>
+        <RouterProvider router={router} />
     );
 }
 

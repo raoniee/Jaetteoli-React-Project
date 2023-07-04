@@ -2,7 +2,7 @@ import classes from './Input.module.css'
 
 const Input = (props) => {
     return (
-        <input type="text" placeholder={props.placeholder} />
+        <input className={classes['custom-input']} type="text" placeholder={props.placeholder} />
     )
 }
 

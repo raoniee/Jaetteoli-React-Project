@@ -1,6 +1,6 @@
 import React from "react";
 import style from "./Footer.module.css";
-import { ReactComponent as ArrowDown } from "../images/arrow_down.svg";
+import { ReactComponent as ArrowDown } from '../../assets/images/arrow_down.svg'
 
 export default function Footer() {
   return (
