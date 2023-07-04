@@ -3,7 +3,7 @@
     list-style: none;
     background-color: #fff;
     height: 100%;
-    /* margin-top: 72px; */
+    margin-top: 72px;
     position: fixed;
 }
 
@@ -17,20 +17,12 @@ li {
     margin: 10px 0 10px 0;
 }
 
-.item {}
-
 .btn {
     display: block;
     padding: 15px 20px;
     color: black;
     font-weight: bold;
     position: relative;
-}
-
-.btn img {
-    vertical-align: middle;
-    width: 20px;
-    height: 20px;
 }
 
 .btn i {
@@ -48,7 +40,6 @@ li {
     color: black;
     margin-left: 25px;
     font-size: 14px;
-    position: relative;
 }
 
 .subMenu a:hover {

@@ -1,5 +1,6 @@
 .items-container {
-    margin: 72px 50px 0px 323px;
+    margin: 0px 50px 0px 323px;
+    padding-top: 72px;
 }
 
 .title-container {
