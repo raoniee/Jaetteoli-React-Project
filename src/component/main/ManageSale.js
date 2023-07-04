@@ -1,6 +1,8 @@
 import { PureComponent } from 'react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, BarChart, Bar, Cell, PieChart, Pie, Sector } from 'recharts';
 import style from './ManageSale.module.css'
+import Header from '../header/Header'
+import SideBar from '../sidebar/SideBar'
 
 const ManageSale = () => {
     const timeData = [
@@ -131,113 +133,117 @@ const ManageSale = () => {
     const COLORS = ['#604EF8', '#8377E9', '#9F93EA', '#DDD1EE'];
 
     return (
-        <div className={style.mainContainer}>
-            <div>
-                <div className={style.todaySales}>사장님,<br />오늘 매출은 550,000원 입니다.</div>
-                <div className={style.salesChartContainer}>
-                    <div>
-                        <div>시간별 매출</div>
-                        <div className={style.salesChart}>
-                            <ResponsiveContainer width="100%" height="100%">
-                                <LineChart
-                                    width={593}
-                                    height={289}
-                                    data={timeData}
-                                    margin={{
-                                        top: 5,
-                                        right: 30,
-                                        left: 20,
-                                        bottom: 5,
-                                    }}
-                                >
-                                    <CartesianGrid strokeDasharray="3 3" />
-                                    <XAxis dataKey="name" />
-                                    <YAxis />
-                                    <Tooltip />
-                                    <Legend />
-                                    <Line type="monotone" dataKey="오늘" stroke="#8884d8" activeDot={{ r: 8 }} />
-                                    <Line type="monotone" dataKey="어제" stroke="#82ca9d" />
-                                </LineChart>
-                            </ResponsiveContainer>
+        <div>
+            <Header />
+            <SideBar />
+            <div className={style.mainContainer}>
+                <div>
+                    <div className={style.todaySales}>사장님,<br />오늘 매출은 550,000원 입니다.</div>
+                    <div className={style.salesChartContainer}>
+                        <div>
+                            <div>시간별 매출</div>
+                            <div className={style.salesChart}>
+                                <ResponsiveContainer width="100%" height="100%">
+                                    <LineChart
+                                        width={593}
+                                        height={289}
+                                        data={timeData}
+                                        margin={{
+                                            top: 5,
+                                            right: 30,
+                                            left: 20,
+                                            bottom: 5,
+                                        }}
+                                    >
+                                        <CartesianGrid strokeDasharray="3 3" />
+                                        <XAxis dataKey="name" />
+                                        <YAxis />
+                                        <Tooltip />
+                                        <Legend />
+                                        <Line type="monotone" dataKey="오늘" stroke="#8884d8" activeDot={{ r: 8 }} />
+                                        <Line type="monotone" dataKey="어제" stroke="#82ca9d" />
+                                    </LineChart>
+                                </ResponsiveContainer>
+                            </div>
                         </div>
-                    </div>
-                    <div>
-                        <div>요일별 매출</div>
-                        <div className={style.salesChart}>
-                            <ResponsiveContainer width="100%" height="100%">
-                                <LineChart
-                                    width={593}
-                                    height={289}
-                                    data={dayData}
-                                    margin={{
-                                        top: 5,
-                                        right: 30,
-                                        left: 20,
-                                        bottom: 5,
-                                    }}
-                                >
-                                    <CartesianGrid strokeDasharray="3 3" />
-                                    <XAxis dataKey="name" />
-                                    <YAxis />
-                                    <Tooltip />
-                                    <Legend />
-                                    <Line type="monotone" dataKey="이번주" stroke="#8884d8" activeDot={{ r: 8 }} />
-                                    <Line type="monotone" dataKey="지난주" stroke="#82ca9d" />
-                                </LineChart>
-                            </ResponsiveContainer>
+                        <div>
+                            <div>요일별 매출</div>
+                            <div className={style.salesChart}>
+                                <ResponsiveContainer width="100%" height="100%">
+                                    <LineChart
+                                        width={593}
+                                        height={289}
+                                        data={dayData}
+                                        margin={{
+                                            top: 5,
+                                            right: 30,
+                                            left: 20,
+                                            bottom: 5,
+                                        }}
+                                    >
+                                        <CartesianGrid strokeDasharray="3 3" />
+                                        <XAxis dataKey="name" />
+                                        <YAxis />
+                                        <Tooltip />
+                                        <Legend />
+                                        <Line type="monotone" dataKey="이번주" stroke="#8884d8" activeDot={{ r: 8 }} />
+                                        <Line type="monotone" dataKey="지난주" stroke="#82ca9d" />
+                                    </LineChart>
+                                </ResponsiveContainer>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div>
-                <div className={style.todaySales}>월간 메뉴별 판매량</div>
-                <div className={style.salesChartContainer}>
-                    <div className={style.salesBarChart}>
-                        <ResponsiveContainer width="100%" height="100%">
-                            <BarChart
-                                width={593}
-                                height={349}
-                                data={data}
-                                margin={{
-                                    top: 20,
-                                    right: 30,
-                                    left: 20,
-                                    bottom: 5,
-                                }}
+                <div>
+                    <div className={style.todaySales}>월간 메뉴별 판매량</div>
+                    <div className={style.salesChartContainer}>
+                        <div className={style.salesBarChart}>
+                            <ResponsiveContainer width="100%" height="100%">
+                                <BarChart
+                                    width={593}
+                                    height={349}
+                                    data={data}
+                                    margin={{
+                                        top: 20,
+                                        right: 30,
+                                        left: 20,
+                                        bottom: 5,
+                                    }}
+                                >
+                                    <CartesianGrid strokeDasharray="3 3" />
+                                    <XAxis dataKey="name" />
+                                    <YAxis />
+                                    <Tooltip />
+                                    <Legend />
+                                    <Bar dataKey="재주문" stackId="a" fill="#8884d8" />
+                                    <Bar dataKey="신규주문" stackId="a" fill="#82ca9d" />
+                                    <Bar dataKey="주소없음" stackId="a" fill="#F2F4F8" />
+                                </BarChart>
+                            </ResponsiveContainer>
+                        </div>
+                        <PieChart width={260} height={349}>
+                            <Pie
+                                data={pieData}
+                                cx={120}
+                                cy={200}
+                                innerRadius={60}
+                                outerRadius={80}
+                                fill="#8884d8"
+                                paddingAngle={5}
+                                dataKey="value"
                             >
-                                <CartesianGrid strokeDasharray="3 3" />
-                                <XAxis dataKey="name" />
-                                <YAxis />
-                                <Tooltip />
-                                <Legend />
-                                <Bar dataKey="재주문" stackId="a" fill="#8884d8" />
-                                <Bar dataKey="신규주문" stackId="a" fill="#82ca9d" />
-                                <Bar dataKey="주소없음" stackId="a" fill="#F2F4F8" />
-                            </BarChart>
-                        </ResponsiveContainer>
-                    </div>
-                    <PieChart width={260} height={349}>
-                        <Pie
-                            data={pieData}
-                            cx={120}
-                            cy={200}
-                            innerRadius={60}
-                            outerRadius={80}
-                            fill="#8884d8"
-                            paddingAngle={5}
-                            dataKey="value"
-                        >
-                            {pieData.map((entry, index) => (
-                                <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                                {pieData.map((entry, index) => (
+                                    <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                                ))}
+                            </Pie>
+                        </PieChart>
+                        <div className={style.percentage}>
+                            {pieDataWithPercentage.map((entry, index) => (
+                                <div key={`text-${index}`}>
+                                    {`${entry.name} ${entry.percentage}%`}
+                                </div>
                             ))}
-                        </Pie>
-                    </PieChart>
-                    <div className={style.percentage}>
-                        {pieDataWithPercentage.map((entry, index) => (
-                            <div key={`text-${index}`}>
-                                {`${entry.name} ${entry.percentage}%`}
-                            </div>
-                        ))}
+                        </div>
                     </div>
                 </div>
             </div>
