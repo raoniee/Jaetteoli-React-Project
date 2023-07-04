@@ -27,6 +27,7 @@
 }
 
 .full_agreement {
+  display: flex;
   position: relative;
   width: 486px;
   height: 53px;
@@ -35,25 +36,25 @@
   margin-bottom: 39px;
 }
 
-.full_agreement p {
-  display: block;
-  font-weight: 300;
-  font-size: 16px;
-  line-height: 17.6px;
-  margin-top: 17px;
-  margin-left: 68px;
-}
-
-.full_agreement p::before {
-  content: "";
+.full_agreement input {
   position: absolute;
-  top: 13px;
-  left: 31px;
+  top: 50%;
+  transform: translate(0, -50%);
+  font-size: 0;
   width: 26px;
   height: 26px;
   border: 1px solid rgba(0, 0, 0, 0.5);
+  margin-left: 31px;
 }
 
+.full_agreement label {
+  font-weight: 300;
+  font-size: 16px;
+  line-height: 53px;
+  margin-left: 68px;
+}
+
+/* agree_first */
 .agree_first {
   display: flex;
   flex-direction: column;
@@ -85,8 +86,10 @@
 .agree_first p {
   margin-left: 36px;
   margin-right: auto;
+  cursor: pointer;
 }
 
+/* agree_second */
 .agree_second {
   display: flex;
   flex-direction: column;
@@ -115,13 +118,19 @@
 .agree_second .top li p {
   margin-left: 36px;
   margin-right: auto;
+  cursor: pointer;
 }
 
+/* .agree_second .option */
 .agree_second .option,
 .agree_second .information {
   margin-left: 60px;
 }
 
+.agree_second .option {
+  display: flex;
+  gap: 30px;
+}
 .agree_second .option li {
   display: flex;
 }
