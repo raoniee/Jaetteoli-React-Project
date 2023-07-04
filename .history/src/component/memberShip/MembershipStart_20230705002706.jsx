@@ -1,28 +1,18 @@
 import React, { useState } from "react";
 import style from "./MembershipStart.module.css";
-import { ReactComponent as CheckOff } from "../../assets/images/check_off.svg";
-import { ReactComponent as CheckOn } from "../../assets/images/check_on.svg";
-import { ReactComponent as Arrow } from "../../assets/images/arrow.svg";
+import { ReactComponent as CheckOff } from "../images/check_off.svg";
+import { ReactComponent as CheckOn } from "../images/check_on.svg";
+import { ReactComponent as Arrow } from "../images/arrow.svg";
 import AgreeAlert from "./AgreeAlert.jsx";
 
-// AgreeList 컴포넌트는 밑에 있어요!
+// AgreeList 컴포넌트는 밑에 있어요
 export default function MembershipStart() {
   const [fullchecked, setFullChecked] = useState(false);
   const [checked, setChecked] = useState(true);
   const [click, setClick] = useState(false);
-  const handleClose = () => {
-    setClick(false);
-  };
-  const handleFullCheked = () => {
+  const handleCheked = () => {
     setFullChecked((prev) => !prev);
-    if (fullchecked === true) {
-      setChecked(true);
-    } else if (fullchecked === false) {
-      setChecked(false);
-    }
-  };
-  const handlechecked = () => {
-    setChecked(false);
+    setChecked((prev) => !prev);
   };
   const handleClick = () => {
     setClick(true);
@@ -44,7 +34,7 @@ export default function MembershipStart() {
             id="checkbox"
             type="checkbox"
             value={fullchecked}
-            onChange={handleFullCheked}
+            onChange={handleCheked}
           />
           <label htmlFor="checkbox">전체 동의</label>
         </div>
@@ -95,7 +85,7 @@ export default function MembershipStart() {
           <p>휴대폰으로 인증하기</p>
         </a>
       </div>
-      {click && <AgreeAlert individual={handlechecked} onClick={handleClose} />}
+      {click && <AgreeAlert />}
     </div>
   );
 }
