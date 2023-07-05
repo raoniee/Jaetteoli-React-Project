@@ -1,3 +1,17 @@
+import styled from "styled-components";
+import { ReactComponent as SelectButton} from "../../assets/images/Vector 30.svg";
+import {useRef, useState} from "react";
+import { useNavigate } from 'react-router-dom';
+import RegistContainer from "./RegistContainer";
+
+export default function Regist1(){
+    return(
+        <RegistContainer>
+            <Regist1Component />
+        </RegistContainer>
+    );
+}
+
 const Regist1Styled = styled.div`
     display: flex;
     flex-direction: column;
@@ -8,7 +22,7 @@ const Regist1Styled = styled.div`
 `
 
 const Regist1BIStyled = styled.div`
-    font-family: Noto Sans CJK KR;
+    font-family: Pretendard-Regular;
     font-size: 32px;
     font-weight: 600;
     line-height: 35px;
@@ -21,7 +35,7 @@ const Regist1BIStyled = styled.div`
 `
 
 const Regist1BI2Styled = styled.div`
-    font-family: Noto Sans CJK KR;
+    font-family: Pretendard-Regular;
     font-size: 16px;
     font-weight: 400;
     line-height: 22px;
@@ -51,7 +65,7 @@ const Regist1Box1Styled = styled.div`
     width: 172px;
     height: 48px;
 
-    font-family: Noto Sans CJK KR;
+    font-family: Pretendard-Regular;
     font-size: 20px;
     font-weight: 700;
     line-height: 48px;
@@ -66,13 +80,14 @@ const Regist1Box2Styled = styled.div`
     align-items: center;
     width: 457px;
     height: 48px;
+    border-radius: 5px;
     
     border-bottom: 1px solid #00000033;
 
     background: rgba(242, 244, 248, 1);
 `
 
-const Regist1TextBoxStyled = styled.textarea`
+const Regist1TextBoxStyled = styled.input`
     /* 텍스트 박스 스타일 */
     width: 100%;
     height: 22px;
@@ -82,7 +97,7 @@ const Regist1TextBoxStyled = styled.textarea`
     resize: none;
     background-color: transparent; /* 배경색을 투명하게 설정 */
 
-    font-family: Noto Sans CJK KR;
+    font-family: Pretendard-Regular;
     font-size: 16px;
     font-weight: 400;
     line-height: 22px;
@@ -116,25 +131,31 @@ const Regist1Box3Styled = styled.div`
 const Regist1Box4Styled = styled.img`
     width: 122px;
     height: 122px;
+    border-radius: 5px;
     background: rgba(242, 244, 248, 1);
     border-bottom: 1px solid rgba(0, 0, 0, 0.2);
 `
 
 const Regist1InputButtonStyled = styled.label`
     box-sizing: border-box;
-    width: 157px;
-    height: 49px;
+    width: 153px;
+    height: 45px;
+    border-radius: 5px;
     border: 2px solid rgba(96, 78, 248, 1);
     padding: 10px 24.5px;
     background: rgba(255, 255, 255, 1);
     
     //styleName: Body/L;
-    font-family: Noto Sans CJK KR;
+    font-family: Pretendard-Regular;
     font-size: 18px;
     font-weight: 400;
     line-height: 25px;
     letter-spacing: 0em;
     text-align: left;
+  
+  &:hover {
+      background: #F5F3FF;
+    }
 `
 
 const Regist1Box6Styled = styled.div`
@@ -150,6 +171,7 @@ const Regist1Box7Styled = styled.div`
     align-items: center;
     width: 100%;
     height: 100%;
+    border-radius: 5px;
     
     border-bottom: 1px solid #00000033;
 
@@ -161,6 +183,7 @@ const Regist1Box8Styled = styled.div`
     align-items: center;
     width: 100%;
     height: 100%;
+    border-radius: 5px;
     
     border-bottom: 1px solid #00000033;
 
@@ -171,17 +194,23 @@ const Regist1Box9Styled = styled.div`
     box-sizing: border-box;
     width: 100%;
     height: 100%;
+    border-radius: 5px;
     border: 2px solid rgba(96, 78, 248, 1);
     padding: 10px 24.5px;
     background: rgba(255, 255, 255, 1);
     
     //styleName: Body/L;
-    font-family: Noto Sans CJK KR;
+    font-family: Pretendard-Regular;
     font-size: 18px;
     font-weight: 400;
     line-height: 25px;
     letter-spacing: 0em;
     text-align: left;
+  
+    &:hover{
+      background: #F5F3FF;
+    }
+
 `
 
 const Regist1Submit = styled.div`
@@ -189,8 +218,10 @@ const Regist1Submit = styled.div`
     height: 70px;
     margin: 83.5px auto 70px;
     background: rgba(96, 78, 248, 1);
+    border-radius: 5px;
 
-    font-family: Noto Sans CJK KR;
+
+  font-family: Pretendard-Regular;
     font-size: 20px;
     font-weight: 400;
     line-height: 70px;
@@ -216,13 +247,17 @@ const Regist1SelectBoxItemStyled = styled.div`
     background: #FFF;
     padding: 0 21px;
  
-    font-family: Noto Sans CJK KR;
+    font-family: Pretendard-Regular;
     font-size: 16px;
     font-weight: 400;
     line-height: 50px;
     letter-spacing: 0em;
     text-align: left;   
     color: rgba(0, 0, 0, 0.5);
+  
+  &:hover{
+      background: #F2F4F8;
+  }
 `
 
 const Regist1SelectEmptyStyled = styled.div`
@@ -235,8 +270,10 @@ const Regist1SelectedButtonContainerStyled = styled.div`
     height: 17px;
 `
 
-export default function Regist1() {
-    const [isHovered, setIsHovered] = useState(false)
+function Regist1Component({setStoreInfo}) {
+    const [postalCode1, setPostalCode1] = useState('');
+    const [postalCode2, setPostalCode2] = useState('');
+    const [isHovered, setIsHovered] = useState(false);
     const [clickSectors, setClickSectors] = useState(false);
     const [previewImage1, setPreviewImage1] = useState(null);
     const [previewImage2, setPreviewImage2] = useState(null);
@@ -249,6 +286,39 @@ export default function Regist1() {
     const fileInput3 = useRef();
     const fileInput4 = useRef();
     const fileInput5 = useRef();
+    const navigate = useNavigate();
+
+    const initialStoreInfo = {
+        companyName: '',
+        businessType: '',
+        ownerPhoneNumber: '',
+        ownerEmail: '',
+        businessRegistrationCertificate: '',
+        salespersonRegistrationCertificate: '',
+        bankStatementCopy: '',
+        operatingHours: '',
+        closingDays: '',
+        storePhoneNumber: '',
+        storeAddress: {
+            postalCode: '',
+            buildingAddress: '',
+            detailAddress: '',
+        },
+        storeLogo: '',
+        storeSignboardPhoto: ''
+    }
+    const [storeInfoState, setStoreInfoState] = useState(initialStoreInfo);
+
+    const handleStoreInfo = (data) => {
+        setStoreInfoState({
+            ...storeInfoState,
+            storeAddress: {
+                ...storeInfoState.storeAddress,
+                ...(data.storeAddress ? data.storeAddress : {})
+            },
+            ...data
+        })
+    }
 
     const fileCheck = (obj) => {
         const pathPoint = obj.value.lastIndexOf(".");
@@ -273,12 +343,34 @@ export default function Regist1() {
                 reader.onload = (e) => {
                     const imageUrl = e.target.result;
                     previewImageSetters[number](imageUrl);
+                    switch (number){
+                        case 0: handleStoreInfo({businessRegistrationCertificate:imageUrl}); break
+                        case 1: handleStoreInfo({salespersonRegistrationCertificate:imageUrl}); break
+                        case 2: handleStoreInfo({bankStatementCopy:imageUrl}); break
+                        case 3: handleStoreInfo({storeLogo:imageUrl}); break
+                        case 4: handleStoreInfo({storeSignboardPhoto:imageUrl}); break
+                    }
                 };
 
                 reader.readAsDataURL(selectedFile);
             }
         }
     };
+
+    const getPostalCode = () => {
+        new window.daum.Postcode({
+            oncomplete: function(data) {
+                // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분입니다.
+                // 예제를 참고하여 다양한 활용법을 확인해 보세요.
+                setPostalCode1(data.zonecode);
+                setPostalCode2(data.address)
+            }
+        }).open();
+    }
+
+    const testRedux = () =>{
+        navigate('/register/menu')
+    }
 
 
 
@@ -296,7 +388,9 @@ export default function Regist1() {
                     기업명(상호명)
                 </Regist1Box1Styled>
                 <Regist1Box2Styled>
-                    <Regist1TextBoxStyled placeholder="cu 편의점 울산 문수점" maxLength={25} />
+                    <Regist1TextBoxStyled
+                        placeholder="cu 편의점 울산 문수점"
+                        onChange={(event)=>handleStoreInfo({companyName:event.target.value})}/>
                 </Regist1Box2Styled>
             </Regist1BoxContainer1Styled>
             <Regist1BoxContainer1Styled>
@@ -308,7 +402,6 @@ export default function Regist1() {
                         readOnly
                         value={clickSectors ? clickSectors : ''}
                         placeholder="업종 선택하기"
-                        maxLength={25}
                     />
                     <Regist1SelectedButtonContainerStyled
                         onMouseEnter={() => {
@@ -336,6 +429,7 @@ export default function Regist1() {
                             }}
                             onClick={() => {
                                 setClickSectors("백화점")
+                                handleStoreInfo({businessType: "백화점"})
                                 setIsHovered(false)
                             }}>
                             백화점
@@ -349,6 +443,7 @@ export default function Regist1() {
                             }}
                             onClick={() => {
                                 setClickSectors("편의점")
+                                handleStoreInfo({businessType: "편의점"})
                                 setIsHovered(false)
                             }}>
                             편의점
@@ -362,6 +457,7 @@ export default function Regist1() {
                             }}
                             onClick={() => {
                                 setClickSectors("디저트")
+                                handleStoreInfo({businessType: "디저트"})
                                 setIsHovered(false)
                             }}>
                             디저트
@@ -375,6 +471,7 @@ export default function Regist1() {
                             }}
                             onClick={() => {
                                 setClickSectors("샐러드")
+                                handleStoreInfo({businessType: "샐러드"})
                                 setIsHovered(false)
                             }}>
                             샐러드
@@ -388,6 +485,7 @@ export default function Regist1() {
                             }}
                             onClick={() => {
                                 setClickSectors("초밥")
+                                handleStoreInfo({businessType: "초밥"})
                                 setIsHovered(false)
                             }}>
                             초밥
@@ -401,6 +499,7 @@ export default function Regist1() {
                             }}
                             onClick={() => {
                                 setClickSectors("카페")
+                                handleStoreInfo({businessType: "카페"})
                                 setIsHovered(false)
                             }}>
                             카페
@@ -414,6 +513,7 @@ export default function Regist1() {
                             }}
                             onClick={() => {
                                 setClickSectors("대형마트")
+                                handleStoreInfo({businessType: "대형마트"})
                                 setIsHovered(false)
                             }}>
                             대형마트
@@ -427,7 +527,9 @@ export default function Regist1() {
                     사업주 휴대번호
                 </Regist1Box1Styled>
                 <Regist1Box2Styled>
-                    <Regist1TextBoxStyled placeholder="010-9778-8973" maxLength={25} />
+                    <Regist1TextBoxStyled
+                        placeholder="010-9778-8973"
+                        onChange={(event)=>handleStoreInfo({ownerPhoneNumber:event.target.value})}/>
                 </Regist1Box2Styled>
             </Regist1BoxContainer1Styled>
             <Regist1BoxContainer1Styled>
@@ -435,7 +537,9 @@ export default function Regist1() {
                     사업주 이메일
                 </Regist1Box1Styled>
                 <Regist1Box2Styled>
-                    <Regist1TextBoxStyled placeholder="sdfsdfsdfsd@gmail.com" maxLength={25} />
+                    <Regist1TextBoxStyled
+                        placeholder="sdfsdfsdfsd@gmail.com"
+                        onChange={(event)=>handleStoreInfo({ownerEmail:event.target.value})}/>
                 </Regist1Box2Styled>
             </Regist1BoxContainer1Styled>
             <Regist1EmptyBoxStyled />
@@ -508,7 +612,9 @@ export default function Regist1() {
                     운영시간
                 </Regist1Box1Styled>
                 <Regist1Box2Styled>
-                    <Regist1TextBoxStyled placeholder="08:00 ~ 12:00" maxLength={25} />
+                    <Regist1TextBoxStyled
+                        placeholder="08:00 ~ 12:00"
+                        onChange={(event)=>handleStoreInfo({operatingHours:event.target.value})}/>
                 </Regist1Box2Styled>
             </Regist1BoxContainer1Styled>
             <Regist1BoxContainer1Styled>
@@ -516,7 +622,9 @@ export default function Regist1() {
                     휴무일
                 </Regist1Box1Styled>
                 <Regist1Box2Styled>
-                    <Regist1TextBoxStyled placeholder="홀수주 화요일, 공휴일" maxLength={25} />
+                    <Regist1TextBoxStyled
+                        placeholder="홀수주 화요일, 공휴일"
+                        onChange={(event)=>handleStoreInfo({closingDays:event.target.value})}/>
                 </Regist1Box2Styled>
             </Regist1BoxContainer1Styled>
             <Regist1BoxContainer1Styled>
@@ -524,7 +632,9 @@ export default function Regist1() {
                     가게 전화번호
                 </Regist1Box1Styled>
                 <Regist1Box2Styled>
-                    <Regist1TextBoxStyled placeholder="055-1234-5678" maxLength={25} />
+                    <Regist1TextBoxStyled
+                        placeholder="055-1234-5678"
+                        onChange={(event)=>handleStoreInfo({storePhoneNumber:event.target.value})}/>
                 </Regist1Box2Styled>
             </Regist1BoxContainer1Styled>
             <Regist1BoxContainer1Styled>
@@ -533,16 +643,26 @@ export default function Regist1() {
                 </Regist1Box1Styled>
                 <Regist1Box6Styled>
                     <Regist1Box7Styled>
-                        <Regist1TextBoxStyled readOnly placeholder="050505" />
+                        <Regist1TextBoxStyled
+                            readOnly
+                            value={postalCode1}
+                            placeholder="050505"
+                            onChange={(event)=>handleStoreInfo({storeAddress:{postalCode: event.target.value}})}/>
                     </Regist1Box7Styled>
-                    <Regist1Box9Styled>
+                    <Regist1Box9Styled onClick={getPostalCode}>
                         우편번호
                     </Regist1Box9Styled>
                     <Regist1Box7Styled>
-                        <Regist1TextBoxStyled placeholder="울산 남구 대학로 33번길 18-4" />
+                        <Regist1TextBoxStyled
+                            readOnly
+                            value={postalCode2}
+                            placeholder="울산 남구 대학로 33번길 18-4"
+                            onChange={(event)=>handleStoreInfo({storeAddress:{buildingAddress: event.target.value}})}/>
                     </Regist1Box7Styled>
                     <Regist1Box8Styled>
-                        <Regist1TextBoxStyled placeholder="2층" />
+                        <Regist1TextBoxStyled
+                            placeholder="2층"
+                            onChange={(event)=>handleStoreInfo({storeAddress:{detailAddress: event.target.value}})}/>
                     </Regist1Box8Styled>
                 </Regist1Box6Styled>
             </Regist1BoxContainer1Styled>
@@ -589,7 +709,7 @@ export default function Regist1() {
                     />
                 </Regist1Box3Styled>
             </Regist1BoxContainer2Styled>
-            <Regist1Submit>
+            <Regist1Submit onClick={testRedux}>
                 가게 정보 신청하기
             </Regist1Submit>
         </Regist1Styled>

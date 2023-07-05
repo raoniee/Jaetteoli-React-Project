@@ -1,3 +1,25 @@
+import styled from "styled-components";
+import {useRef, useState} from "react";
+import { useNavigate } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { setMenuInfo } from './redux/action';
+import RegistContainer from "./RegistContainer";
+
+
+const mapDispatchToProps = {
+    setMenuInfo
+};
+
+const ConnectedRegist2Component = connect(null, mapDispatchToProps)(Regist2Component);
+
+export default function Regist2(){
+    return(
+        <RegistContainer>
+            <ConnectedRegist2Component />
+        </RegistContainer>
+    );
+}
+
 const Regist2Styled = styled.div`
     display: flex;
     flex-direction: column;
@@ -8,7 +30,7 @@ const Regist2Styled = styled.div`
 `
 
 const Regist2BIStyled = styled.div`
-    font-family: Noto Sans CJK KR;
+    font-family: Pretendard-Regular;
     font-size: 32px;
     font-weight: 600;
     line-height: 35px;
@@ -21,7 +43,7 @@ const Regist2BIStyled = styled.div`
 `
 
 const Regist2BI2Styled = styled.div`
-    font-family: Noto Sans CJK KR;
+    font-family: Pretendard-Regular;
     font-size: 16px;
     font-weight: 400;
     line-height: 22px;
@@ -59,7 +81,7 @@ const Regist2FlexBox1Styled = styled.div`
     width: 17px;
     height: 35px;
     
-    font-family: Noto Sans CJK KR;
+    font-family: Pretendard-Regular;
     font-size: 32px;
     font-weight: 700;
     line-height: 35px;
@@ -70,6 +92,7 @@ const Regist2FlexBox1Styled = styled.div`
 const Regist2FlexBox2Styled = styled.div`
     display: flex;
     align-items: center;
+    border-radius: 5px;
 
     width: 182px;
     height: 48px;
@@ -81,6 +104,7 @@ const Regist2FlexBox2Styled = styled.div`
 const Regist2FlexBox3Styled = styled.div`
     display: flex;
     align-items: center;
+    border-radius: 5px;
 
     width: 275px;
     height: 48px;
@@ -100,24 +124,32 @@ const Regist2FlexBox5Styled = styled.img`
     height: 89px;
     background: rgba(242, 244, 248, 1);
     border: 1px solid rgba(194, 195, 198, 1);
+    border-radius: 5px 5px 0 0;
     border-bottom: none;
 `
 
 const Regist2InputButtonStyled = styled.div`
+    box-sizing: border-box;
     width: 122px;
     height: 34px;
-    background: rgba(96, 78, 248, 1);
+    background: #FFFFFF;
+    border-radius: 0 0 5px 5px;
+    border: 2px solid #604EF8;
     
-    font-family: Noto Sans CJK KR;
+    font-family: Pretendard-Regular;
     font-size: 13px;
     font-weight: 300;
-    line-height: 34px;
+    line-height: 30px;
     letter-spacing: 0em;
     text-align: center;
-    color: rgba(255, 255, 255, 1);
+    color: #000000;
+
+  &:hover{
+    background: #F5F3FF;
+  }
 `
 
-const Regist2FlexTextArea1Styled = styled.textarea`
+const Regist2FlexTextArea1Styled = styled.input`
     /* 텍스트 박스 스타일 */
     width: 100%;
     height: 18px;
@@ -127,7 +159,7 @@ const Regist2FlexTextArea1Styled = styled.textarea`
     resize: none;
     background-color: transparent; /* 배경색을 투명하게 설정 */
 
-    font-family: Noto Sans CJK KR;
+    font-family: Pretendard-Regular;
     font-size: 13px;
     font-weight: 300;
     line-height: 18px;
@@ -141,16 +173,20 @@ const Regist2Add = styled.div`
     height: 70px;
     margin: 103px auto 87px;
     border: 2px solid rgba(96, 78, 248, 1);
-    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+    border-radius: 5px;
 
 
-    font-family: Noto Sans CJK KR;
+    font-family: Pretendard-Regular;
     font-size: 20px;
     font-weight: 400;
     line-height: 70px;
     letter-spacing: 0em;
     text-align: center;
     color: rgba(0, 0, 0, 1);
+  
+    &:hover{
+      background: #F5F3FF;
+    }
 `
 
 const Regist2SubmitContatiner = styled.div`
@@ -165,10 +201,11 @@ const Regist2Submit = styled.div`
     width: 301px;
     height: 70px;
     right: 0px;
+    border-radius: 5px;
     
     background: rgba(96, 78, 248, 1);
 
-    font-family: Noto Sans CJK KR;
+    font-family: Pretendard-Regular;
     font-size: 20px;
     font-weight: 400;
     line-height: 70px;
@@ -181,7 +218,7 @@ const Regist2FlexBox7Styled = styled.div`
     width: 182px;
     height: 22px;
     
-    font-family: Noto Sans CJK KR;
+    font-family: Pretendard-Regular;
     font-size: 20px;
     font-weight: 700;
     line-height: 22px;
@@ -193,7 +230,7 @@ const Regist2FlexBox8Styled = styled.div`
     width: 275px;
     height: 22px;
     
-    font-family: Noto Sans CJK KR;
+    font-family: Pretendard-Regular;
     font-size: 20px;
     font-weight: 700;
     line-height: 22px;
@@ -206,7 +243,7 @@ const Regist2FlexBox9Styled = styled.div`
     width: 122px;
     height: 22px;
     
-    font-family: Noto Sans CJK KR;
+    font-family: Pretendard-Regular;
     font-size: 20px;
     font-weight: 700;
     line-height: 22px;
@@ -221,7 +258,7 @@ const Regist2FlexEmptyBoxStyled = styled.div`
 
 
 
-export default function Regist2() {
+function Regist2Component({setMenuInfo}) {
     const [grid1Items, setGrid1Items] = useState([0, 1, 2]);
     const [grid2Items, setGrid2Items] = useState([0, 1, 2]);
     const [previewImageSetters, setPreviewImageSetters] = useState(false);
@@ -229,6 +266,7 @@ export default function Regist2() {
     const previewImage2 = useRef({ 0: null, 1: null, 2: null });
     const tempList1 = [];
     const tempList2 = [];
+    const navigate = useNavigate();
 
     const fileCheck = (obj) => {
         const pathPoint = obj.value.lastIndexOf(".");
@@ -252,10 +290,14 @@ export default function Regist2() {
 
                 reader.onload = (e) => {
                     const imageUrl = e.target.result;
-                    if (type == 1)
+                    if (type == 1){
                         previewImage1.current[number] = imageUrl;
-                    else
+                        handleMenuInfo({photo:imageUrl}, number, 'menus')
+                    }
+                    else{
                         previewImage2.current[number] = imageUrl;
+                        handleMenuInfo({photo:imageUrl}, number, 'sideMenus')
+                    }
                     setPreviewImageSetters(!previewImageSetters);
                 };
 
@@ -264,6 +306,59 @@ export default function Regist2() {
         }
     };
 
+
+    const initialMenuInfo = {
+        menus: [
+            {
+                name: '',
+                price: 0,
+                ingredients: '',
+                description: '',
+                photo: ''
+            }
+        ],
+        sideMenus: [
+            {
+                name: '',
+                price: 0,
+                ingredients: '',
+                description: '',
+                photo: ''
+            }
+        ]
+    }
+    const [ menuInfoState, setMenuInfoState] = useState({});
+
+
+    const handleMenuInfo = (data, index, type) => {
+        const updatedMenus = menuInfoState.menus ? [...menuInfoState.menus] : [];
+        const updatedSideMenus = menuInfoState.sideMenus ? [...menuInfoState.sideMenus] : [];
+        if (type=='menus'){
+            updatedMenus[index] = {
+                ...initialMenuInfo.menus[0],
+                ...updatedMenus[index], // 이전 객체의 속성 복사
+                ...data, // 새로운 데이터로 속성 변경 또는 추가
+            };
+        }
+        else if (type=='sideMenus'){
+            updatedSideMenus[index] = {
+                ...initialMenuInfo.sideMenus[1],
+                ...updatedSideMenus[index], // 이전 객체의 속성 복사
+                ...data, // 새로운 데이터로 속성 변경 또는 추가
+            };
+        }
+        setMenuInfoState(
+            {
+                menus: updatedMenus,
+                sideMenus: updatedSideMenus
+            }
+        )
+    }
+
+    const testRedux = () =>{
+        setMenuInfo(menuInfoState)
+        navigate('/register/origin');
+    }
 
     return (
         <Regist2Styled>
@@ -294,21 +389,29 @@ export default function Regist2() {
                     </Regist2FlexBox9Styled>
                 </Regist2FlexContinaer2Styled>
                 {grid1Items.map((index) => (
-                    <Regist2FlexContinaer2Styled key='grid1-{index}'>
+                    <Regist2FlexContinaer2Styled key={`grid1-${index}`}>
                         <Regist2FlexBox1Styled>
                             {index + 1}
                         </Regist2FlexBox1Styled>
                         <Regist2FlexBox2Styled>
-                            <Regist2FlexTextArea1Styled placeholder={"연어 샐러드"} />
+                            <Regist2FlexTextArea1Styled
+                                placeholder={"연어 샐러드"}
+                                onChange={(event) => {handleMenuInfo({name:event.target.value}, index, 'menus')}}/>
                         </Regist2FlexBox2Styled>
                         <Regist2FlexBox2Styled>
-                            <Regist2FlexTextArea1Styled placeholder={"1,000,000원"} />
+                            <Regist2FlexTextArea1Styled
+                                placeholder={"1,000,000원"}
+                                onChange={(event) => {handleMenuInfo({price:event.target.value}, index, 'menus')}}/>
                         </Regist2FlexBox2Styled>
                         <Regist2FlexBox2Styled>
-                            <Regist2FlexTextArea1Styled placeholder={"연어, 풀"} />
+                            <Regist2FlexTextArea1Styled
+                                placeholder={"연어, 풀"}
+                                onChange={(event) => {handleMenuInfo({ingredients:event.target.value}, index, 'menus')}}/>
                         </Regist2FlexBox2Styled>
                         <Regist2FlexBox3Styled>
-                            <Regist2FlexTextArea1Styled placeholder={"자연산 연어로 만들어서 싱싱해요."} />
+                            <Regist2FlexTextArea1Styled
+                                placeholder={"자연산 연어로 만들어서 싱싱해요."}
+                                onChange={(event) => {handleMenuInfo({description:event.target.value}, index, 'menus')}}/>
                         </Regist2FlexBox3Styled>
                         <Regist2FlexBox4Styled>
                             <Regist2FlexBox5Styled src={previewImage1.current[index] ? previewImage1.current[index] : "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"} />
@@ -372,21 +475,29 @@ export default function Regist2() {
                     </Regist2FlexBox9Styled>
                 </Regist2FlexContinaer2Styled>
                 {grid2Items.map((index) => (
-                    <Regist2FlexContinaer2Styled key='grid2-{index}'>
+                    <Regist2FlexContinaer2Styled key={`grid2-${index}`}>
                         <Regist2FlexBox1Styled>
                             {index + 1}
                         </Regist2FlexBox1Styled>
                         <Regist2FlexBox2Styled>
-                            <Regist2FlexTextArea1Styled placeholder={"연어 샐러드"} />
+                            <Regist2FlexTextArea1Styled
+                                placeholder={"연어 샐러드"}
+                                onChange={(event) => {handleMenuInfo({name:event.target.value}, index, 'sideMenus')}}/>
                         </Regist2FlexBox2Styled>
                         <Regist2FlexBox2Styled>
-                            <Regist2FlexTextArea1Styled placeholder={"1,000,000원"} />
+                            <Regist2FlexTextArea1Styled
+                                placeholder={"1,000,000원"}
+                                onChange={(event) => {handleMenuInfo({price:event.target.value}, index, 'sideMenus')}}/>
                         </Regist2FlexBox2Styled>
                         <Regist2FlexBox2Styled>
-                            <Regist2FlexTextArea1Styled placeholder={"연어, 풀"} />
+                            <Regist2FlexTextArea1Styled
+                                placeholder={"연어, 풀"}
+                                onChange={(event) => {handleMenuInfo({ingredients:event.target.value}, index, 'sideMenus')}}/>
                         </Regist2FlexBox2Styled>
                         <Regist2FlexBox3Styled>
-                            <Regist2FlexTextArea1Styled placeholder={"자연산 연어로 만들어서 싱싱해요."} />
+                            <Regist2FlexTextArea1Styled
+                                placeholder={"자연산 연어로 만들어서 싱싱해요."}
+                                onChange={(event) => {handleMenuInfo({description:event.target.value}, index, 'sideMenus')}}/>
                         </Regist2FlexBox3Styled>
                         <Regist2FlexBox4Styled>
                             <Regist2FlexBox5Styled src={previewImage2.current[index] ? previewImage2.current[index] : "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"} />
@@ -421,7 +532,7 @@ export default function Regist2() {
                 항목 추가하기
             </Regist2Add>
             <Regist2SubmitContatiner>
-                <Regist2Submit>
+                <Regist2Submit onClick={testRedux}>
                     메뉴등록 완료하기
                 </Regist2Submit>
             </Regist2SubmitContatiner>
