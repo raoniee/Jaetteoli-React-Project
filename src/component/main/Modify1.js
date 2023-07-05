@@ -1,3 +1,9 @@
+import styled from "styled-components";
+import { ReactComponent as DeleteButton} from "../../assets/images/Group 8.svg";
+import {useRef, useState} from "react";
+import SideBar from "../sidebar/SideBar";
+import Header from "../header/Header";
+
 const Modify1Styled = styled.div`
     display: flex;
     flex-direction: column;
@@ -8,7 +14,7 @@ const Modify1Styled = styled.div`
 `
 
 const Modify1BIStyled = styled.div`
-    font-family: Noto Sans CJK KR;
+    font-family: Pretendard-Regular;
     font-size: 32px;
     font-weight: 600;
     line-height: 35px;
@@ -21,7 +27,7 @@ const Modify1BIStyled = styled.div`
 `
 
 const Modify1BI2Styled = styled.div`
-    font-family: Noto Sans CJK KR;
+    font-family: Pretendard-Regular;
     font-size: 16px;
     font-weight: 400;
     line-height: 22px;
@@ -51,7 +57,7 @@ const Modify1Box1Styled = styled.div`
     width: 172px;
     height: 48px;
 
-    font-family: Noto Sans CJK KR;
+    font-family: Pretendard-Regular;
     font-size: 20px;
     font-weight: 700;
     line-height: 48px;
@@ -66,6 +72,7 @@ const Modify1Box2Styled = styled.div`
     align-items: center;
     width: 457px;
     height: 48px;
+    border-radius: 5px;
     
     border-bottom: 1px solid #00000033;
 
@@ -82,7 +89,7 @@ const Modify1TextBoxStyled = styled.textarea`
     resize: none;
     background-color: transparent; /* 배경색을 투명하게 설정 */
 
-    font-family: Noto Sans CJK KR;
+    font-family: Pretendard-Regular;
     font-size: 16px;
     font-weight: 400;
     line-height: 22px;
@@ -116,6 +123,7 @@ const Modify1Box3Styled = styled.div`
 const Modify1Box4Styled = styled.img`
     width: 122px;
     height: 122px;
+    border-radius: 5px;
     background: rgba(242, 244, 248, 1);
     border-bottom: 1px solid rgba(0, 0, 0, 0.2);
 `
@@ -128,9 +136,10 @@ const Modify1InputButtonStyled = styled.label`
     padding: 10px 24.5px;
     background: rgba(255, 255, 255, 1);
     cursor: pointer;
+    border-radius: 5px;
     
     //styleName: Body/L;
-    font-family: Noto Sans CJK KR;
+    font-family: Pretendard-Regular;
     font-size: 18px;
     font-weight: 400;
     line-height: 25px;
@@ -152,8 +161,10 @@ const Modify1Submit = styled.div`
     height: 70px;
     margin: 64.5px auto 84px;
     background: rgba(96, 78, 248, 1);
+    border-radius: 5px;
 
-    font-family: Noto Sans CJK KR;
+
+  font-family: Pretendard-Regular;
     font-size: 20px;
     font-weight: 400;
     line-height: 70px;
@@ -172,7 +183,7 @@ const Modify2Styled = styled.div`
 `
 
 const Modify2BIStyled = styled.div`
-    font-family: Noto Sans CJK KR;
+    font-family: Pretendard-Regular;
     font-size: 32px;
     font-weight: 600;
     line-height: 35px;
@@ -185,7 +196,7 @@ const Modify2BIStyled = styled.div`
 `
 
 const Modify2BI2Styled = styled.div`
-    font-family: Noto Sans CJK KR;
+    font-family: Pretendard-Regular;
     font-size: 16px;
     font-weight: 400;
     line-height: 22px;
@@ -223,7 +234,7 @@ const Modify2FlexBox1Styled = styled.div`
     width: 17px;
     height: 35px;
     
-    font-family: Noto Sans CJK KR;
+    font-family: Pretendard-Regular;
     font-size: 32px;
     font-weight: 700;
     line-height: 35px;
@@ -234,6 +245,7 @@ const Modify2FlexBox1Styled = styled.div`
 const Modify2FlexBox2Styled = styled.div`
     display: flex;
     align-items: center;
+    border-radius: 5px;
 
     width: 182px;
     height: 48px;
@@ -245,6 +257,7 @@ const Modify2FlexBox2Styled = styled.div`
 const Modify2FlexBox3Styled = styled.div`
     display: flex;
     align-items: center;
+    border-radius: 5px;
 
     width: 275px;
     height: 48px;
@@ -265,6 +278,7 @@ const Modify2FlexBox5Styled = styled.img`
     background: rgba(242, 244, 248, 1);
     border: 1px solid rgba(194, 195, 198, 1);
     border-bottom: none;
+    border-radius: 5px 5px 0 0;
 `
 
 const Modify2FlexBox6Styled = styled.div`
@@ -284,14 +298,19 @@ const Modify2InputButtonStyled = styled.div`
     width: 122px;
     height: 34px;
     background: rgba(255, 255, 255, 1);
+    border-radius: 0 0 5px 5px;
     
-    font-family: Noto Sans CJK KR;
+    font-family: Pretendard-Regular;
     font-size: 13px;
     font-weight: 300;
     line-height: 34px;
     letter-spacing: 0em;
     text-align: center;
     color: rgba(0, 0, 0, 1);
+  
+  &:hover{
+    background: #F5F3FF;
+  }
 `
 
 const Modify2FlexTextArea1Styled = styled.textarea`
@@ -304,7 +323,7 @@ const Modify2FlexTextArea1Styled = styled.textarea`
     resize: none;
     background-color: transparent; /* 배경색을 투명하게 설정 */
 
-    font-family: Noto Sans CJK KR;
+    font-family: Pretendard-Regular;
     font-size: 13px;
     font-weight: 300;
     line-height: 18px;
@@ -319,9 +338,10 @@ const Modify2Add = styled.div`
     margin: 103px auto 87px;
     border: 2px solid rgba(96, 78, 248, 1);
     box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+    border-radius: 5px;
 
 
-    font-family: Noto Sans CJK KR;
+    font-family: Pretendard-Regular;
     font-size: 20px;
     font-weight: 400;
     line-height: 70px;
@@ -342,10 +362,11 @@ const Modify2Submit = styled.div`
     width: 301px;
     height: 70px;
     right: 0px;
+    border-radius: 5px;
     
     background: rgba(96, 78, 248, 1);
 
-    font-family: Noto Sans CJK KR;
+    font-family: Pretendard-Regular;
     font-size: 20px;
     font-weight: 400;
     line-height: 70px;
@@ -358,7 +379,7 @@ const Modify2FlexBox7Styled = styled.div`
     width: 182px;
     height: 22px;
     
-    font-family: Noto Sans CJK KR;
+    font-family: Pretendard-Regular;
     font-size: 20px;
     font-weight: 700;
     line-height: 22px;
@@ -370,7 +391,7 @@ const Modify2FlexBox8Styled = styled.div`
     width: 275px;
     height: 22px;
     
-    font-family: Noto Sans CJK KR;
+    font-family: Pretendard-Regular;
     font-size: 20px;
     font-weight: 700;
     line-height: 22px;
@@ -383,7 +404,7 @@ const Modify2FlexBox9Styled = styled.div`
     width: 122px;
     height: 22px;
     
-    font-family: Noto Sans CJK KR;
+    font-family: Pretendard-Regular;
     font-size: 20px;
     font-weight: 700;
     line-height: 22px;
@@ -400,10 +421,10 @@ const Modify1ContainerStyled = styled.div`
     left: 202px;
     position: fixed;
     width: calc(100% - 202px);
-    height: 100%;
-    overflow: auto;
+    height: calc(100% - 72px);
+    overflow: scroll;
+    top: 72px;
 `
-
 
 export default function Modify1() {
     const [grid1Items, setGrid1Items] = useState([0, 1, 2]);
@@ -453,7 +474,8 @@ export default function Modify1() {
     };
 
     return (
-        <div>
+        <>
+            <Header />
             <SideBar />
             <Modify1ContainerStyled>
                 <Modify1Styled>
@@ -526,18 +548,18 @@ export default function Modify1() {
                                 이미지 업로드
                             </Modify1InputButtonStyled>
                             <input type="file"
-                                name="filename"
-                                accept="image/jpeg, image/png"
-                                ref={(a) => {
-                                    if (a) {
-                                        console.log(a, "마운트됨");
-                                        tempList0.push(a);
-                                    }
-                                    else { console.log("언마운트됨") }
-                                }
-                                }
-                                style={{ display: "none" }}
-                                onChange={(event) => { handleImageChange(event, 0, 0) }}
+                                   name="filename"
+                                   accept="image/jpeg, image/png"
+                                   ref={(a) => {
+                                       if (a) {
+                                           console.log(a, "마운트됨");
+                                           tempList0.push(a);
+                                       }
+                                       else { console.log("언마운트됨") }
+                                   }
+                                   }
+                                   style={{ display: "none" }}
+                                   onChange={(event) => { handleImageChange(event, 0, 0) }}
                             />
                         </Modify1Box3Styled>
                     </Modify1BoxContainer2Styled>
@@ -554,18 +576,18 @@ export default function Modify1() {
                                 이미지 업로드
                             </Modify1InputButtonStyled>
                             <input type="file"
-                                name="filename"
-                                accept="image/jpeg, image/png"
-                                ref={(a) => {
-                                    if (a) {
-                                        console.log(a, "마운트됨");
-                                        tempList0.push(a);
-                                    }
-                                    else { console.log("언마운트됨") }
-                                }
-                                }
-                                style={{ display: "none" }}
-                                onChange={(event) => { handleImageChange(event, 1, 0) }}
+                                   name="filename"
+                                   accept="image/jpeg, image/png"
+                                   ref={(a) => {
+                                       if (a) {
+                                           console.log(a, "마운트됨");
+                                           tempList0.push(a);
+                                       }
+                                       else { console.log("언마운트됨") }
+                                   }
+                                   }
+                                   style={{ display: "none" }}
+                                   onChange={(event) => { handleImageChange(event, 1, 0) }}
                             />
                         </Modify1Box3Styled>
                     </Modify1BoxContainer2Styled>
@@ -619,21 +641,21 @@ export default function Modify1() {
                                 <Modify2FlexBox4Styled>
                                     <Modify2FlexBox5Styled src={previewImage1.current[index] ? previewImage1.current[index] : "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"} />
                                     <input type="file"
-                                        name="filename"
-                                        accept="image/jpeg, image/png"
-                                        ref={(a) => {
-                                            if (a) {
-                                                console.log(a, "마운트됨");
-                                                tempList1.push(a);
-                                                if (index == grid1Items.length - 1) {
-                                                    console.log(tempList1)
-                                                }
-                                            }
-                                            else { console.log("언마운트됨") }
-                                        }
-                                        }
-                                        style={{ display: "none" }}
-                                        onChange={(event) => { handleImageChange(event, index, 1) }}
+                                           name="filename"
+                                           accept="image/jpeg, image/png"
+                                           ref={(a) => {
+                                               if (a) {
+                                                   console.log(a, "마운트됨");
+                                                   tempList1.push(a);
+                                                   if (index == grid1Items.length - 1) {
+                                                       console.log(tempList1)
+                                                   }
+                                               }
+                                               else { console.log("언마운트됨") }
+                                           }
+                                           }
+                                           style={{ display: "none" }}
+                                           onChange={(event) => { handleImageChange(event, index, 1) }}
                                     />
                                     <Modify2InputButtonStyled
                                         onClick={() => {
@@ -642,7 +664,7 @@ export default function Modify1() {
                                         이미지 업로드
                                     </Modify2InputButtonStyled>
                                 </Modify2FlexBox4Styled>
-                                <Modify2FlexBox6Styled>
+                                <Modify2FlexBox6Styled onClick={}>
                                     <DeleteButton />
                                 </Modify2FlexBox6Styled>
                             </Modify2FlexContinaer2Styled>
@@ -695,21 +717,21 @@ export default function Modify1() {
                                 <Modify2FlexBox4Styled>
                                     <Modify2FlexBox5Styled src={previewImage2.current[index] ? previewImage2.current[index] : "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"} />
                                     <input type="file"
-                                        name="filename"
-                                        accept="image/jpeg, image/png"
-                                        ref={(a) => {
-                                            if (a) {
-                                                console.log(a, "마운트됨");
-                                                tempList2.push(a);
-                                                if (index == grid2Items.length - 1) {
-                                                    console.log(tempList2)
-                                                }
-                                            }
-                                            else { console.log("언마운트됨") }
-                                        }
-                                        }
-                                        style={{ display: "none" }}
-                                        onChange={(event) => { handleImageChange(event, index, 2) }}
+                                           name="filename"
+                                           accept="image/jpeg, image/png"
+                                           ref={(a) => {
+                                               if (a) {
+                                                   console.log(a, "마운트됨");
+                                                   tempList2.push(a);
+                                                   if (index == grid2Items.length - 1) {
+                                                       console.log(tempList2)
+                                                   }
+                                               }
+                                               else { console.log("언마운트됨") }
+                                           }
+                                           }
+                                           style={{ display: "none" }}
+                                           onChange={(event) => { handleImageChange(event, index, 2) }}
                                     />
                                     <Modify2InputButtonStyled
                                         onClick={() => {
@@ -734,6 +756,6 @@ export default function Modify1() {
                     </Modify2SubmitContatiner>
                 </Modify2Styled>
             </Modify1ContainerStyled>
-        </div>
+        </>
     );
 }
