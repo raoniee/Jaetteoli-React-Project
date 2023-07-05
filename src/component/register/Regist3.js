@@ -1,3 +1,28 @@
+import styled from "styled-components";
+import {useState} from "react";
+import { connect } from 'react-redux';
+import {setOriginInfo} from './redux/action';
+import RegistContainer from "./RegistContainer";
+
+
+const mapDispatchToProps = {
+    setOriginInfo
+};
+
+const ConnectedRegist3Component = connect((state) => {
+    return {
+        customStore: { ...state }, // 전체 스토어 상태를 customStore로 받음
+    };
+}, mapDispatchToProps)(Regist3Component);
+
+export default function Regist3(){
+    return(
+        <RegistContainer>
+            <ConnectedRegist3Component />
+        </RegistContainer>
+    );
+}
+
 const Regist3Styled = styled.div`
     display: flex;
     flex-direction: column;
@@ -9,7 +34,7 @@ const Regist3Styled = styled.div`
 
 
 const Regist3BIStyled = styled.div`
-    font-family: Noto Sans CJK KR;
+    font-family: Pretendard-Regular;
     font-size: 32px;
     font-weight: 600;
     line-height: 35px;
@@ -22,7 +47,7 @@ const Regist3BIStyled = styled.div`
 `
 
 const Regist3BI2Styled = styled.div`
-    font-family: Noto Sans CJK KR;
+    font-family: Pretendard-Regular;
     font-size: 16px;
     font-weight: 400;
     line-height: 22px;
@@ -59,7 +84,7 @@ const Regist3FlexBox1Styled = styled.div`
     width: 17px;
     height: 35px;
     
-    font-family: Noto Sans CJK KR;
+    font-family: Pretendard-Regular;
     font-size: 32px;
     font-weight: 700;
     line-height: 35px;
@@ -72,7 +97,7 @@ const Regist3FlexBox2Styled = styled.div`
     height: 22px;
     margin-right: 23px;
     
-    font-family: Noto Sans CJK KR;
+    font-family: Pretendard-Regular;
     font-size: 20px;
     font-weight: 700;
     line-height: 22px;
@@ -85,7 +110,7 @@ const Regist3FlexBox3Styled = styled.div`
     height: 22px;
     margin-right: 23px;
     
-    font-family: Noto Sans CJK KR;
+    font-family: Pretendard-Regular;
     font-size: 20px;
     font-weight: 700;
     line-height: 22px;
@@ -97,7 +122,7 @@ const Regist3FlexBox4Styled = styled.div`
     width: 395px;
     height: 22px;
     
-    font-family: Noto Sans CJK KR;
+    font-family: Pretendard-Regular;
     font-size: 20px;
     font-weight: 700;
     line-height: 22px;
@@ -109,8 +134,10 @@ const Regist3FlexBox5Styled = styled.div`
     display: flex;
     align-items: center;
     margin-right: 23px;
+    border-radius: 5px;
 
-    width: 182px;
+
+  width: 182px;
     height: 48px;
     border-bottom: 1px solid rgba(0, 0, 0, 0.2);
 
@@ -121,6 +148,7 @@ const Regist3FlexBox6Styled = styled.div`
     display: flex;
     align-items: center;
     margin-right: 23px;
+    border-radius: 5px;
 
     width: 304px;
     height: 48px;
@@ -132,6 +160,7 @@ const Regist3FlexBox6Styled = styled.div`
 const Regist3FlexBox7Styled = styled.div`
     display: flex;
     align-items: center;
+    border-radius: 5px;
 
     width: 395px;
     height: 48px;
@@ -148,15 +177,19 @@ const Regist3Add = styled.div`
     margin: 103px auto 87px;
     border: 2px solid rgba(96, 78, 248, 1);
     box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+    border-radius: 5px;
 
-
-    font-family: Noto Sans CJK KR;
+    font-family: Pretendard-Regular;
     font-size: 20px;
     font-weight: 400;
     line-height: 70px;
     letter-spacing: 0em;
     text-align: center;
     color: rgba(0, 0, 0, 1);
+  
+    &:hover{
+      background: #F5F3FF;
+    }
 `
 
 const Regist3SubmitContatiner = styled.div`
@@ -169,10 +202,11 @@ const Regist3Submit = styled.div`
     width: 732px;
     height: 70px;
     margin: 0 auto 93px;
+    border-radius: 5px;
     
     background: rgba(96, 78, 248, 1);
 
-    font-family: Noto Sans CJK KR;
+    font-family: Pretendard-Regular;
     font-size: 20px;
     font-weight: 400;
     line-height: 70px;
@@ -181,8 +215,55 @@ const Regist3Submit = styled.div`
     color: rgba(255, 255, 255, 1);
 `
 
-export default function Regist3() {
+
+const Regist3FlexTextArea1Styled = styled.input`
+    /* 텍스트 박스 스타일 */
+    width: 100%;
+    height: 18px;
+    padding: 0 12px;
+    border: none;
+    outline: none;
+    resize: none;
+    background-color: transparent; /* 배경색을 투명하게 설정 */
+
+    font-family: Pretendard-Regular;
+    font-size: 13px;
+    font-weight: 300;
+    line-height: 18px;
+    letter-spacing: 0em;
+    text-align: left;
+`
+
+function Regist3Component({customStore, setOriginInfo}) {
     const [gridItems, setGridItems] = useState([0, 1, 2]);
+
+    const initialOriginInfo = {
+        products: [
+            {
+                name: '',
+                origin: '',
+                foodName: ''
+            }
+        ]
+    };
+    const [originInfoState, setOriginInfoState] = useState({})
+
+    const handleOriginInfo = (data, index) => {
+        const updatedOrigin = originInfoState.products ? [...originInfoState.products ] : [];
+        updatedOrigin[index] = {
+            ...initialOriginInfo.products[0],
+            ...updatedOrigin[index],
+            ...data
+        }
+        setOriginInfoState({
+            products: updatedOrigin
+        })
+    }
+
+    const testRedux = () =>{
+        setOriginInfo(originInfoState)
+        console.log(customStore)
+    }
 
     return (
         <Regist3Styled>
@@ -214,13 +295,19 @@ export default function Regist3() {
                             {index + 1}
                         </Regist3FlexBox1Styled>
                         <Regist3FlexBox5Styled>
-                            <Regist2FlexTextArea1Styled placeholder={"연어"} />
+                            <Regist3FlexTextArea1Styled
+                                placeholder={"연어"}
+                                onChange={(event) => {handleOriginInfo({name:event.target.value}, index)}}/>
                         </Regist3FlexBox5Styled>
                         <Regist3FlexBox6Styled>
-                            <Regist2FlexTextArea1Styled placeholder={"캐나다"} />
+                            <Regist3FlexTextArea1Styled
+                                placeholder={"캐나다"}
+                                onChange={(event) => {handleOriginInfo({origin:event.target.value}, index)}}/>
                         </Regist3FlexBox6Styled>
                         <Regist3FlexBox7Styled>
-                            <Regist2FlexTextArea1Styled placeholder={"연어 샐러드"} />
+                            <Regist3FlexTextArea1Styled
+                                placeholder={"연어 샐러드"}
+                                onChange={(event) => {handleOriginInfo({foodName:event.target.value}, index)}}/>
                         </Regist3FlexBox7Styled>
                     </Regist3FlexContinaer2Styled>
                 ))}
@@ -228,7 +315,7 @@ export default function Regist3() {
             <Regist3Add onClick={() => { setGridItems([...gridItems, gridItems.length]) }}>
                 항목 추가하기
             </Regist3Add>
-            <Regist3Submit>
+            <Regist3Submit onClick={testRedux}>
                 메뉴등록 완료하기
             </Regist3Submit>
         </Regist3Styled>
