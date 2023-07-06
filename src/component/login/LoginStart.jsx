@@ -57,9 +57,17 @@ export default function LoginStart() {
       })
     );
 
-    alert('관리자가 승인후에 이용가능합니다.')
-    // 홈 화면으로 이동
-    navigate("/");
+    console.log(loginSuccess["first_login"])
+    console.log(loginSuccess["menu_register"])
+    if (loginSuccess["first_login"] === 1 && loginSuccess["menu_register"] === 1) {
+      // alert('관리자가 승인 후에 이용가능합니다.')
+      return navigate("/register/store");
+    } else if (loginSuccess["first_login"] === 0 && loginSuccess["menu_register"] === 1) {
+      alert('관리자가 승인 후에 이용가능합니다.')
+      return navigate("/register/menu");
+    } else {
+      return navigate("/today/menu");
+    }
   }
 
   return (
@@ -83,10 +91,6 @@ export default function LoginStart() {
         <div className={style.left}>
           <input type="checkbox" className={style.checkbox} />
           <label htmlFor="">아이디 저장</label>
-          <p>{auth.jwt}</p>
-          <p>{auth.name}</p>
-          <p>{auth.firstLogin}</p>
-          <p>{auth.menuRegister}</p>
         </div>
         <div className={style.right}>
           <p>아이디 - 비밀번호 찾기</p>

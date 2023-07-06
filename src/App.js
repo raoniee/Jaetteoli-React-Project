@@ -11,9 +11,11 @@ import Regist3 from "./component/register/Regist3";
 
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import SideBar from './component/sidebar/SideBar';
+import LoginStart from './component/login/LoginStart';
 
 const router = createBrowserRouter([
     { path: '/', element: <TodayMenu /> },
+    { path: '/login', element: <LoginStart /> },
     { path: '/today/menu', element: <TodayMenu /> },
     { path: '/today/order', element: <TodayOrder /> },
     { path: '/review', element: <ManageReview /> },
