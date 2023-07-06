@@ -9,10 +9,10 @@ export default function MembershipEnd() {
       <Header />
       <div className={style.MembershipEnd}>
         <span className={style.title}>재떨이 사장님 가입을 축하드립니다!</span>
-        <p className={style.title_desc1}>
+        <p className={style.title_desc}>
           재떨이 사장님 계정이 생성되었습니다.
-        </p>
-        <p className={style.title_desc2}>
+          <br />
+          <br />
           회원정보를 확인 후 서비스 이용을 위한 약관 동의를 계속 진행해주세요.
         </p>
 
@@ -57,6 +57,7 @@ export default function MembershipEnd() {
             <p>재떨이 광고성 정보 수신 설정이 완료되었습니다.</p>
           </div>
         </div>
+
         <p className={style.correction}>
           위 내용은 재떨이 정보 수정 에서 수정할 수 있습니다.
         </p>

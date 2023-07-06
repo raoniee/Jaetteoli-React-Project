@@ -9,10 +9,8 @@ export default function MembershipEnd() {
       <Header />
       <div className={style.MembershipEnd}>
         <span className={style.title}>재떨이 사장님 가입을 축하드립니다!</span>
-        <p className={style.title_desc1}>
-          재떨이 사장님 계정이 생성되었습니다.
-        </p>
-        <p className={style.title_desc2}>
+        <p className={style.title_desc}>재떨이 사장님 계정이 생성되었습니다.</p>
+        <p>
           회원정보를 확인 후 서비스 이용을 위한 약관 동의를 계속 진행해주세요.
         </p>
 
