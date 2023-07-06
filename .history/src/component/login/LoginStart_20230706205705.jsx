@@ -4,7 +4,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { login } from "../../store/auth";
 import { useNavigate } from "react-router-dom";
 import Header from "../header/Header";
-import Footer from "../footer/Footer";
 
 export default function LoginStart() {
   const [inputId, setInputId] = useState("");
