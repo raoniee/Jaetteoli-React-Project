@@ -1,17 +1,17 @@
 import React from "react";
-import style from "./PasswordSearch.module.css";
+import style from "./IDSearch.module.css";
 
-export default function PasswordSearch() {
+export default function IDSearch() {
   return (
-    <div className={style.PasswordSearch}>
+    <div className={style.IDSearch}>
       <span className={style.title}>아이디 - 비밀번호 찾기</span>
       <ul className={style.search_option}>
         <li>아이디 찾기</li>
         <li>비밀번호 찾기</li>
       </ul>
-      <form action="" className={style.PASSWORD_SEARCH}>
-        <label htmlFor="">아이디</label>
-        <input type="text" placeholder="아이디 입력" className={style.id} />
+      <form action="" className={style.ID_SEARCH}>
+        <label htmlFor="">이름</label>
+        <input type="text" placeholder="이름 입력" className={style.name} />
         <label htmlFor="">휴대폰 번호</label>
         <input
           type="text"
@@ -19,7 +19,7 @@ export default function PasswordSearch() {
           className={style.phone}
         />
       </form>
-      <button className={style.bluebutton}>인증번호 받기</button>
+      <button>인증번호 받기</button>
     </div>
   );
 }

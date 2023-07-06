@@ -31,13 +31,16 @@ export default function LoginStart() {
     };
 
     console.log(requestBody);
-    const response = await fetch("https://www.insung.shop/jat/sellers/login", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(requestBody),
-    });
+    const response = await fetch(
+      "https://www.insung.shop/jat/sellers/login",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(requestBody),
+      }
+    );
 
     const data = await response.json();
     if (!data["isSuccess"]) {
@@ -54,19 +57,13 @@ export default function LoginStart() {
       })
     );
 
-    console.log(loginSuccess["first_login"]);
-    console.log(loginSuccess["menu_register"]);
-    if (
-      loginSuccess["first_login"] === 1 &&
-      loginSuccess["menu_register"] === 1
-    ) {
+    console.log(loginSuccess["first_login"])
+    console.log(loginSuccess["menu_register"])
+    if (loginSuccess["first_login"] === 1 && loginSuccess["menu_register"] === 1) {
       // alert('관리자가 승인 후에 이용가능합니다.')
       return navigate("/register/store");
-    } else if (
-      loginSuccess["first_login"] === 0 &&
-      loginSuccess["menu_register"] === 1
-    ) {
-      alert("관리자가 승인 후에 이용가능합니다.");
+    } else if (loginSuccess["first_login"] === 0 && loginSuccess["menu_register"] === 1) {
+      alert('관리자가 승인 후에 이용가능합니다.')
       return navigate("/register/menu");
     } else {
       return navigate("/today/menu");
@@ -100,9 +97,7 @@ export default function LoginStart() {
           <p>회원가입</p>
         </div>
       </div>
-      <button className={style.bluebutton} onClick={onClickLogin}>
-        로그인
-      </button>
+      <button onClick={onClickLogin}>로그인</button>
     </div>
   );
 }

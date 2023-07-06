@@ -54,7 +54,7 @@ export default function MembershipInformation() {
         </div>
       </div>
 
-      <button className={style.bluebutton}>다음</button>
+      <button>다음</button>
     </div>
   );
 }

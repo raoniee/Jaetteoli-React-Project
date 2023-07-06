@@ -56,7 +56,7 @@ export default function MembershipEnd() {
       <p className={style.correction}>
         위 내용은 재떨이 정보 수정 에서 수정할 수 있습니다.
       </p>
-      <button className={style.bluebutton}>재떨이 서비스 시작하기!</button>
+      <button>재떨이 서비스 시작하기!</button>
     </div>
   );
 }

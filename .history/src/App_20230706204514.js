@@ -14,7 +14,7 @@ import SideBar from "./component/sidebar/SideBar";
 import MembershipStart from "./component/memberShip/MembershipStart";
 
 const router = createBrowserRouter([
-  { path: "/", element: <ManageReview /> },
+  { path: "/", element: <MembershipStart /> },
   { path: "/login", element: <LoginStart /> },
   { path: "/today/menu", element: <TodayMenu /> },
   { path: "/today/order", element: <TodayOrder /> },

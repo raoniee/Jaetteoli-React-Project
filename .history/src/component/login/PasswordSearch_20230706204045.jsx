@@ -19,7 +19,7 @@ export default function PasswordSearch() {
           className={style.phone}
         />
       </form>
-      <button className={style.bluebutton}>인증번호 받기</button>
+      <button>인증번호 받기</button>
     </div>
   );
 }
