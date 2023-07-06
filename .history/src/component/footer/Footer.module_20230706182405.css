@@ -1,4 +1,6 @@
 footer {
+  position: fixed;
+  bottom: 0px;
   height: 71px;
   font-weight: 300;
   font-size: 13px;

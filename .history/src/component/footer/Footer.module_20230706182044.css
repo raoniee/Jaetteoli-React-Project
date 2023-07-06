@@ -1,5 +1,6 @@
 footer {
   height: 71px;
+
   font-weight: 300;
   font-size: 13px;
   line-height: 14.3px;
@@ -27,4 +28,5 @@ footer ul {
   width: 261px;
   gap: 18px;
   margin: 0 auto;
-}
+
+
