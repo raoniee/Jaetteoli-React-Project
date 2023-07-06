@@ -23,7 +23,7 @@ export default function MembershipInformation() {
               </ul>
               <ul className={style.profile_right}>
                 <li>정한준</li>
-                <li>1998.05.04</li>
+                <li>1998.05.040</li>
                 <li>010-9778-8973</li>
               </ul>
             </div>
