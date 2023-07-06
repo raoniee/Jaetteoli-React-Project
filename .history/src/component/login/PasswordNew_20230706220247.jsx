@@ -1,6 +1,7 @@
 import React from "react";
 import Footer from "../footer/Footer";
 import Header from "../header/Header";
+import Footer from "../footer/Footer";
 import style from "./PasswordNew.module.css";
 
 export default function PasswordNew() {
