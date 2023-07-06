@@ -16,7 +16,7 @@ export default function IDShow() {
         <span className={style.result_id}>jungsh4064</span>
         <p className={style.result_date}>2023. 06. 07. 가입</p>
       </div>
-      <button className={style.bluebutton}>로그인하러 가기</button>
+      <button>로그인하러 가기</button>
       <p className={style.passwordlost}>비밀번호를 잊으셨나요?</p>
     </div>
   );

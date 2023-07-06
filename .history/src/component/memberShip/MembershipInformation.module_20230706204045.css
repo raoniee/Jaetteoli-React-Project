@@ -130,7 +130,7 @@
   color: rgba(0, 0, 0, 0.5);
 }
 
-.bluebutton {
+button {
   position: absolute;
   left: 50%;
   transform: translate(-50%, 0);

@@ -16,7 +16,7 @@ export default function PasswordNew() {
         <label htmlFor="">새 비밀번호 확인</label>
         <input type="text" placeholder="새 비밀번호 재입력" />
       </form>
-      <button className={style.bluebutton}>로그인</button>
+      <button>로그인</button>
     </div>
   );
 }
