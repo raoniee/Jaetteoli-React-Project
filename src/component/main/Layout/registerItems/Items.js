@@ -6,8 +6,8 @@ const Items = (props) => {
         <div className={classes['items-container']}>
             <div className={classes['title-container']}>
                 <div className={classes['inner-container']}>
-                    <h1>{props.title}</h1>
-                    <p>{props.subTitle}</p>
+                    <h1 className={classes.title}>{props.title}</h1>
+                    <p className={classes.subTitle}>{props.subTitle}</p>
                 </div>
             </div>
             <div className={classes['table-container']}>

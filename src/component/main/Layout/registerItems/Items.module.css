@@ -19,18 +19,18 @@
     margin-right: 77px;
 }
 
-h1 {
+.title {
     font-size: 1.7rem;
     font-weight: 650;
 }
 
-p {
+.subTitle {
     margin-top: 25px;
     font-size: 1rem;
     color: #697077;
 }
 
-table.type07 {
+.type07 {
     text-align: left;
     line-height: 1.5;
     width: 100%;
@@ -38,19 +38,19 @@ table.type07 {
 }
 
 
-table.type07 thead th {
+.type07 thead th {
     padding: 10px;
     font-weight: bold;
     vertical-align: top;
 }
 
-table.type07 tbody th {
+.type07 tbody th {
     height: 80px;
     font-weight: bold;
     vertical-align: middle;
 }
 
-table.type07 td {
+.type07 td {
     width: 100%;
     height: 40px;
     padding: 13px 0;
