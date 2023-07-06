@@ -3,11 +3,12 @@
   flex-direction: column;
 }
 
-.PasswordNew {
-  display: block;
-  margin: 0 auto;
-  margin-top: 310px;
-  margin-bottom: 176px;
+.IDSearch {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 486px;
 }
 
 .title {
@@ -19,49 +20,59 @@
   margin-bottom: 48px;
 }
 
-.PASSWORD_NEW {
-  width: 486px;
+.search_option {
+  width: inherit;
   display: flex;
-  flex-direction: column;
-  margin: 0 auto;
-  margin-bottom: 72px;
+  height: 62px;
+  border: 1px solid rgba(0, 0, 0, 0.5);
+  margin-bottom: 31px;
 }
 
-.PASSWORD_NEW label {
+.search_option li {
+  flex-grow: 1;
+  font-weight: 300;
+  font-size: 16px;
+  line-height: 62px;
+  text-align: center;
+}
+
+.search_option li:last-child {
+  border-left: 1px solid rgba(0, 0, 0, 0.5);
+}
+
+.ID_SEARCH {
+  display: flex;
+  flex-direction: column;
+}
+
+.ID_SEARCH label {
   font-weight: 300;
   font-size: 16px;
   line-height: 17.6px;
-  color: rgba(0, 0, 0, 1);
   margin-bottom: 9px;
 }
 
-.PASSWORD_NEW p {
-  font-weight: 300;
-  font-size: 13px;
-  line-height: 18.85px;
-  color: rgba(0, 0, 0, 0.5);
-  margin-bottom: 9px;
-}
-
-.PASSWORD_NEW input {
+.ID_SEARCH input {
   height: 62px;
   border: 1px solid rgba(0, 0, 0, 0.5);
   padding-left: 30px;
 }
 
-.PASSWORD_NEW input::placeholder {
+.ID_SEARCH input::placeholder {
   font-weight: 300;
   font-size: 16px;
   line-height: 17.6px;
 }
 
-.PASSWORD_NEW .newpassword {
+.ID_SEARCH .name {
   margin-bottom: 20px;
 }
 
+.ID_SEARCH .phone {
+  margin-bottom: 31px;
+}
+
 .bluebutton {
-  display: block;
-  margin: 0 auto;
   width: 486px;
   height: 62px;
   border: 1px solid rgba(0, 0, 0, 0.5);

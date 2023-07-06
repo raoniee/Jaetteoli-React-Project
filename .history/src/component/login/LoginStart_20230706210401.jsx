@@ -76,7 +76,7 @@ export default function LoginStart() {
   }
 
   return (
-    <div className={style.container}>
+    <div>
       <Header />
       <div className={style.LoginStart}>
         <span className={style.title}>로그인</span>

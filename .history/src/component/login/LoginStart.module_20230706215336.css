@@ -6,8 +6,8 @@
 .LoginStart {
   display: block;
   margin: 0 auto;
-  margin-top: 310px;
-  margin-bottom: 176px;
+  margin-top: 240px;
+  margin-bottom: 45px;
 }
 
 .title {
@@ -71,8 +71,6 @@
 }
 
 .bluebutton {
-  display: block;
-  margin: 0 auto;
   width: 486px;
   height: 62px;
   border: 1px solid rgba(0, 0, 0, 0.5);

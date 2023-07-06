@@ -1,13 +1,9 @@
-.container {
-  display: flex;
-  flex-direction: column;
-}
-
 .LoginStart {
-  display: block;
-  margin: 0 auto;
-  margin-top: 310px;
-  margin-bottom: 176px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 486px;
 }
 
 .title {
@@ -71,8 +67,6 @@
 }
 
 .bluebutton {
-  display: block;
-  margin: 0 auto;
   width: 486px;
   height: 62px;
   border: 1px solid rgba(0, 0, 0, 0.5);

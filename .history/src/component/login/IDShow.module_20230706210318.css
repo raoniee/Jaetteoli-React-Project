@@ -1,12 +1,9 @@
-.container {
-  display: flex;
-  flex-direction: column;
-}
-
 .IDShow {
-  margin: 0 auto;
-  margin-top: 240px;
-  margin-bottom: 126px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 486px;
 }
 
 .title {

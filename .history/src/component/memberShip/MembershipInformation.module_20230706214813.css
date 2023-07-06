@@ -1,12 +1,12 @@
 .container {
   display: flex;
   flex-direction: column;
+  /* justify-content: space-between; */
 }
 
 .MembershipInformation {
   margin: 0 auto;
-  margin-top: 240px;
-  margin-bottom: 45px;
+  margin-top: 130px;
 }
 
 .title {
@@ -20,6 +20,7 @@
 
 .wrap {
   display: flex;
+  /* justify-content: space-between; */
   width: 969px;
   margin-bottom: 45px;
 }
@@ -137,9 +138,13 @@
 .bluebutton {
   display: block;
   margin: 0 auto;
+  /* position: absolute;
+  left: 50%;
+  transform: translate(-50%, 0); */
   width: 486px;
   height: 62px;
   background-color: rgba(96, 78, 248, 1);
   border: 1px solid rgba(0, 0, 0, 0.5);
   color: rgba(255, 255, 255, 1);
+  /* margin-bottom: 100px; */
 }
