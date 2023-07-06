@@ -4,10 +4,10 @@
 }
 
 .MembershipEnd {
-  display: block;
-  margin: 0 auto;
-  margin-top: 240px;
-  margin-bottom: 45px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 
 .title {

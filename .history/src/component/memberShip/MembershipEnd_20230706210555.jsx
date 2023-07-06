@@ -5,7 +5,7 @@ import style from "./MembershipEnd.module.css";
 
 export default function MembershipEnd() {
   return (
-    <div className={style.container}>
+    <div>
       <Header />
       <div className={style.MembershipEnd}>
         <span className={style.title}>재떨이 사장님 가입을 축하드립니다!</span>

@@ -5,7 +5,7 @@ import style from "./IDShow.module.css";
 
 export default function IDShow() {
   return (
-    <div className={style.container}>
+    <div>
       <Header />
       <div className={style.IDShow}>
         <span className={style.title}>아이디 - 비밀번호 찾기</span>

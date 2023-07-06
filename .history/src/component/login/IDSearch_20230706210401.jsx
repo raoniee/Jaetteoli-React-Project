@@ -5,7 +5,7 @@ import style from "./IDSearch.module.css";
 
 export default function IDSearch() {
   return (
-    <div className={style.container}>
+    <div>
       <Header />
       <div className={style.IDSearch}>
         <span className={style.title}>아이디 - 비밀번호 찾기</span>

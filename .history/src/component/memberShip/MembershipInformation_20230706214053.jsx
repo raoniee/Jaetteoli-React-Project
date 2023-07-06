@@ -57,7 +57,6 @@ export default function MembershipInformation() {
             </form>
           </div>
         </div>
-
         <button className={style.bluebutton}>다음</button>
       </div>
       <Footer />

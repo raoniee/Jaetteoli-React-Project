@@ -1,7 +1,6 @@
-/* * {
+* {
   outline: 1px solid #363;
-} */
-
+}
 footer {
   height: 71px;
   font-weight: 300;
@@ -16,7 +15,7 @@ footer ul {
 .top {
   width: 220px;
   gap: 14px;
-  margin: 0 auto;
+  margin: 18px auto 20px auto;
 }
 
 .top li {

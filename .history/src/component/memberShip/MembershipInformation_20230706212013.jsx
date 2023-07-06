@@ -5,7 +5,7 @@ import style from "./MembershipInformation.module.css";
 
 export default function MembershipInformation() {
   return (
-    <div className={style.container}>
+    <div>
       <Header />
       <div className={style.MembershipInformation}>
         <span className={style.title}>
