@@ -1,21 +1,16 @@
 import styled from "styled-components";
 import {useRef, useState} from "react";
 import { useNavigate } from 'react-router-dom';
-import { connect } from 'react-redux';
-import { setMenuInfo } from './redux/action';
+import { useDispatch } from 'react-redux';
+import { registMenuInfo } from './redux/menuRegisteringSlice';
 import RegistContainer from "./RegistContainer";
 
 
-const mapDispatchToProps = {
-    setMenuInfo
-};
-
-const ConnectedRegist2Component = connect(null, mapDispatchToProps)(Regist2Component);
 
 export default function Regist2(){
     return(
         <RegistContainer>
-            <ConnectedRegist2Component />
+            <Regist2Component />
         </RegistContainer>
     );
 }
@@ -267,6 +262,7 @@ function Regist2Component({setMenuInfo}) {
     const tempList1 = [];
     const tempList2 = [];
     const navigate = useNavigate();
+    const dispatch = useDispatch();
 
     const fileCheck = (obj) => {
         const pathPoint = obj.value.lastIndexOf(".");
@@ -292,11 +288,11 @@ function Regist2Component({setMenuInfo}) {
                     const imageUrl = e.target.result;
                     if (type == 1){
                         previewImage1.current[number] = imageUrl;
-                        handleMenuInfo({photo:imageUrl}, number, 'menus')
+                        handleMenuInfo({menuUrl:imageUrl}, number, 'menus')
                     }
                     else{
                         previewImage2.current[number] = imageUrl;
-                        handleMenuInfo({photo:imageUrl}, number, 'sideMenus')
+                        handleMenuInfo({menuUrl:imageUrl}, number, 'sideMenus')
                     }
                     setPreviewImageSetters(!previewImageSetters);
                 };
@@ -308,22 +304,22 @@ function Regist2Component({setMenuInfo}) {
 
 
     const initialMenuInfo = {
-        menus: [
+        mainMenuItems: [
             {
-                name: '',
+                menuName: '',
                 price: 0,
-                ingredients: '',
+                composition: '',
                 description: '',
-                photo: ''
+                menuUrl: ''
             }
         ],
-        sideMenus: [
+        SideMenuItems: [
             {
-                name: '',
+                menuName: '',
                 price: 0,
-                ingredients: '',
+                composition: '',
                 description: '',
-                photo: ''
+                menuUrl: ''
             }
         ]
     }
@@ -331,32 +327,32 @@ function Regist2Component({setMenuInfo}) {
 
 
     const handleMenuInfo = (data, index, type) => {
-        const updatedMenus = menuInfoState.menus ? [...menuInfoState.menus] : [];
-        const updatedSideMenus = menuInfoState.sideMenus ? [...menuInfoState.sideMenus] : [];
-        if (type=='menus'){
+        const updatedMenus = menuInfoState.mainMenuItems ? [...menuInfoState.mainMenuItems] : [];
+        const updatedSideMenus = menuInfoState.SideMenuItems ? [...menuInfoState.SideMenuItems] : [];
+        if (type==='menus'){
             updatedMenus[index] = {
-                ...initialMenuInfo.menus[0],
+                ...initialMenuInfo.mainMenuItems[0],
                 ...updatedMenus[index], // 이전 객체의 속성 복사
                 ...data, // 새로운 데이터로 속성 변경 또는 추가
             };
         }
-        else if (type=='sideMenus'){
+        else if (type==='sideMenus'){
             updatedSideMenus[index] = {
-                ...initialMenuInfo.sideMenus[1],
+                ...initialMenuInfo.SideMenuItems[0],
                 ...updatedSideMenus[index], // 이전 객체의 속성 복사
                 ...data, // 새로운 데이터로 속성 변경 또는 추가
             };
         }
         setMenuInfoState(
             {
-                menus: updatedMenus,
-                sideMenus: updatedSideMenus
+                mainMenuItems: updatedMenus,
+                SideMenuItems: updatedSideMenus
             }
         )
     }
 
     const testRedux = () =>{
-        setMenuInfo(menuInfoState)
+        dispatch(registMenuInfo(menuInfoState))
         navigate('/register/origin');
     }
 
@@ -396,7 +392,7 @@ function Regist2Component({setMenuInfo}) {
                         <Regist2FlexBox2Styled>
                             <Regist2FlexTextArea1Styled
                                 placeholder={"연어 샐러드"}
-                                onChange={(event) => {handleMenuInfo({name:event.target.value}, index, 'menus')}}/>
+                                onChange={(event) => {handleMenuInfo({menuName:event.target.value}, index, 'menus')}}/>
                         </Regist2FlexBox2Styled>
                         <Regist2FlexBox2Styled>
                             <Regist2FlexTextArea1Styled
@@ -406,7 +402,7 @@ function Regist2Component({setMenuInfo}) {
                         <Regist2FlexBox2Styled>
                             <Regist2FlexTextArea1Styled
                                 placeholder={"연어, 풀"}
-                                onChange={(event) => {handleMenuInfo({ingredients:event.target.value}, index, 'menus')}}/>
+                                onChange={(event) => {handleMenuInfo({composition:event.target.value}, index, 'menus')}}/>
                         </Regist2FlexBox2Styled>
                         <Regist2FlexBox3Styled>
                             <Regist2FlexTextArea1Styled
@@ -482,7 +478,7 @@ function Regist2Component({setMenuInfo}) {
                         <Regist2FlexBox2Styled>
                             <Regist2FlexTextArea1Styled
                                 placeholder={"연어 샐러드"}
-                                onChange={(event) => {handleMenuInfo({name:event.target.value}, index, 'sideMenus')}}/>
+                                onChange={(event) => {handleMenuInfo({menuName:event.target.value}, index, 'sideMenus')}}/>
                         </Regist2FlexBox2Styled>
                         <Regist2FlexBox2Styled>
                             <Regist2FlexTextArea1Styled
@@ -492,7 +488,7 @@ function Regist2Component({setMenuInfo}) {
                         <Regist2FlexBox2Styled>
                             <Regist2FlexTextArea1Styled
                                 placeholder={"연어, 풀"}
-                                onChange={(event) => {handleMenuInfo({ingredients:event.target.value}, index, 'sideMenus')}}/>
+                                onChange={(event) => {handleMenuInfo({composition:event.target.value}, index, 'sideMenus')}}/>
                         </Regist2FlexBox2Styled>
                         <Regist2FlexBox3Styled>
                             <Regist2FlexTextArea1Styled
