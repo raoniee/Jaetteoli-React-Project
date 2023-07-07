@@ -1,24 +1,12 @@
 import styled from "styled-components";
 import {useState} from "react";
-import { connect } from 'react-redux';
-import {setOriginInfo} from './redux/action';
+import { useSelector } from 'react-redux';
 import RegistContainer from "./RegistContainer";
-
-
-const mapDispatchToProps = {
-    setOriginInfo
-};
-
-const ConnectedRegist3Component = connect((state) => {
-    return {
-        customStore: { ...state }, // 전체 스토어 상태를 customStore로 받음
-    };
-}, mapDispatchToProps)(Regist3Component);
 
 export default function Regist3(){
     return(
         <RegistContainer>
-            <ConnectedRegist3Component />
+            <Regist3Component />
         </RegistContainer>
     );
 }
@@ -236,33 +224,55 @@ const Regist3FlexTextArea1Styled = styled.input`
 
 function Regist3Component({customStore, setOriginInfo}) {
     const [gridItems, setGridItems] = useState([0, 1, 2]);
+    const [originInfoState, setOriginInfoState] = useState({})
+    const menuInfo = useSelector((state) => state.menu)
 
     const initialOriginInfo = {
-        products: [
+        ingredientItems: [
             {
-                name: '',
+                ingredientName: '',
                 origin: '',
-                foodName: ''
+                menuName: ''
             }
         ]
     };
-    const [originInfoState, setOriginInfoState] = useState({})
 
     const handleOriginInfo = (data, index) => {
-        const updatedOrigin = originInfoState.products ? [...originInfoState.products ] : [];
+        const updatedOrigin = originInfoState.ingredientItems ? [...originInfoState.ingredientItems ] : [];
         updatedOrigin[index] = {
-            ...initialOriginInfo.products[0],
+            ...initialOriginInfo.ingredientItems[0],
             ...updatedOrigin[index],
             ...data
         }
         setOriginInfoState({
-            products: updatedOrigin
+            ingredientItems: updatedOrigin
         })
     }
 
-    const testRedux = () =>{
-        setOriginInfo(originInfoState)
-        console.log(customStore)
+    const sendDataToServer = () => {
+        const token = 'eyJ0eXBlIjoiand0IiwiYWxnIjoiSFMyNTYifQ.eyJ1c2VySWR4IjoyMywiaWF0IjoxNjc4OTAyOTE2LCJleHAiOjE2ODAzNzQxNDV9.zUuYJ4nfA7LuULYfmFC4CvbB8F3CVpZTMOPnqBc3cGk';
+
+        const requestOptions = {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-ACCESS-TOKEN': token, // X-ACCESS-TOKEN 헤더에 토큰 값을 추가합니다.
+            },
+            body: JSON.stringify({...menuInfo, ...originInfoState}),
+        };
+
+        fetch('https://www.insung.shop/jat/menus', requestOptions)
+            .then(response => response.json())
+            .then(data => {
+                console.log(data);
+            })
+            .catch(error => {
+                console.error(error);
+            });
+    };
+
+    const testRedux = () => {
+        sendDataToServer()
     }
 
     return (
@@ -297,7 +307,7 @@ function Regist3Component({customStore, setOriginInfo}) {
                         <Regist3FlexBox5Styled>
                             <Regist3FlexTextArea1Styled
                                 placeholder={"연어"}
-                                onChange={(event) => {handleOriginInfo({name:event.target.value}, index)}}/>
+                                onChange={(event) => {handleOriginInfo({ingredientName:event.target.value}, index)}}/>
                         </Regist3FlexBox5Styled>
                         <Regist3FlexBox6Styled>
                             <Regist3FlexTextArea1Styled
@@ -307,7 +317,7 @@ function Regist3Component({customStore, setOriginInfo}) {
                         <Regist3FlexBox7Styled>
                             <Regist3FlexTextArea1Styled
                                 placeholder={"연어 샐러드"}
-                                onChange={(event) => {handleOriginInfo({foodName:event.target.value}, index)}}/>
+                                onChange={(event) => {handleOriginInfo({menuName:event.target.value}, index)}}/>
                         </Regist3FlexBox7Styled>
                     </Regist3FlexContinaer2Styled>
                 ))}
