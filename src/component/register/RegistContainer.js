@@ -1,6 +1,5 @@
 import {BrowserRouter, Routes, Route, useLocation} from 'react-router-dom';
 import { Provider } from 'react-redux';
-import store from './redux/menuRegisteringSlice';
 import styled from "styled-components";
 
 import {useEffect, useRef} from "react";
@@ -28,12 +27,12 @@ export default function RegistContainer({ children }) {
     }, [location]);
 
     return (
-        <Provider store={store}>
+        <div>
             <Header />
             <RegistContainerStyled ref={ref}>
                 {children}
                 <Footer />
             </RegistContainerStyled>
-        </Provider>
+        </div>
     );
 }

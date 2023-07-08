@@ -2,6 +2,7 @@ import styled from "styled-components";
 import { ReactComponent as SelectButton} from "../../assets/images/Vector 30.svg";
 import {useRef, useState} from "react";
 import { useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import RegistContainer from "./RegistContainer";
 
 export default function Regist1(){
@@ -287,6 +288,7 @@ function Regist1Component({setStoreInfo}) {
     const fileInput4 = useRef();
     const fileInput5 = useRef();
     const navigate = useNavigate();
+    const auth = useSelector((state) => state.auth)
 
     const initialStoreInfo = {
         storeName: '',
@@ -371,7 +373,7 @@ function Regist1Component({setStoreInfo}) {
     }
 
     const sendDataToServer = () => {
-        const token = 'eyJ0eXBlIjoiand0IiwiYWxnIjoiSFMyNTYifQ.eyJ1c2VySWR4IjoyMywiaWF0IjoxNjc4OTAyOTE2LCJleHAiOjE2ODAzNzQxNDV9.zUuYJ4nfA7LuULYfmFC4CvbB8F3CVpZTMOPnqBc3cGk';
+        const token = auth;
         const {detailAddress, ...body} = storeInfoState;
         body.storeAddress = body.storeAddress + ' ' + detailAddress;
         const requestOptions = {

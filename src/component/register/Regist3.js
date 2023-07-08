@@ -225,7 +225,8 @@ const Regist3FlexTextArea1Styled = styled.input`
 function Regist3Component({customStore, setOriginInfo}) {
     const [gridItems, setGridItems] = useState([0, 1, 2]);
     const [originInfoState, setOriginInfoState] = useState({})
-    const menuInfo = useSelector((state) => state.menu)
+    const menuInfo = useSelector((state) => state.menuRegistering)
+    const auth = useSelector((state) => state.auth)
 
     const initialOriginInfo = {
         ingredientItems: [
@@ -250,7 +251,7 @@ function Regist3Component({customStore, setOriginInfo}) {
     }
 
     const sendDataToServer = () => {
-        const token = 'eyJ0eXBlIjoiand0IiwiYWxnIjoiSFMyNTYifQ.eyJ1c2VySWR4IjoyMywiaWF0IjoxNjc4OTAyOTE2LCJleHAiOjE2ODAzNzQxNDV9.zUuYJ4nfA7LuULYfmFC4CvbB8F3CVpZTMOPnqBc3cGk';
+        const token = auth;
 
         const requestOptions = {
             method: 'POST',
