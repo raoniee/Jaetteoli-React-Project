@@ -373,7 +373,7 @@ function Regist1Component({setStoreInfo}) {
     }
 
     const sendDataToServer = () => {
-        const token = auth;
+        const token = auth.jwt;
         const {detailAddress, ...body} = storeInfoState;
         body.storeAddress = body.storeAddress + ' ' + detailAddress;
         const requestOptions = {
