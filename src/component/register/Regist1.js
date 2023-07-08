@@ -675,7 +675,7 @@ function Regist1Component({setStoreInfo}) {
                         <Regist1TextBoxStyled
                             readOnly
                             value={postalCode1}
-                            placeholder="050505"
+                            placeholder="050505" />
                     </Regist1Box7Styled>
                     <Regist1Box9Styled onClick={getPostalCode}>
                         우편번호
@@ -684,7 +684,7 @@ function Regist1Component({setStoreInfo}) {
                         <Regist1TextBoxStyled
                             readOnly
                             value={postalCode2}
-                            placeholder="울산 남구 대학로 33번길 18-4"
+                            placeholder="울산 남구 대학로 33번길 18-4" />
                     </Regist1Box7Styled>
                     <Regist1Box8Styled>
                         <Regist1TextBoxStyled
