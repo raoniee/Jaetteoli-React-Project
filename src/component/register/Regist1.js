@@ -289,33 +289,30 @@ function Regist1Component({setStoreInfo}) {
     const navigate = useNavigate();
 
     const initialStoreInfo = {
-        companyName: '',
-        businessType: '',
-        ownerPhoneNumber: '',
-        ownerEmail: '',
-        businessRegistrationCertificate: '',
-        salespersonRegistrationCertificate: '',
-        bankStatementCopy: '',
-        operatingHours: '',
-        closingDays: '',
-        storePhoneNumber: '',
-        storeAddress: {
-            postalCode: '',
-            buildingAddress: '',
-            detailAddress: '',
-        },
-        storeLogo: '',
-        storeSignboardPhoto: ''
+        storeName: '',
+        categoryIdx: '',
+        businessPhone: '',
+        businessEmail: '',
+        businessCertificateUrl: '',
+        sellerCertificateUrl: '',
+        copyAccountUrl: '',
+        breakDay: '',
+        storeOpen: '',
+        storeClose: '',
+        storePhone: '',
+        city: '',
+        local: '',
+        town: '',
+        storeAddress: '',
+        detailAddress: '',
+        storeLogoUrl: '',
+        signUrl: ''
     }
     const [storeInfoState, setStoreInfoState] = useState(initialStoreInfo);
 
     const handleStoreInfo = (data) => {
         setStoreInfoState({
             ...storeInfoState,
-            storeAddress: {
-                ...storeInfoState.storeAddress,
-                ...(data.storeAddress ? data.storeAddress : {})
-            },
             ...data
         })
     }
@@ -344,11 +341,11 @@ function Regist1Component({setStoreInfo}) {
                     const imageUrl = e.target.result;
                     previewImageSetters[number](imageUrl);
                     switch (number){
-                        case 0: handleStoreInfo({businessRegistrationCertificate:imageUrl}); break
-                        case 1: handleStoreInfo({salespersonRegistrationCertificate:imageUrl}); break
-                        case 2: handleStoreInfo({bankStatementCopy:imageUrl}); break
-                        case 3: handleStoreInfo({storeLogo:imageUrl}); break
-                        case 4: handleStoreInfo({storeSignboardPhoto:imageUrl}); break
+                        case 0: handleStoreInfo({businessCertificateUrl:imageUrl}); break
+                        case 1: handleStoreInfo({sellerCertificateUrl:imageUrl}); break
+                        case 2: handleStoreInfo({copyAccountUrl:imageUrl}); break
+                        case 3: handleStoreInfo({storeLogoUrl:imageUrl}); break
+                        case 4: handleStoreInfo({signUrl:imageUrl}); break
                     }
                 };
 
@@ -362,13 +359,42 @@ function Regist1Component({setStoreInfo}) {
             oncomplete: function(data) {
                 // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분입니다.
                 // 예제를 참고하여 다양한 활용법을 확인해 보세요.
+                const sido = data.sido;
+                const sigungu = data.sigungu;
+                const bname = data.bname;
+                const storeAddress = data.address;
+                handleStoreInfo({city: sido, local:sigungu, town: bname, storeAddress: storeAddress})
                 setPostalCode1(data.zonecode);
                 setPostalCode2(data.address)
             }
         }).open();
     }
 
+    const sendDataToServer = () => {
+        const token = 'eyJ0eXBlIjoiand0IiwiYWxnIjoiSFMyNTYifQ.eyJ1c2VySWR4IjoyMywiaWF0IjoxNjc4OTAyOTE2LCJleHAiOjE2ODAzNzQxNDV9.zUuYJ4nfA7LuULYfmFC4CvbB8F3CVpZTMOPnqBc3cGk';
+        const {detailAddress, ...body} = storeInfoState;
+        body.storeAddress = body.storeAddress + ' ' + detailAddress;
+        const requestOptions = {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-ACCESS-TOKEN': token, // X-ACCESS-TOKEN 헤더에 토큰 값을 추가합니다.
+            },
+            body: JSON.stringify(body),
+        };
+
+        fetch('https://www.insung.shop/jat/menus', requestOptions)
+            .then(response => response.json())
+            .then(data => {
+                console.log(data);
+            })
+            .catch(error => {
+                console.error(error);
+            });
+    };
+
     const testRedux = () =>{
+        sendDataToServer()
         navigate('/register/menu')
     }
 
@@ -390,7 +416,7 @@ function Regist1Component({setStoreInfo}) {
                 <Regist1Box2Styled>
                     <Regist1TextBoxStyled
                         placeholder="cu 편의점 울산 문수점"
-                        onChange={(event)=>handleStoreInfo({companyName:event.target.value})}/>
+                        onChange={(event)=>handleStoreInfo({storeName:event.target.value})}/>
                 </Regist1Box2Styled>
             </Regist1BoxContainer1Styled>
             <Regist1BoxContainer1Styled>
@@ -429,7 +455,7 @@ function Regist1Component({setStoreInfo}) {
                             }}
                             onClick={() => {
                                 setClickSectors("백화점")
-                                handleStoreInfo({businessType: "백화점"})
+                                handleStoreInfo({categoryIdx: 1})
                                 setIsHovered(false)
                             }}>
                             백화점
@@ -443,7 +469,7 @@ function Regist1Component({setStoreInfo}) {
                             }}
                             onClick={() => {
                                 setClickSectors("편의점")
-                                handleStoreInfo({businessType: "편의점"})
+                                handleStoreInfo({categoryIdx: 2})
                                 setIsHovered(false)
                             }}>
                             편의점
@@ -457,7 +483,7 @@ function Regist1Component({setStoreInfo}) {
                             }}
                             onClick={() => {
                                 setClickSectors("디저트")
-                                handleStoreInfo({businessType: "디저트"})
+                                handleStoreInfo({categoryIdx: 3})
                                 setIsHovered(false)
                             }}>
                             디저트
@@ -471,7 +497,7 @@ function Regist1Component({setStoreInfo}) {
                             }}
                             onClick={() => {
                                 setClickSectors("샐러드")
-                                handleStoreInfo({businessType: "샐러드"})
+                                handleStoreInfo({categoryIdx: 4})
                                 setIsHovered(false)
                             }}>
                             샐러드
@@ -485,7 +511,7 @@ function Regist1Component({setStoreInfo}) {
                             }}
                             onClick={() => {
                                 setClickSectors("초밥")
-                                handleStoreInfo({businessType: "초밥"})
+                                handleStoreInfo({categoryIdx: 5})
                                 setIsHovered(false)
                             }}>
                             초밥
@@ -499,7 +525,7 @@ function Regist1Component({setStoreInfo}) {
                             }}
                             onClick={() => {
                                 setClickSectors("카페")
-                                handleStoreInfo({businessType: "카페"})
+                                handleStoreInfo({categoryIdx: 6})
                                 setIsHovered(false)
                             }}>
                             카페
@@ -513,7 +539,7 @@ function Regist1Component({setStoreInfo}) {
                             }}
                             onClick={() => {
                                 setClickSectors("대형마트")
-                                handleStoreInfo({businessType: "대형마트"})
+                                handleStoreInfo({categoryIdx: 7})
                                 setIsHovered(false)
                             }}>
                             대형마트
@@ -529,7 +555,7 @@ function Regist1Component({setStoreInfo}) {
                 <Regist1Box2Styled>
                     <Regist1TextBoxStyled
                         placeholder="010-9778-8973"
-                        onChange={(event)=>handleStoreInfo({ownerPhoneNumber:event.target.value})}/>
+                        onChange={(event)=>handleStoreInfo({businessPhone:event.target.value.split('-')})}/>
                 </Regist1Box2Styled>
             </Regist1BoxContainer1Styled>
             <Regist1BoxContainer1Styled>
@@ -539,7 +565,7 @@ function Regist1Component({setStoreInfo}) {
                 <Regist1Box2Styled>
                     <Regist1TextBoxStyled
                         placeholder="sdfsdfsdfsd@gmail.com"
-                        onChange={(event)=>handleStoreInfo({ownerEmail:event.target.value})}/>
+                        onChange={(event)=>handleStoreInfo({businessEmail:event.target.value})}/>
                 </Regist1Box2Styled>
             </Regist1BoxContainer1Styled>
             <Regist1EmptyBoxStyled />
@@ -614,7 +640,10 @@ function Regist1Component({setStoreInfo}) {
                 <Regist1Box2Styled>
                     <Regist1TextBoxStyled
                         placeholder="08:00 ~ 12:00"
-                        onChange={(event)=>handleStoreInfo({operatingHours:event.target.value})}/>
+                        onChange={(event)=> {
+                            const [storeOpen, storeClose] = event.target.value.split('~').map(part => part.trim());
+                            handleStoreInfo({storeOpen: storeOpen, storeClose: storeClose});
+                        }}/>
                 </Regist1Box2Styled>
             </Regist1BoxContainer1Styled>
             <Regist1BoxContainer1Styled>
@@ -624,7 +653,7 @@ function Regist1Component({setStoreInfo}) {
                 <Regist1Box2Styled>
                     <Regist1TextBoxStyled
                         placeholder="홀수주 화요일, 공휴일"
-                        onChange={(event)=>handleStoreInfo({closingDays:event.target.value})}/>
+                        onChange={(event)=>handleStoreInfo({breakDay:event.target.value})}/>
                 </Regist1Box2Styled>
             </Regist1BoxContainer1Styled>
             <Regist1BoxContainer1Styled>
@@ -634,7 +663,7 @@ function Regist1Component({setStoreInfo}) {
                 <Regist1Box2Styled>
                     <Regist1TextBoxStyled
                         placeholder="055-1234-5678"
-                        onChange={(event)=>handleStoreInfo({storePhoneNumber:event.target.value})}/>
+                        onChange={(event)=>handleStoreInfo({storePhone:event.target.value})}/>
                 </Regist1Box2Styled>
             </Regist1BoxContainer1Styled>
             <Regist1BoxContainer1Styled>
@@ -647,7 +676,6 @@ function Regist1Component({setStoreInfo}) {
                             readOnly
                             value={postalCode1}
                             placeholder="050505"
-                            onChange={(event)=>handleStoreInfo({storeAddress:{postalCode: event.target.value}})}/>
                     </Regist1Box7Styled>
                     <Regist1Box9Styled onClick={getPostalCode}>
                         우편번호
@@ -657,12 +685,11 @@ function Regist1Component({setStoreInfo}) {
                             readOnly
                             value={postalCode2}
                             placeholder="울산 남구 대학로 33번길 18-4"
-                            onChange={(event)=>handleStoreInfo({storeAddress:{buildingAddress: event.target.value}})}/>
                     </Regist1Box7Styled>
                     <Regist1Box8Styled>
                         <Regist1TextBoxStyled
                             placeholder="2층"
-                            onChange={(event)=>handleStoreInfo({storeAddress:{detailAddress: event.target.value}})}/>
+                            onChange={(event)=>handleStoreInfo({detailAddress: event.target.value})}/>
                     </Regist1Box8Styled>
                 </Regist1Box6Styled>
             </Regist1BoxContainer1Styled>
