@@ -4,10 +4,6 @@
   padding: 30px;
 }
 
-.reviewWrite {
-  width: 740px;
-}
-
 .reviewUser {
   font-family: "Pretendard-Semibold";
   font-size: 18px;
@@ -54,6 +50,7 @@
 }
 
 .userReview {
+  width: 800px;
   line-height: 200%;
 }
 
@@ -80,50 +77,80 @@
   width: 100%;
   height: 95px;
   flex-shrink: 0;
-  background: #FFF;
+  background: #fff;
   padding: 26px 21px;
   box-sizing: border-box;
   font-size: 16px;
   border: 0px;
+  font-family: 'Pretendard-Regular';
 }
 
 .replyForm {
-    position: relative;
-    margin-top: 14px;
+  position: relative;
+  margin-top: 14px;
 }
 
 .submintBtn {
-    font-family: "Pretendard-Regular";
-    width: 64px;
-    height: 44px;
-    border: none;
-    background-color: #FFF;
-    font-size: 16px;
-    position: absolute;
-    top: 26px;
-    right: 5px;
+  font-family: "Pretendard-Regular";
+  width: 64px;
+  height: 44px;
+  border: none;
+  background-color: #fff;
+  font-size: 16px;
+  position: absolute;
+  top: 26px;
+  right: 5px;
 }
 
 .reply {
-    line-height: 200%;
-    position: relative;
+  line-height: 200%;
+  position: relative;
 }
 
 .replyModifyBtn {
-    position: absolute;
-    top: 0px;
-    right: 5px;
-    display: flex;
+  position: absolute;
+  top: 0px;
+  right: 5px;
+  display: flex;
 }
 
 .replyModifyBtn button {
-    font-family: "Pretendard-Regular";
-    width: 64px;
-    height: 44px; 
-    border: none;
-    background-color: #f5f3ff;
-    font-size: 16px;
-    display: flex;
+  font-family: "Pretendard-Regular";
+  width: 64px;
+  height: 44px;
+  border: none;
+  background-color: #f5f3ff;
+  font-size: 16px;
+  display: flex;
 
-    align-items: flex-start;
+  align-items: flex-start;
+}
+
+.review {
+  display: flex;
+  justify-content: space-between;
+}
+
+.reviewEtc {
+  display: flex;
+  width: 280px;
+  justify-content: space-evenly;
+}
+
+.reviewEtc img {
+  width: 150px;
+  height: 150px;
+}
+
+.reportBtn {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: rgba(0, 0, 0, 0.5);
+  font-size: 13px;
+}
+
+.reportBtn svg {
+  margin-bottom: 4px;
 }

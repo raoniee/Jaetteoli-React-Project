@@ -1,111 +1,113 @@
 .mainContainer {
-    padding-top: 72px;
-    padding-left: 203px;
-    width: 100%;
-    box-sizing: border-box;
-    font-family: 'Pretendard-Regular';
+  padding-top: 72px;
+  padding-left: 203px;
+  width: 100%;
+  box-sizing: border-box;
+  font-family: "Pretendard-Regular";
 }
 
 .reviewScope {
-    padding-top: 48px;
-    padding-bottom: 18px;
-    display: flex;
-    justify-content: center;
+  padding-top: 48px;
+  padding-bottom: 18px;
+  display: flex;
+  justify-content: center;
 }
 
 .reviewStar {
-    margin-right: 30px;
+  margin-right: 30px;
 }
 
 .reviewBar {
-    margin-left: 30px;
+  margin-left: 30px;
 }
 
 .reviewScopeHr {
-    margin-bottom: 0px;
-    border: none;
-    height: 1px;
-    background-color: rgba(0, 0, 0, 0.50);
+  margin-bottom: 0px;
+  border: none;
+  height: 1px;
+  background-color: rgba(0, 0, 0, 0.5);
 }
 
-.reviewStarHr{
-    margin: 0px;
-    border: none;
-    width: 1px;
-    background-color: rgba(0, 0, 0, 0.50);
+.reviewStarHr {
+  margin: 0px;
+  border: none;
+  width: 1px;
+  background-color: rgba(0, 0, 0, 0.5);
 }
 
 .numRating {
-    font-size: 58px;
-    margin-bottom: 18px;
+  font-size: 58px;
+  margin-bottom: 18px;
 }
 
 .starRating {
-    position: relative;
-    width: 250px;
-    height: 43px;
-    margin-bottom: 22px;
+  position: relative;
+  width: 250px;
+  height: 43px;
+  margin-bottom: 22px;
 }
 
 .starRatingDown {
-    height: 43px;
-    width: 250px;
+  height: 43px;
+  width: 250px;
 }
 
 .starRatingDown img {
-    margin: 0px 4px;
-    width: 42px;
-    height: 40px;
+  margin: 0px 4px;
+  width: 42px;
+  height: 40px;
 }
 
 .starRatingUp {
-    height: 43px;
-    display: flex;
-    position: absolute;
-    overflow: hidden;
-    top: 0;
+  height: 43px;
+  display: flex;
+  position: absolute;
+  overflow: hidden;
+  top: 0;
 }
 
 .starRatingUp img {
-    margin: 0px 4px;
-    width: 42px;
-    height: 40px;
+  margin: 0px 4px;
+  width: 42px;
+  height: 40px;
 }
 
 .barRating {
-    display: flex;
-    width: 644px;
-    justify-content: space-between;
-    margin-bottom: 14px;
+  display: flex;
+  width: 644px;
+  justify-content: space-between;
+  margin-bottom: 14px;
 }
 
 .barRatingStar {
-    width: 51px;
+  width: 51px;
 }
 
 .barRatingContainer {
-    position: relative;
-    width: 504px;
-    height: 25px;
+  position: relative;
+  width: 504px;
+  height: 25px;
 }
 
 .barRatingDown {
-    width: 504px;
-    height: 25px;
-    border: 1px solid rgba(0, 0, 0, 0.50);;
+  width: 504px;
+  height: 25px;
+  border-radius: 5px;
+  border: 1px solid rgba(0, 0, 0, 0.5);
+  background: #fff;
 }
 
 .barRatingUp {
-    width: 504px;
-    height: 25px;
-    position: absolute;
-    overflow: hidden;
-    top: 0;
-    left: 0;
-    border: 1px solid rgba(0, 0, 0, 0.50);;
-    background-color: #604EF8;
+  width: 504px;
+  height: 25px;
+  position: absolute;
+  overflow: hidden;
+  top: 0;
+  left: 0;
+  border-radius: 5px;
+  background-color: #604ef8;
 }
 
 .barRatingPercent {
-    width: 30px;
+  width: 30px;
 }
