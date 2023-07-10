@@ -1,3 +1,4 @@
+
 import styled, {keyframes} from "styled-components";
 import { ReactComponent as SelectButton} from "../../assets/images/Vector 30.svg";
 import {useRef, useState} from "react";
@@ -562,7 +563,6 @@ function Regist1Component({setStoreInfo}) {
             }
             return;
         }
-
 
         sendDataToServer()
         navigate('/register/menu')
