@@ -3,11 +3,11 @@ import style from "./AgreeAlert.module.css";
 import { ReactComponent as Close } from "../../assets/images/close.svg";
 import Modal from "../main/UI/Modal";
 
-export default function AgreeAlert({ individual, onClick, onClose }) {
+export default function AgreeAlert({ value, individual, onClick, onClose }) {
   const [law, setLaw] = useState([]);
 
   useEffect(() => {
-    fetch(`data/agree_alert0.json`)
+    fetch(`/data/agree_alert0.json`)
       .then((res) => res.json())
       .then((data) => {
         console.log("데이터를 받아옴");
@@ -16,7 +16,7 @@ export default function AgreeAlert({ individual, onClick, onClose }) {
     return () => {
       console.log("clean");
     };
-  }, true);
+  }, [value]);
 
   return (
     <Modal onClose={onClose}>
