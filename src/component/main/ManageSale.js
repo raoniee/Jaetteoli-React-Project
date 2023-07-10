@@ -130,7 +130,7 @@ const ManageSale = () => {
         percentage: ((data.value / total) * 100).toFixed(2),
     }));
 
-    const COLORS = ['#604EF8', '#8377E9', '#9F93EA', '#DDD1EE'];
+    const COLORS = ['#8884d8', '#9F93EA', '#82ca9d', '#C3E8DD', '#DDD1EE'];
 
     return (
         <div>
@@ -217,11 +217,11 @@ const ManageSale = () => {
                                     <Legend />
                                     <Bar dataKey="재주문" stackId="a" fill="#8884d8" />
                                     <Bar dataKey="신규주문" stackId="a" fill="#82ca9d" />
-                                    <Bar dataKey="주소없음" stackId="a" fill="#F2F4F8" />
+                                    <Bar dataKey="주소없음" stackId="a" fill="#DDD1EE" />
                                 </BarChart>
                             </ResponsiveContainer>
                         </div>
-                        <PieChart width={260} height={349}>
+                        <PieChart width={260} height={300}>
                             <Pie
                                 data={pieData}
                                 cx={120}
@@ -239,8 +239,14 @@ const ManageSale = () => {
                         </PieChart>
                         <div className={style.percentage}>
                             {pieDataWithPercentage.map((entry, index) => (
-                                <div key={`text-${index}`}>
-                                    {`${entry.name} ${entry.percentage}%`}
+                                <div key={`text-${index}`} className={style.percentageContainer}>
+                                    <div className={style.percentageItem}>
+                                        <div className={style.percentageItemName}>
+                                            <div style={{ width: '24px', height: '14px', backgroundColor: COLORS[index % COLORS.length] }}></div>
+                                            <div>{entry.name}</div>
+                                        </div>
+                                        <div>{entry.percentage}%</div>
+                                    </div>
                                 </div>
                             ))}
                         </div>
