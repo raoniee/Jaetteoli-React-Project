@@ -251,7 +251,7 @@ function Regist3Component({customStore, setOriginInfo}) {
     }
 
     const sendDataToServer = () => {
-        const token = auth.jwt;
+        const token = auth.value.jwt;
 
         const requestOptions = {
             method: 'POST',

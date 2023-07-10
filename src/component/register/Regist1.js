@@ -1,9 +1,11 @@
-import styled from "styled-components";
+
+import styled, {keyframes} from "styled-components";
 import { ReactComponent as SelectButton} from "../../assets/images/Vector 30.svg";
 import {useRef, useState} from "react";
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import RegistContainer from "./RegistContainer";
+import AlarmModal from "./AlarmModal";
 
 export default function Regist1(){
     return(
@@ -229,7 +231,9 @@ const Regist1Submit = styled.div`
     letter-spacing: 0em;
     text-align: center;
     color: rgba(255, 255, 255, 1);
-
+  &:hover{
+    cursor: pointer;
+  }
 `
 
 const Regist1SelectBoxStyled = styled.div`
@@ -289,15 +293,32 @@ function Regist1Component({setStoreInfo}) {
     const fileInput5 = useRef();
     const navigate = useNavigate();
     const auth = useSelector((state) => state.auth)
+    const [showAlarm, setShowAlarm] = useState(false);
+    const [showAlarmBar, setShowAlarmBar] = useState(false);
+    const [alarmTitle, setAlarmTitle] = useState("");
+    const [alarmText, setAlarmText] = useState("");
+
+    const handleAlarm = () => {
+        if (!showAlarmBar){
+            setShowAlarm(true);
+            setShowAlarmBar(true);
+            setTimeout(() => {
+                setShowAlarm(false);
+            }, 4500);
+            setTimeout(() => {
+                setShowAlarmBar(false);
+            }, 5000);
+        }
+    };
 
     const initialStoreInfo = {
         storeName: '',
-        categoryIdx: '',
+        categoryIdx: 0,
         businessPhone: '',
         businessEmail: '',
-        businessCertificateUrl: '',
-        sellerCertificateUrl: '',
-        copyAccountUrl: '',
+        businessCertificateFile: '',
+        sellerCertificateFile: '',
+        copyAccountFile: '',
         breakDay: '',
         storeOpen: '',
         storeClose: '',
@@ -307,8 +328,8 @@ function Regist1Component({setStoreInfo}) {
         town: '',
         storeAddress: '',
         detailAddress: '',
-        storeLogoUrl: '',
-        signUrl: ''
+        storeLogoFile: '',
+        signFile: ''
     }
     const [storeInfoState, setStoreInfoState] = useState(initialStoreInfo);
 
@@ -343,11 +364,11 @@ function Regist1Component({setStoreInfo}) {
                     const imageUrl = e.target.result;
                     previewImageSetters[number](imageUrl);
                     switch (number){
-                        case 0: handleStoreInfo({businessCertificateUrl:imageUrl}); break
-                        case 1: handleStoreInfo({sellerCertificateUrl:imageUrl}); break
-                        case 2: handleStoreInfo({copyAccountUrl:imageUrl}); break
-                        case 3: handleStoreInfo({storeLogoUrl:imageUrl}); break
-                        case 4: handleStoreInfo({signUrl:imageUrl}); break
+                        case 0: handleStoreInfo({businessCertificateFile:selectedFile}); break
+                        case 1: handleStoreInfo({sellerCertificateFile:selectedFile}); break
+                        case 2: handleStoreInfo({copyAccountFile:selectedFile}); break
+                        case 3: handleStoreInfo({storeLogoFile:selectedFile}); break
+                        case 4: handleStoreInfo({signFile:selectedFile}); break
                     }
                 };
 
@@ -373,19 +394,23 @@ function Regist1Component({setStoreInfo}) {
     }
 
     const sendDataToServer = () => {
-        const token = auth.jwt;
+        const token = auth.value.jwt;
         const {detailAddress, ...body} = storeInfoState;
         body.storeAddress = body.storeAddress + ' ' + detailAddress;
+        const formData = new FormData();
+        for (const key in body) {
+            formData.append(key, body[key]);
+        }
         const requestOptions = {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
                 'X-ACCESS-TOKEN': token, // X-ACCESS-TOKEN 헤더에 토큰 값을 추가합니다.
             },
-            body: JSON.stringify(body),
+            body: formData
         };
 
-        fetch('https://www.insung.shop/jat/menus', requestOptions)
+        fetch('https://www.insung.shop/jat/stores', requestOptions)
             .then(response => response.json())
             .then(data => {
                 console.log(data);
@@ -395,7 +420,150 @@ function Regist1Component({setStoreInfo}) {
             });
     };
 
-    const testRedux = () =>{
+    const testRedux = () => {
+        if (storeInfoState.storeName === ""){
+            if (!showAlarmBar){
+                setAlarmTitle("오류!")
+                setAlarmText("기업명을 입력해주세요.")
+                handleAlarm();
+            }
+            return;
+        }
+        if (storeInfoState.categoryIdx === 0){
+            if (!showAlarmBar){
+                setAlarmTitle("오류!")
+                setAlarmText("가게 업종을 입력해주세요.")
+                handleAlarm();
+            }
+            return;
+        }
+
+        if (storeInfoState.businessPhone === ""){
+            if (!showAlarmBar){
+                setAlarmTitle("오류!")
+                setAlarmText("사업주 휴대번호를 입력해주세요.")
+                handleAlarm();
+            }
+            return;
+        }
+        else {
+            const phoneNumberRegex = /^\d{10,11}$/;
+            console.log(phoneNumberRegex.test(storeInfoState.businessPhone))
+            if (!phoneNumberRegex.test(storeInfoState.businessPhone)){
+                if (!showAlarmBar){
+                    setAlarmTitle("오류!")
+                    setAlarmText("사업주 휴대번호를 양식에 맞춰 입력해주세요.")
+                    handleAlarm();
+                }
+                return;
+            }
+        }
+
+        if (storeInfoState.businessEmail === ""){
+            if (!showAlarmBar){
+                setAlarmTitle("오류!")
+                setAlarmText("사업주 이메일을 입력해주세요.")
+                handleAlarm();
+            }
+            return;
+        } else {
+            const emailRegex = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/;
+            if (!emailRegex.test(storeInfoState.businessEmail)) {
+                if (!showAlarmBar){
+                    setAlarmTitle("오류!");
+                    setAlarmText("올바른 이메일 양식으로 입력해주세요.");
+                    handleAlarm();
+                }
+                return;
+            }
+        }
+
+        if (storeInfoState.businessCertificateFile === ""){
+            if (!showAlarmBar){
+                setAlarmTitle("오류!")
+                setAlarmText("사업자 등록증을 등록해주세요.")
+                handleAlarm();
+            }
+            return;
+        }
+        if (storeInfoState.sellerCertificateFile === ""){
+            if (!showAlarmBar){
+                setAlarmTitle("오류!")
+                setAlarmText("영업자 등록증을 등록해주세요.")
+                handleAlarm();
+            }
+            return;
+        }
+        if (storeInfoState.copyAccountFile === ""){
+            if (!showAlarmBar){
+                setAlarmTitle("오류!")
+                setAlarmText("통장 사본을 등록해주세요.")
+                handleAlarm();
+            }
+            return;
+        }
+        if (storeInfoState.storeOpen === ""){
+            if (!showAlarmBar){
+                setAlarmTitle("오류!")
+                setAlarmText("운영시간을 입력해주세요.")
+                handleAlarm();
+            }
+            return;
+        }
+        if (storeInfoState.breakDay === ""){
+            if (!showAlarmBar){
+                setAlarmTitle("오류!")
+                setAlarmText("휴무일을 입력해주세요.")
+                handleAlarm();
+            }
+            return;
+        }
+        if (storeInfoState.storePhone === ""){
+            if (!showAlarmBar){
+                setAlarmTitle("오류!")
+                setAlarmText("가게 전화번호를 입력해주세요.")
+                handleAlarm();
+            }
+            return;
+        }
+        else {
+            const phoneNumberRegex = /^\d{3}-\d{4}-\d{4}$/;
+            console.log(phoneNumberRegex.test(storeInfoState.storePhone))
+            if (!phoneNumberRegex.test(storeInfoState.storePhone)){
+                if (!showAlarmBar){
+                    setAlarmTitle("오류!")
+                    setAlarmText("가게 전화번호를 양식에 맞춰 입력해주세요.")
+                    handleAlarm();
+                }
+                return;
+            }
+        }
+
+        if (storeInfoState.city === "" || storeInfoState.local === "" || storeInfoState.town === "" || storeInfoState.detailAddress === ""){
+            if (!showAlarmBar){
+                setAlarmTitle("오류!")
+                setAlarmText("가게 주소를 입력해주세요.")
+                handleAlarm();
+            }
+            return;
+        }
+        if (storeInfoState.storeLogoFile === ""){
+            if (!showAlarmBar){
+                setAlarmTitle("오류!")
+                setAlarmText("가게 로고를 등록주세요.")
+                handleAlarm();
+            }
+            return;
+        }
+        if (storeInfoState.signFile === ""){
+            if (!showAlarmBar){
+                setAlarmTitle("오류!")
+                setAlarmText("매장간판 사진을 등록해주세요.")
+                handleAlarm();
+            }
+            return;
+        }
+
         sendDataToServer()
         navigate('/register/menu')
     }
@@ -404,6 +572,7 @@ function Regist1Component({setStoreInfo}) {
 
     return (
         <Regist1Styled>
+            <AlarmModal showAlarm={showAlarm} showAlarmBar={showAlarmBar} title={alarmTitle} text={alarmText} />
             <Regist1BIStyled>
                 기본정보
             </Regist1BIStyled>
@@ -557,7 +726,7 @@ function Regist1Component({setStoreInfo}) {
                 <Regist1Box2Styled>
                     <Regist1TextBoxStyled
                         placeholder="010-9778-8973"
-                        onChange={(event)=>handleStoreInfo({businessPhone:event.target.value.split('-')})}/>
+                        onChange={(event)=>handleStoreInfo({businessPhone:event.target.value.split('-').join('')})}/>
                 </Regist1Box2Styled>
             </Regist1BoxContainer1Styled>
             <Regist1BoxContainer1Styled>

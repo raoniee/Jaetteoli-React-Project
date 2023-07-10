@@ -2,7 +2,7 @@ import styled from "styled-components";
 import {useRef, useState} from "react";
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { registMenuInfo } from './redux/menuRegisteringSlice';
+import { registMenuInfo } from '../../store/menuRegisteringSlice';
 import RegistContainer from "./RegistContainer";
 
 
