@@ -14,7 +14,7 @@ export default function AgreeAlert({ individual, onClick, onClose }) {
         setLaw(data);
       });
     return () => {
-      "clean";
+      console.log("clean");
     };
   }, true);
 
