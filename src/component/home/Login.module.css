@@ -6,11 +6,12 @@
 }
 
 button {
-    width: 114px;
+    width: 123px;
     height: 48px;
     border: 2px solid #604EF8;
     font-family: 'Pretendard-Regular';
     font-size: 18px;
+    border-radius: 5px;
 }
 
 .login {
