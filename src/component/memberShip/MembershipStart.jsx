@@ -34,6 +34,7 @@ export default function MembershipStart() {
     <div className={style.container}>
       {click && (
         <AgreeAlert
+          value={checked}
           onClose={handleClose}
           individual={handlechecked}
           onClick={handleClose}
@@ -73,6 +74,7 @@ export default function MembershipStart() {
               <AgreeList
                 checked={checked}
                 arrow={true}
+                more={click}
                 onClick={handleClick}
                 desc="[필수] 개인정보 수집이용 동의"
               />
@@ -84,11 +86,15 @@ export default function MembershipStart() {
             <ul className={style.top}>
               <AgreeList
                 checked={checked}
+                more={click}
+                onClick={handleClick}
                 desc="[선택] 서비스/이벤트 정보 제공을 위한 개인정보 수집 이용 동의"
               />
               <AgreeList
                 checked={checked}
                 arrow={true}
+                more={click}
+                onClick={handleClick}
                 desc="[선택] 광고성 정보 수신동의"
               />
             </ul>
