@@ -18,8 +18,10 @@ const ReviewItem = (props) => {
 
     const submintBtnHandler = (event) => {
         event.preventDefault();
-        setHasReply(true)
-        setIsFormVisible(false)
+        if (reply != '') {
+            setHasReply(true)
+            setIsFormVisible(false)
+        }
     }
 
     const replyInputHandler = (event) => {
@@ -64,18 +66,18 @@ const ReviewItem = (props) => {
                 <div className={style.reviewEtc}>
                     <img src={reviewImg} />
                     <div className={style.reportBtn}>
-                    <svg width="23" height="23" viewBox="0 0 23 23" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <g id="report_problem_black_24dp 1" clip-path="url(#clip0_359_8042)">
-                            <path id="Vector" d="M0.958374 20.1248H22.0417L11.5 1.9165L0.958374 20.1248ZM12.4584 17.2498H10.5417V15.3332H12.4584V17.2498ZM12.4584 13.4165H10.5417V9.58317H12.4584V13.4165Z" fill="#929292" fill-opacity="0.5" />
-                        </g>
-                        <defs>
-                            <clipPath id="clip0_359_8042">
-                                <rect width="23" height="23" fill="white" />
-                            </clipPath>
-                        </defs>
-                    </svg>
-                    <div>신고하기</div>
-                </div>
+                        <svg width="23" height="23" viewBox="0 0 23 23" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <g id="report_problem_black_24dp 1" clip-path="url(#clip0_359_8042)">
+                                <path id="Vector" d="M0.958374 20.1248H22.0417L11.5 1.9165L0.958374 20.1248ZM12.4584 17.2498H10.5417V15.3332H12.4584V17.2498ZM12.4584 13.4165H10.5417V9.58317H12.4584V13.4165Z" fill="#929292" fill-opacity="0.5" />
+                            </g>
+                            <defs>
+                                <clipPath id="clip0_359_8042">
+                                    <rect width="23" height="23" fill="white" />
+                                </clipPath>
+                            </defs>
+                        </svg>
+                        <div>신고하기</div>
+                    </div>
                 </div>
             </div>
             <hr className={style.reviewItemHr} />
@@ -86,7 +88,7 @@ const ReviewItem = (props) => {
                     <button onClick={submintBtnHandler} className={style.submintBtn}>확인</button>
                 </form>}
                 {hasReply && <div className={style.reply}>
-                    <div>{reply}</div>
+                    <div className={style.replyText}>{reply}</div>
                     <div className={style.replyModifyBtn}>
                         <button onClick={addReplyBtnHandler}>수정</button>
                         <button onClick={deleteReplyBtnHandler}>삭제</button>

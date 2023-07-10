@@ -52,6 +52,7 @@
 .userReview {
   width: 800px;
   line-height: 200%;
+  white-space: pre-wrap;
 }
 
 .reviewItemHr {
@@ -66,6 +67,7 @@
   height: 38px;
   flex-shrink: 0;
   border: 2px solid #604ef8;
+  border-radius: 5px;
   background: #fff;
   font-family: "Pretendard-Regular";
   font-size: 14px;
@@ -117,13 +119,15 @@
 .replyModifyBtn button {
   font-family: "Pretendard-Regular";
   width: 64px;
-  height: 44px;
+  height: 31px;
   border: none;
   background-color: #f5f3ff;
   font-size: 16px;
   display: flex;
-
   align-items: flex-start;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .review {
@@ -140,6 +144,10 @@
 .reviewEtc img {
   width: 150px;
   height: 150px;
+}
+
+.replyText {
+  width: 90%;
 }
 
 .reportBtn {
