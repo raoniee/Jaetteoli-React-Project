@@ -3,7 +3,7 @@ import style from './Header.module.css'
 import logo from '../../assets/images/logo.png'
 import { Link } from 'react-router-dom';
 
-const Header = () => {
+const Header = (props) => {
     return (
         <header>
             <Link to='/'>
@@ -11,7 +11,7 @@ const Header = () => {
                     <img className={style.logoImg} src={logo}></img>
                 </div>
             </Link>
-            <Nav />
+            <Nav login={props.login} />
         </header>
     )
 }
