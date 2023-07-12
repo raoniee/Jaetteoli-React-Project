@@ -66,7 +66,7 @@ export default function LoginStart() {
     console.log(loginSuccess["first_login"]);
     console.log(loginSuccess["menu_register"]);
 
-    console.log(`쿠키 jwt 확인 : ${getCookieToken}`)
+    console.log(`쿠키 jwt 확인 : ${getCookieToken()}`)
     if ( //최초 회원가입시 가게 정보를 기입해야함
       loginSuccess["first_login"] === 1 &&
       loginSuccess["menu_register"] === 1
