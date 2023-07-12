@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router";
-import { getCookieToken } from "../../store/common/Cookie";
+import { getCookieToken, removeCookieToken } from "../../store/common/Cookie";
 import style from "./Nav.module.css";
 
 const Nav = (props) => {
@@ -12,8 +12,13 @@ const Nav = (props) => {
     navigate('/login')
   }
 
+  const logoutHandler = () => {
+    removeCookieToken();
+    navigate('/')
+  }
+
   if(jwt){
-    return <button className={style.nav_btn}>로그아웃</button>;
+    return <button className={style.nav_btn} onClick={logoutHandler}>로그아웃</button>;
   }
 
   return (
