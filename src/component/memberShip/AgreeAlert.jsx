@@ -3,8 +3,20 @@ import style from "./AgreeAlert.module.css";
 import { ReactComponent as Close } from "../../assets/images/close.svg";
 import Modal from "../main/UI/Modal";
 
-export default function AgreeAlert({ value, individual, onClick, onClose }) {
+export default function AgreeAlert({ value, individual, onClose, target }) {
   const [law, setLaw] = useState([]);
+
+  const handleAgree = () => {
+    console.log(target);
+    if (target === "selectiveTwo") {
+      individual('isSns');
+      individual('isEmail');
+      individual('isPhone');
+    } else {
+      individual(target);
+    }
+    onClose();
+  };
 
   useEffect(() => {
     fetch(`/data/agree_alert0.json`)
@@ -29,7 +41,7 @@ export default function AgreeAlert({ value, individual, onClick, onClose }) {
             <Close
               className={style.close}
               onClick={() => {
-                onClick();
+                onClose();
               }}
             />
           </div>
@@ -46,14 +58,7 @@ export default function AgreeAlert({ value, individual, onClick, onClose }) {
             ))}
           </div>
           <div className={style.bottom}>
-            <button
-              onClick={() => {
-                individual();
-                onClick();
-              }}
-            >
-              동의합니다.
-            </button>
+            <button onClick={handleAgree}>동의합니다.</button>
           </div>
         </div>
       </div>
