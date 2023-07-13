@@ -2,11 +2,20 @@ import React from "react";
 import Footer from "../footer/Footer";
 import Header from "../header/Header";
 import style from "./IDShow.module.css";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 export default function IDShow() {
 
   const location = useLocation();
+  const navigate = useNavigate();
+
+  const moveLoginHandler = () => {
+    navigate('/login')
+  }
+
+  const moveForgotPasswordHandler = () => {
+    navigate('/help')
+  }
 
   return (
     <div className={style.container}>
@@ -24,8 +33,8 @@ export default function IDShow() {
           <span className={style.result_id}>{location.state.uid}</span>
           <p className={style.result_date}>{location.state.signUpDate} 가입</p>
         </div>
-        <button className={style.bluebutton}>로그인하러 가기</button>
-        <p className={style.passwordlost}>비밀번호를 잊으셨나요?</p>
+        <button className={style.bluebutton} onClick={moveLoginHandler}>로그인하러 가기</button>
+        <p className={style.passwordlost} onClick={moveForgotPasswordHandler}>비밀번호를 잊으셨나요?</p>
       </div>
       <Footer />
     </div>
