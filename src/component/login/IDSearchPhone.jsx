@@ -1,21 +1,28 @@
 import React, { useState, useEffect } from "react";
 import style from "./IDSearchPhone.module.css";
 
-export default function IDSearchPhone(props) {
+export default function IDSearchPhone({ remainHandler, resultPhoneNumHandler }) {
   const [remainingTime, setRemainingTime] = useState(180); // 초기 제한 시간을 3분(180초)으로 설정
+  const [certificationNum, setCertificationNum] = useState("");
+
+  const handlePhoneNumberChange = (e) => {
+    const inputPhoneNumber = e.target.value;
+    setCertificationNum(inputPhoneNumber);
+    resultPhoneNumHandler(inputPhoneNumber);
+  };
 
   useEffect(() => {
-    if (remainingTime >= 0) {
+    if (remainingTime > 0) {
       const timer = setTimeout(() => {
-        setRemainingTime(remainingTime - 1); // 1초씩 감소
+        setRemainingTime((prevTime) => prevTime - 1); // 1초씩 감소
       }, 1000);
 
       return () => clearTimeout(timer); // 컴포넌트 언마운트 시 타이머 정리
-    }else {
+    } else {
       alert("인증 시간이 만료되었습니다. 인증을 다시 진행해주세요.");
-      props.remainHandler();
+      remainHandler();
     }
-  }, [remainingTime, props]);
+  }, [remainingTime, remainHandler]);
 
   return (
     <>
@@ -26,6 +33,8 @@ export default function IDSearchPhone(props) {
             type="text"
             placeholder="인증번호 입력"
             className={style.certification}
+            value={certificationNum}
+            onChange={handlePhoneNumberChange}
           />
           <span className={style.remainingTime}>
             {Math.floor(remainingTime / 60)}분 {remainingTime % 60}초

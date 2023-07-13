@@ -2,8 +2,12 @@ import React from "react";
 import Footer from "../footer/Footer";
 import Header from "../header/Header";
 import style from "./IDShow.module.css";
+import { useLocation } from "react-router-dom";
 
 export default function IDShow() {
+
+  const location = useLocation();
+
   return (
     <div className={style.container}>
       <Header />
@@ -17,8 +21,8 @@ export default function IDShow() {
             인증한 휴대폰 번호로 가입한 아이디입니다. 아이디 확인 후 로그인을
             진행해 주세요.
           </p>
-          <span className={style.result_id}>jungsh4064</span>
-          <p className={style.result_date}>2023. 06. 07. 가입</p>
+          <span className={style.result_id}>{location.state.uid}</span>
+          <p className={style.result_date}>{location.state.signUpDate} 가입</p>
         </div>
         <button className={style.bluebutton}>로그인하러 가기</button>
         <p className={style.passwordlost}>비밀번호를 잊으셨나요?</p>
