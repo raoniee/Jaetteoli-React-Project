@@ -6,9 +6,14 @@ import { ReactComponent as Arrow } from "../../assets/images/arrow.svg";
 import AgreeAlert from "./AgreeAlert.jsx";
 import Header from "../header/Header";
 import Footer from "../footer/Footer";
+import { Link, useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { SET_AGREEMENT } from "../../store/membership";
 
 // AgreeList 컴포넌트는 밑에 있어요!
 export default function MembershipStart() {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [target, setTartget] = useState(null);
   const [click, setClick] = useState(false);
   const [allAgree, setAllAgree] = useState(false); //전체동의
@@ -37,7 +42,7 @@ export default function MembershipStart() {
   };
 
   const stateHandler = (name) => {
-    console.log(agreements[name])
+    console.log(agreements[name]);
     setAgreements((prev) => ({
       ...prev,
       [name]: !prev[name],
@@ -56,8 +61,8 @@ export default function MembershipStart() {
   };
 
   const handleIndividualAgree = (name) => {
-    if(name === "selectiveTwo"){
-      return
+    if (name === "selectiveTwo") {
+      return;
     }
     setAgreements((prev) => ({
       ...prev,
@@ -66,37 +71,56 @@ export default function MembershipStart() {
   };
 
   useEffect(() => {
-    // setTwoState(agreements.isSns && agreements.isPhone && agreements.isEmail);
-    if(agreements.isSns && agreements.isPhone && agreements.isEmail){
-      setTwoState(true)
-      if(agreements.mandatoryOne && agreements.mandatoryTwo && agreements.selectiveOne && twoState){
-        setAllAgree(true)
-      }else{
-        setAllAgree(false)
+    if (agreements.isSns && agreements.isPhone && agreements.isEmail) {
+      setTwoState(true);
+      if (
+        agreements.mandatoryOne &&
+        agreements.mandatoryTwo &&
+        agreements.selectiveOne &&
+        twoState
+      ) {
+        setAllAgree(true);
+      } else {
+        setAllAgree(false);
       }
-    }else{
-      setTwoState(false)
-      setAllAgree(false)
+    } else {
+      setTwoState(false);
+      setAllAgree(false);
     }
   }, [agreements, twoState, allAgree]);
 
   const twoAllChangeHandler = (type) => {
-    if(type === "all"){
+    if (type === "all") {
       setAgreements((prev) => ({
         ...prev,
-        isSns:true,
-        isEmail:true,
-        isPhone:true,
-      }))
-    }else{
+        isSns: true,
+        isEmail: true,
+        isPhone: true,
+      }));
+    } else {
       setAgreements((prev) => ({
         ...prev,
-        isSns:false,
-        isEmail:false,
-        isPhone:false,
-      }))
+        isSns: false,
+        isEmail: false,
+        isPhone: false,
+      }));
     }
-  }
+  };
+
+  const moveMembershipPhoneHandler = () => {
+    dispatch(
+      SET_AGREEMENT({
+        agreements: agreements,
+        uid: null,
+        name: null,
+        birthday: null,
+        phone: null,
+        password: null,
+        email: null,
+      })
+    );
+    navigate("/signup/phone");
+  };
 
   return (
     <div className={style.container}>
@@ -207,9 +231,12 @@ export default function MembershipStart() {
             </p>
           </div>
 
-          <a className={style.phone_agree} href="">
+          <button
+            className={style.phone_agree}
+            onClick={moveMembershipPhoneHandler}
+          >
             <p>휴대폰으로 인증하기</p>
-          </a>
+          </button>
         </div>
       </div>
       <Footer />
@@ -225,7 +252,7 @@ function AgreeList({
   param,
   stateHandler,
   state,
-  twoAllChangeHandler
+  twoAllChangeHandler,
 }) {
   const handleClick = () => {
     if (desc === "SMS" || desc === "이메일" || desc === "전화") {
@@ -240,13 +267,13 @@ function AgreeList({
 
   const changeTwoHandler = (type) => {
     twoAllChangeHandler(type);
-  }
+  };
 
   if (param === "selectiveTwo") {
     if (state["isSns"] && state["isEmail"] && state["isPhone"]) {
       return (
         <li>
-          <CheckOn onClick={() => changeTwoHandler('none')} />
+          <CheckOn onClick={() => changeTwoHandler("none")} />
           <p onClick={handleClick}>{desc}</p>
           {arrow && <Arrow />}
         </li>
@@ -254,7 +281,7 @@ function AgreeList({
     }
     return (
       <li>
-        <CheckOff onClick={() => changeTwoHandler('all')} />
+        <CheckOff onClick={() => changeTwoHandler("all")} />
         <p onClick={handleClick}>{desc}</p>
         {arrow && <Arrow />}
       </li>
@@ -263,15 +290,10 @@ function AgreeList({
 
   return (
     <li>
-      {state[param] && (
-        <CheckOn onClick={() => changeStateHandler(param)} />
-      )}
-      {!state[param] && (
-        <CheckOff onClick={() => changeStateHandler(param)} />
-      )}
+      {state[param] && <CheckOn onClick={() => changeStateHandler(param)} />}
+      {!state[param] && <CheckOff onClick={() => changeStateHandler(param)} />}
       <p onClick={handleClick}>{desc}</p>
       {arrow && <Arrow />}
     </li>
   );
 }
-
