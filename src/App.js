@@ -22,11 +22,13 @@ import Regist3 from "./component/register/Regist3";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import SideBar from "./component/sidebar/SideBar";
 import Home from "./component/home/Home";
+import MembershipPhone from "./component/memberShip/MembershipPhone";
 
 const router = createBrowserRouter([
   { path: "/", element: <Home /> },
   // Membership
   { path: "/signup/agree", element: <MembershipStart /> },
+  { path: "/signup/phone", element: <MembershipPhone /> },
   { path: "/signup/begin", element: <MembershipInformation /> },
   { path: "/signup/complete", element: <MembershipEnd /> },
   // login
