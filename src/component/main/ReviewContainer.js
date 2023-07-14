@@ -2,6 +2,10 @@ import style from './ReviewContainer.module.css'
 import ReviewItem from './ReviewItem';
 
 const ReviewContainer = (props) => {
+    if (!props.reviews) {
+        return;
+    }
+
     return (
         <div className={style.reviewContainer}>
             {props.reviews.map((review, index) => (

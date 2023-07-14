@@ -2,7 +2,6 @@ import style from './ReviewItem.module.css'
 import starRatingUp from '../../assets/images/star_rating_up.png'
 import starRatingDown from '../../assets/images/star_rating_down.png'
 import { useState } from 'react'
-import reviewImg from '../../assets/images/review_img.jpg'
 
 const ReviewItem = (props) => {
     const [hasReply, setHasReply] = useState(false)
@@ -64,7 +63,7 @@ const ReviewItem = (props) => {
                     <div className={style.userReview}>{props.review}</div>
                 </div>
                 <div className={style.reviewEtc}>
-                    <img src={reviewImg} />
+                    {props.imgUrl && <img src={props.imgUrl} />}
                     <div className={style.reportBtn}>
                         <svg width="23" height="23" viewBox="0 0 23 23" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <g id="report_problem_black_24dp 1" clip-path="url(#clip0_359_8042)">
