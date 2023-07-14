@@ -6,7 +6,6 @@ const Nav = (props) => {
 
   const navigate = useNavigate()
   const jwt = getCookieToken();
-  console.log(jwt)
 
   const moveLoginHandler = () => {
     navigate('/login')
