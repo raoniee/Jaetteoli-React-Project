@@ -6,7 +6,7 @@ import { ReactComponent as Arrow } from "../../assets/images/arrow.svg";
 import AgreeAlert from "./AgreeAlert.jsx";
 import Header from "../header/Header";
 import Footer from "../footer/Footer";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { SET_AGREEMENT } from "../../store/membership";
 
