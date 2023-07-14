@@ -53,7 +53,6 @@ const OrderItems = (props) => {
   };
 
   const receiveOrderHandler = async (orderIdx) => {
-
     const requestBody = {
       orderIdx: orderIdx,
       status: "P",
@@ -62,6 +61,39 @@ const OrderItems = (props) => {
       // 주문 접수 API 호출
       const response = await fetch(
         "https://www.insung.shop/jat/orders/receive",
+        {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+            "X-ACCESS-TOKEN": getCookieToken(),
+          },
+          body: JSON.stringify(requestBody),
+        }
+      );
+      const data = await response.json();
+      if (!data.isSuccess) {
+        console.log(data.message);
+        return;
+      }
+      console.log(data);
+      // 목록 업데이트
+      const updatedReceptionList = receptionList.filter(
+        (reception) => reception.orderIdx !== orderIdx
+      );
+      setReceptionList(updatedReceptionList);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const completePickupHandler = async (orderIdx) => {
+    const requestBody = {
+      orderIdx: orderIdx,
+    };
+    try {
+      // 주문 접수 API 호출
+      const response = await fetch(
+        "https://www.insung.shop/jat/orders/pickup",
         {
           method: "PATCH",
           headers: {
@@ -103,6 +135,7 @@ const OrderItems = (props) => {
             onClick={props.onShowPrint}
             reception={reception}
             onReceiveOrder={receiveOrderHandler}
+            onCompletePickupHandler={completePickupHandler}
           />
         ))}
       </div>

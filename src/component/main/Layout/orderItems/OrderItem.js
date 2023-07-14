@@ -5,9 +5,11 @@ import {
   getTimeDifferenceMessage,
 } from "../../../../common/Format";
 import classes from "./OrderItem.module.css";
+import { getCookieToken } from "../../../../store/common/Cookie";
 
 const OrderItem = (props) => {
-  const [isCancelled, setIsCancelled] = useState(false);
+  const [isChecked, setIsChecked] = useState(false);
+  const [isPickup, setIsPickup] = useState(false);
   const orderTime = props.reception.orderTime;
   const pickUpTime = props.reception.pickUpTime;
   const price = props.reception.totalPrice;
@@ -23,14 +25,30 @@ const OrderItem = (props) => {
       // 접수 API 호출
       await props.onReceiveOrder(orderIdx);
       // 접수 완료 시 상태 업데이트
-      setIsCancelled(true);
+      setIsChecked(true);
     } catch (error) {
       console.log(error);
     }
   };
 
   // 이미 접수나 취소된 주문인 경우 해당 항목을 숨김
-  if (isCancelled) {
+  if (isChecked) {
+    return null;
+  }
+
+  const completePickupHandler = async(orderIdx) => {
+    try {
+      // 픽업완료 API 호출
+      await props.onCompletePickupHandler(orderIdx);
+      // 픽업 완료 시 상태 업데이트
+      setIsPickup(true);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  // 이미 접수 완료일 경우 해당 항목을 숨김
+  if (isPickup) {
     return null;
   }
 
@@ -119,7 +137,7 @@ const OrderItem = (props) => {
               <br />
               {timeMessage}
             </button>
-            <button className={`${classes.btn} ${classes["do-order"]}`}>
+            <button className={`${classes.btn} ${classes["do-order"]}`} onClick={() => completePickupHandler(props.reception.orderIdx)}>
               픽업
               <br />
               완료
