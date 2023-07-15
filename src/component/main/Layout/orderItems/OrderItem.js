@@ -100,7 +100,7 @@ const OrderItem = (props) => {
           <div className={classes["button-div"]}>
             <button
               className={`${classes.btn} ${classes["order-print"]}`}
-              onClick={props.onClick}
+              onClick={() => props.onClick(props.reception.orderIdx)}
             >
               주문표
               <br />

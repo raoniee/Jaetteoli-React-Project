@@ -4,13 +4,20 @@ import SideBar from '../sidebar/SideBar'
 import OrderItems from './Layout/orderItems/OrderItems'
 import PrintOrder from './Layout/modal/PrintOrder'
 import FinishStore from './Layout/modal/FinishStore'
+import { useDispatch } from 'react-redux'
+import { SET_PRINT } from '../../store/print'
 
 const Main3 = (props) => {
-
+    const dispatch = useDispatch()
     const [orderPrintIsShown, setOrderPrintIsShown] = useState(false)
     const [storeFinishIsShown, setStoreFinishIsShown] = useState(false)
 
-    const showOrderPrintHandler = () => {
+    const showOrderPrintHandler = (orderIdx) => {
+        dispatch(
+            SET_PRINT({
+                orderIdx: orderIdx
+            })
+        )
         setOrderPrintIsShown(true)
     }
 
