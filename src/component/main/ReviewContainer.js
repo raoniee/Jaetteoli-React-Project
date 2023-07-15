@@ -11,11 +11,13 @@ const ReviewContainer = (props) => {
             {props.reviews.map((review, index) => (
                 <ReviewItem
                     key={index}
+                    reviewId ={review.reviewId}
                     user={review.user}
                     score={review.score}
                     buy={review.buy}
                     review={review.review}
                     comment={review.comment}
+                    imgUrl={review.imgUrl}
                 />
             ))}
         </div>

@@ -157,7 +157,7 @@
   color: rgba(0, 0, 0, 0.5);
   font-size: 13px;
   position: absolute;
-  top: 28px;
+  top: calc(50% - 20px);
   right: 20px;
 }
 

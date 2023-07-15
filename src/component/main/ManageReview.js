@@ -96,12 +96,10 @@ const ManageReview = () => {
     useEffect(() => {
         getReviews()
             .then(reviewItems => {
-                console.log(reviewItems)
                 setReviewItems(reviewItems);
             })
         getStarInfo()
             .then(result => {
-                console.log(result);
                 setStarInfo(result);
             })
     }, []);
@@ -109,6 +107,7 @@ const ManageReview = () => {
     useEffect(() => {
         if (reviewItems) {
             setReviews(reviewItems.map((item) => ({
+                reviewId: item.reviewIdx,
                 user: item.customerName,
                 score: item.star,
                 buy: item.orderTodayMenu.map((menu) => ({
@@ -119,7 +118,6 @@ const ManageReview = () => {
                 imgUrl: item.review_url,
                 comment: item.comment,
               })));
-            console.log(reviews);
         }
     }, [reviewItems]);
 

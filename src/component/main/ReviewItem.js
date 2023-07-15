@@ -2,6 +2,7 @@ import style from './ReviewItem.module.css'
 import starRatingUp from '../../assets/images/star_rating_up.png'
 import starRatingDown from '../../assets/images/star_rating_down.png'
 import { useEffect, useState } from 'react'
+import { getCookieToken } from "../../store/common/Cookie";
 
 const ReviewItem = (props) => {
     const [hasReply, setHasReply] = useState(false)
@@ -18,8 +19,14 @@ const ReviewItem = (props) => {
     const submintBtnHandler = (event) => {
         event.preventDefault();
         if (reply != '') {
-            setHasReply(true)
-            setIsFormVisible(false)
+            setComment()
+                .then(result => {
+                    if(result.reviewIdx == props.reviewId) {
+                        setHasReply(true);
+                        setIsFormVisible(false);
+                        setReply(result.comment);
+                    }
+                })
         }
     }
 
@@ -35,12 +42,44 @@ const ReviewItem = (props) => {
     }
 
     useEffect(() => {
-        if(props.comment) {
+        if (props.comment) {
             setHasReply(true);
             setIsBtnVisible(false);
             setReply(props.comment);
         }
     }, []);
+
+    const token = getCookieToken();
+
+    async function setComment() {
+        const requestBody = {
+            reviewIdx: props.reviewId,
+            comment: reply,
+        };
+
+        const requestOptions = {
+            method: 'PATCH',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-ACCESS-TOKEN': token,
+            },
+            body: JSON.stringify(requestBody),
+        };
+        try {
+            const response = await fetch("https://www.insung.shop/jat/review/comment", requestOptions);
+            const data = await response.json();
+
+            if (!data.isSuccess) {
+                console.log(data.message);
+                return;
+            }
+
+            return data.result;
+        } catch (error) {
+            console.log('서버가 아직 안켜져있습니다.')
+            console.log(error)
+        }
+    }
 
     return (
         <div className={style.reviewItem}>
