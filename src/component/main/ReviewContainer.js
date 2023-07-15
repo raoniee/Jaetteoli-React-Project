@@ -15,6 +15,7 @@ const ReviewContainer = (props) => {
                     score={review.score}
                     buy={review.buy}
                     review={review.review}
+                    comment={review.comment}
                 />
             ))}
         </div>

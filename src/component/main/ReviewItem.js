@@ -1,7 +1,7 @@
 import style from './ReviewItem.module.css'
 import starRatingUp from '../../assets/images/star_rating_up.png'
 import starRatingDown from '../../assets/images/star_rating_down.png'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 const ReviewItem = (props) => {
     const [hasReply, setHasReply] = useState(false)
@@ -33,6 +33,14 @@ const ReviewItem = (props) => {
         setHasReply(false)
         setReply('')
     }
+
+    useEffect(() => {
+        if(props.comment) {
+            setHasReply(true);
+            setIsBtnVisible(false);
+            setReply(props.comment);
+        }
+    }, []);
 
     return (
         <div className={style.reviewItem}>
