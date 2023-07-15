@@ -36,7 +36,7 @@ export default function PasswordSearch() {
         setPhoneValid(true);
       }
 
-      const pattern = /^\d{3}\d{3,4}\d{4}$/;
+      const pattern = /^\d{3}\d{4}\d{4}$/;
       const isValid = pattern.test(inputPhone);
       if (!isValid) {
         setPhoneValidPattern(false);
