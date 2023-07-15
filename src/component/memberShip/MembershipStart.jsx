@@ -42,7 +42,6 @@ export default function MembershipStart() {
   };
 
   const stateHandler = (name) => {
-    console.log(agreements[name]);
     setAgreements((prev) => ({
       ...prev,
       [name]: !prev[name],
@@ -108,15 +107,20 @@ export default function MembershipStart() {
   };
 
   const moveMembershipPhoneHandler = () => {
+    if (!agreements.mandatoryOne || !agreements.mandatoryTwo) {
+      alert("필수 동의를 확인해주세요.");
+      return;
+    }
+
     dispatch(
       SET_AGREEMENT({
         agreements: agreements,
-        uid: null,
-        name: null,
-        birthday: null,
-        phone: null,
-        password: null,
-        email: null,
+        uid: "",
+        name: "",
+        birthday: "",
+        phone: "",
+        password: "",
+        email: "",
       })
     );
     navigate("/signup/phone");
