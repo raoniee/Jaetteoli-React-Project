@@ -5,23 +5,25 @@
 
 .MembershipInformation {
   margin: 0 auto;
-  margin-top: 240px;
-  margin-bottom: 45px;
+  margin-top: 200px;
+  margin-bottom: 50px;
 }
 
 .title {
   display: block;
-  text-align: center;
-  font-weight: 300;
+  line-height: 35.2px;
+  margin-bottom: 48px;
   font-size: 24px;
+  font-weight: 300;
   line-height: 26.4px;
-  margin-bottom: 45px;
+  text-align: center;
+  margin-bottom: 24px;
 }
 
 .wrap {
   display: flex;
-  width: 969px;
-  margin-bottom: 45px;
+  flex-direction: column;
+  margin-bottom: 20px;
 }
 
 .left {
@@ -50,7 +52,6 @@
   flex-direction: column;
   gap: 28px;
   color: rgba(0, 0, 0, 0.5);
-
   width: 116px;
 }
 
@@ -58,22 +59,27 @@
   display: flex;
   flex-direction: column;
   gap: 28px;
-
   width: 306px;
 }
 
 .right {
   width: 486px;
-  padding-left: 61px;
   font-weight: 300;
   font-size: 16px;
   line-height: 17.6px;
-  border-left: 1px solid rgba(0, 0, 0, 0.5);
 }
 
 .right input {
-  height: 53px;
+  height: 62px;
   border: 1px solid rgba(0, 0, 0, 0.5);
+  border-radius: 5px;
+  padding-left: 30px;
+  color: #000;
+  font-family: "Pretendard";
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 110%;
 }
 
 .right input::placeholder {
@@ -81,7 +87,6 @@
   font-size: 16px;
   line-height: 17.6px;
   color: rgba(0, 0, 0, 0.5);
-  padding-left: 30px;
 }
 
 .right .ID {
@@ -118,10 +123,18 @@
 
 .right .EMAIL .email_input input {
   width: 217px;
+  color: #000;
+  font-family: "Pretendard";
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 110%;
 }
 
 .right .EMAIL .email_input label {
-  line-height: 53px;
+  display: flex;
+  align-items: center;
+  justify-items: center;
 }
 
 .right .EMAIL .email_link {
@@ -130,11 +143,14 @@
 }
 
 .right .EMAIL .email_link li {
-  width: inherit;
-  padding-left: 30px;
-  border: 1px solid rgba(0, 0, 0, 0.5);
-  line-height: 53px;
+  display: flex;
+  align-items: center;
+  justify-items: center;
   color: rgba(0, 0, 0, 0.5);
+  height: 62px;
+  border: 1px solid rgba(0, 0, 0, 0.5);
+  border-radius: 5px;
+  padding-left: 30px;
 }
 
 .bluebutton {
@@ -145,4 +161,109 @@
   background-color: rgba(96, 78, 248, 1);
   border: 1px solid rgba(0, 0, 0, 0.5);
   color: rgba(255, 255, 255, 1);
+}
+
+.EMAIL {
+  position: relative;
+}
+
+.email_input {
+  display: flex;
+  justify-content: space-between;
+}
+
+.email_input input {
+  width: 217px;
+  color: #000;
+  font-family: "Pretendard";
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 110%;
+}
+
+.email_input ::placeholder {
+  color: rgba(0, 0, 0, 0.5);
+  font-family: "Pretendard";
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 110%;
+}
+
+.select_box {
+  position: relative;
+  height: 62px;
+  border: 1px solid rgba(0, 0, 0, 0.5);
+  border-radius: 5px;
+  padding-left: 30px;
+  width: 486px;
+  display: flex;
+  align-items: center;
+  padding-left: 30px;
+  border-radius: 5px;
+  background-color: #ffffff;
+  align-self: center;
+  cursor: pointer;
+}
+
+.select_box .select_value::before {
+  content: "⌵";
+  position: absolute;
+  display: flex;
+  top: 16px;
+  right: 10.5px;
+  color: #cbcbcb;
+  font-size: 40px;
+}
+.select_box.show_options .select_value::before {
+  display: block;
+}
+
+.select_value {
+  color: #000;
+  font-family: "Pretendard";
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 110%;
+  margin-left: 4px;
+  text-align: center;
+}
+
+.select_options {
+  position: absolute;
+  list-style: none;
+  top: 55px;
+  left: -1px;
+  width: 486px;
+  overflow: scroll;
+  height: 165px;
+  max-height: 0;
+  padding: 0;
+  border: 1px solid rgba(0, 0, 0, 0.5);
+  background-color: #ffffff;
+  color: rgba(0, 0, 0, 0.5);
+  font-family: "Pretendard";
+  font-size: 14px;
+  font-style: normal;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+  font-weight: 600;
+  line-height: 110%;
+  transition: max-height 0.2s ease-in;
+}
+
+.select_box.show_options .select_options {
+  max-height: none;
+}
+
+.option {
+  font-size: 14px;
+  padding: 6px 8px;
+  transition: background-color 0.2s ease-in;
+}
+
+.option:hover {
+  background-color: rgba(0, 0, 0, 0.1);
 }

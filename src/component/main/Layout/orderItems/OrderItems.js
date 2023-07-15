@@ -52,11 +52,12 @@ const OrderItems = (props) => {
     setReceptionStatus(reception);
   };
 
-  const receiveOrderHandler = async (orderIdx) => {
+  const receiveOrderHandler = async (orderIdx, status) => {
     const requestBody = {
       orderIdx: orderIdx,
-      status: "P",
+      status: status,
     };
+    console.log(requestBody)
     try {
       // 주문 접수 API 호출
       const response = await fetch(
@@ -75,7 +76,6 @@ const OrderItems = (props) => {
         console.log(data.message);
         return;
       }
-      console.log(data);
       // 목록 업데이트
       const updatedReceptionList = receptionList.filter(
         (reception) => reception.orderIdx !== orderIdx
@@ -108,7 +108,6 @@ const OrderItems = (props) => {
         console.log(data.message);
         return;
       }
-      console.log(data);
       // 목록 업데이트
       const updatedReceptionList = receptionList.filter(
         (reception) => reception.orderIdx !== orderIdx

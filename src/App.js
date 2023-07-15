@@ -1,4 +1,3 @@
-import Header from "./component/header/Header";
 import ManageReview from "./component/main/ManageReview";
 import TodayMenu from "./component/main/TodayMenu";
 import TodayOrder from "./component/main/TodayOrder";
@@ -20,7 +19,6 @@ import Regist2 from "./component/register/Regist2";
 import Regist3 from "./component/register/Regist3";
 
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
-import SideBar from "./component/sidebar/SideBar";
 import Home from "./component/home/Home";
 import MembershipPhone from "./component/memberShip/MembershipPhone";
 

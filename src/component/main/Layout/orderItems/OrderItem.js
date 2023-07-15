@@ -5,7 +5,6 @@ import {
   getTimeDifferenceMessage,
 } from "../../../../common/Format";
 import classes from "./OrderItem.module.css";
-import { getCookieToken } from "../../../../store/common/Cookie";
 
 const OrderItem = (props) => {
   const [isChecked, setIsChecked] = useState(false);
@@ -20,10 +19,10 @@ const OrderItem = (props) => {
   const formattedMenuString = formatMenuList(props.reception.orderItem);
   const timeMessage = getTimeDifferenceMessage(pickUpTime);
 
-  const receiveOrderHandler = async (orderIdx) => {
+  const receiveOrderHandler = async (orderIdx, status) => {
     try {
       // 접수 API 호출
-      await props.onReceiveOrder(orderIdx);
+      await props.onReceiveOrder(orderIdx, status);
       // 접수 완료 시 상태 업데이트
       setIsChecked(true);
     } catch (error) {
@@ -106,7 +105,7 @@ const OrderItem = (props) => {
               <br />
               인쇄
             </button>
-            <button className={`${classes.btn} ${classes["order-cancel"]}`}>
+            <button className={`${classes.btn} ${classes["order-cancel"]}`} onClick={() => receiveOrderHandler(props.reception.orderIdx, 'D')} >
               주문
               <br />
               취소하기
@@ -114,7 +113,7 @@ const OrderItem = (props) => {
 
             <button
               className={`${classes.btn} ${classes["do-order"]}`}
-              onClick={() => receiveOrderHandler(props.reception.orderIdx)}
+              onClick={() => receiveOrderHandler(props.reception.orderIdx, 'P')}
             >
               접수
               <br />

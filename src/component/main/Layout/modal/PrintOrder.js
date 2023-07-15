@@ -14,7 +14,6 @@ const PrintOrder = (props) => {
         const requestBody = {
           orderIdx: printOrderIdx,
         };
-        console.log(JSON.stringify(requestBody));
         const response = await fetch(
           "https://www.insung.shop/jat/orders/bills",
           {
@@ -33,7 +32,6 @@ const PrintOrder = (props) => {
           return;
         }
         const result = data["result"];
-        console.log(result);
         setResultPrintOrder(result);
       } catch (err) {
         console.log("에러");
@@ -98,7 +96,7 @@ const PrintOrder = (props) => {
                 {resultPrintOrder.orderItem
                   ? resultPrintOrder.orderItem.map((item, index) => (
                       <React.Fragment key={index}>
-                        {item.menuName} {item.menuCnt} 개
+                        {item.menuName} {item.menuCnt}개
                         <br />
                       </React.Fragment>
                     ))
