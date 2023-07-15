@@ -7,7 +7,6 @@ export default function AgreeAlert({ value, individual, onClose, target }) {
   const [law, setLaw] = useState([]);
 
   const handleAgree = () => {
-    console.log(target);
     if (target === "selectiveTwo") {
       individual('isSns');
       individual('isEmail');
