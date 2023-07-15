@@ -73,6 +73,7 @@ export default function MembershipPhone() {
         birth: userInfo.birthday,
         phoneNum: userInfo.phone,
       };
+      console.log(requestBody)
       const response = await fetch(
         "https://www.insung.shop/jat/sellers/authy",
         {
@@ -83,7 +84,7 @@ export default function MembershipPhone() {
           body: JSON.stringify(requestBody),
         }
       );
-      const data = response.json();
+      const data = await response.json();
       if (!data["isSuccess"]) {
         console.log(data["code"]);
         console.log(data["message"]);
