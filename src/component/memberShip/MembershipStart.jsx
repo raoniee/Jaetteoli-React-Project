@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import style from "./MembershipStart.module.css";
 import { ReactComponent as CheckOff } from "../../assets/images/check_off.svg";
 import { ReactComponent as CheckOn } from "../../assets/images/check_on.svg";
-import { ReactComponent as Arrow } from "../../assets/images/arrow.svg";
+import { ReactComponent as Arrow } from "../../assets/images/arrow_right.svg";
 import AgreeAlert from "./AgreeAlert.jsx";
 import Header from "../header/Header";
 import Footer from "../footer/Footer";

@@ -5,6 +5,7 @@ import ManageSale from "./component/main/ManageSale";
 
 // Membership
 import MembershipStart from "./component/memberShip/MembershipStart";
+import MembershipPhone from "./component/memberShip/MembershipPhone";
 import MembershipInformation from "./component/memberShip/MembershipInformation";
 import MembershipEnd from "./component/memberShip/MembershipEnd";
 
@@ -18,11 +19,13 @@ import Regist1 from "./component/register/Regist1";
 import Regist2 from "./component/register/Regist2";
 import Regist3 from "./component/register/Regist3";
 import Modify1 from "./component/main/Modify1";
+// admin
 import StoreInfoPage from "./component/admin/StoreInfoPage";
+import StoreRegisterPage from "./component/admin/StoreRegisterPage";
+import StoreReviewPage from "./component/admin/StoreReviewPage";
 
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import Home from "./component/home/Home";
-import MembershipPhone from "./component/memberShip/MembershipPhone";
 
 const router = createBrowserRouter([
   { path: "/", element: <Home /> },
@@ -47,6 +50,8 @@ const router = createBrowserRouter([
   { path: "/register/menu", element: <Regist2 /> },
   { path: "/register/origin", element: <Regist3 /> },
   //
+  { path: "/admin/register", element: <StoreRegisterPage /> },
+  { path: "/admin/review", element: <StoreReviewPage /> },
   { path: "/admin/store", element: <StoreInfoPage /> },
 ]);
 

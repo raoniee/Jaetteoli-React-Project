@@ -1,0 +1,92 @@
+/* * {
+  outline: 1px solid #363;
+} */
+
+.wrap {
+  margin-top: 72px;
+  display: flex;
+  margin-bottom: 130px;
+}
+
+.wrap_register {
+  width: 100%;
+  margin-top: 122px;
+}
+
+.wrap_register .title {
+  display: block;
+  width: 1115px;
+  font-weight: 700;
+  font-size: 32px;
+  padding-left: 152px;
+  padding-bottom: 30px;
+  margin-bottom: 60px;
+  border-bottom: 1px solid rgba(0, 0, 0, 1);
+}
+
+.wrap_register .store_list {
+  width: 914px;
+  padding-left: 122px;
+  display: flex;
+  flex-direction: column;
+  gap: 52px;
+  margin-bottom: 100px;
+}
+
+.wrap_register .store_list li {
+  display: flex;
+  line-height: 20px;
+}
+
+.wrap_register .store_list .store_num {
+  display: block;
+  font-weight: 600;
+  font-size: 20px;
+  text-align: center;
+  margin-right: 21px;
+  cursor: pointer;
+}
+
+.wrap_register .store_list .store_name {
+  font-weight: 500;
+  font-size: 20px;
+  color: rgba(0, 0, 0, 0.6);
+  margin-right: auto;
+  cursor: pointer;
+}
+
+.wrap_register .store_list .store_more {
+  cursor: pointer;
+}
+
+.wrap_register .wrap_index {
+  display: flex;
+  width: 1115px;
+  padding: 5px 214px;
+}
+
+.wrap_register .wrap_index .left_endstep {
+  margin-right: 33px;
+}
+
+.wrap_register .wrap_index .left_onestep {
+  margin-right: 56px;
+}
+
+.wrap_register .wrap_index .num_list {
+  display: flex;
+  gap: 30px;
+  width: 393px;
+}
+
+.wrap_register .wrap_index .num_list li {
+  line-height: 18px;
+}
+
+.wrap_register .wrap_index .right_onestep {
+  margin-left: 56px;
+}
+
+.wrap_register .wrap_index .right_endstep {
+  margin-left: 33px;
+}
