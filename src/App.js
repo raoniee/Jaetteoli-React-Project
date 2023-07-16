@@ -18,6 +18,7 @@ import Regist1 from "./component/register/Regist1";
 import Regist2 from "./component/register/Regist2";
 import Regist3 from "./component/register/Regist3";
 import Modify1 from "./component/main/Modify1";
+import StoreInfoPage from "./component/admin/StoreInfoPage";
 
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import Home from "./component/home/Home";
@@ -45,6 +46,8 @@ const router = createBrowserRouter([
   { path: "/register/store", element: <Regist1 /> },
   { path: "/register/menu", element: <Regist2 /> },
   { path: "/register/origin", element: <Regist3 /> },
+  //
+  { path: "/admin/store", element: <StoreInfoPage /> },
 ]);
 
 function App() {
