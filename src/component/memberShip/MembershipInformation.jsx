@@ -283,108 +283,106 @@ export default function MembershipInformation() {
         </span>
 
         <div className={style.wrap}>
-          <div className={style.right}>
-            <form action="" className={style.ID}>
-              <label htmlFor="">아이디</label>
+          <form action="" className={style.ID}>
+            <label htmlFor="">아이디</label>
+            <input
+              type="text"
+              placeholder="영문 혹은 영문+숫자, 4~20자"
+              onChange={changeUidHandler}
+              onBlur={validateUid}
+              value={userInfo.uid || ""}
+            />
+            {!isValid.uid && isClicked.uid && (
+              <p className={style.validation}>
+                영문 혹은 영문+숫자, 4~20자로 입력해주세요.
+              </p>
+            )}
+            {!duplicateUid.valid && duplicateUid.click && (
+              <p style={{ color: "red" }}>아이디가 중복됩니다.</p>
+            )}
+          </form>
+
+          <form action="" className={style.PASSWORD}>
+            <label htmlFor="">비밀번호</label>
+            <label htmlFor="">
+              영문+숫자 10자 이상 또는 영문+숫자+특수기호 8자 이상
+            </label>
+            <input
+              type="password"
+              placeholder="비밀번호 입력"
+              onChange={changePasswordHandler}
+              onBlur={validatePassword}
+              value={userInfo.password || ""}
+            />
+            {!isValid.password && isClicked.password && (
+              <p className={style.validation}>
+                영문+숫자 10자 이상 또는 영문+숫자+특수기호 8자 이상으로
+                입력해주세요.
+              </p>
+            )}
+            <input
+              type="password"
+              placeholder="비밀번호 재입력"
+              onChange={changeCheckPasswordHandler}
+              onBlur={isCheckedPassword}
+              value={checkPassword || ""}
+            />
+            {!isValid.checkPassword && isClicked.checkPassword && (
+              <p className={style.validation}>비밀번호가 일치하지 않습니다.</p>
+            )}
+          </form>
+
+          <form action="" className={style.EMAIL}>
+            <label htmlFor="">이메일</label>
+            <div className={style.email_input}>
               <input
                 type="text"
-                placeholder="영문 혹은 영문+숫자, 4~20자"
-                onChange={changeUidHandler}
-                onBlur={validateUid}
-                value={userInfo.uid || ""}
+                placeholder="이메일 앞자리"
+                onChange={changeEmailHandler}
               />
-              {!isValid.uid && isClicked.uid && (
-                <p style={{ color: "red" }}>
-                  영문 혹은 영문+숫자, 4~20자로 입력해주세요.
-                </p>
-              )}
-              {!duplicateUid.valid && duplicateUid.click && (
-                <p style={{ color: "red" }}>아이디가 중복됩니다.</p>
-              )}
-            </form>
-
-            <form action="" className={style.PASSWORD}>
-              <label htmlFor="">비밀번호</label>
-              <label htmlFor="">
-                영문+숫자 10자 이상 또는 영문+숫자+특수기호 8자 이상
-              </label>
-              <input
-                type="password"
-                placeholder="비밀번호 입력"
-                onChange={changePasswordHandler}
-                onBlur={validatePassword}
-                value={userInfo.password || ""}
-              />
-              {!isValid.password && isClicked.password && (
-                <p style={{ color: "red" }}>
-                  영문+숫자 10자 이상 또는 영문+숫자+특수기호 8자 이상으로
-                  입력해주세요.
-                </p>
-              )}
-              <input
-                type="password"
-                placeholder="비밀번호 재입력"
-                onChange={changeCheckPasswordHandler}
-                onBlur={isCheckedPassword}
-                value={checkPassword || ""}
-              />
-              {!isValid.checkPassword && isClicked.checkPassword && (
-                <p style={{ color: "red" }}>비밀번호가 일치하지 않습니다.</p>
-              )}
-            </form>
-
-            <form action="" className={style.EMAIL}>
-              <label htmlFor="">이메일</label>
-              <div className={style.email_input}>
+              <label>@</label>
+              {selectedEmailOption === "직접 입력" ? (
                 <input
                   type="text"
-                  placeholder="이메일 앞자리"
-                  onChange={changeEmailHandler}
+                  placeholder="이메일 뒷자리"
+                  onChange={changeLastEmailHandler}
+                  onBlur={validateEmail}
+                  value={typingEmail}
                 />
-                <label>@</label>
-                {selectedEmailOption === "직접 입력" ? (
-                  <input
-                    type="text"
-                    placeholder="이메일 뒷자리"
-                    onChange={changeLastEmailHandler}
-                    onBlur={validateEmail}
-                    value={typingEmail}
-                  />
-                ) : (
-                  <input
-                    type="text"
-                    placeholder="이메일 뒷자리"
-                    value={selectedEmailOption}
-                    readOnly
-                  />
-                )}{" "}
-              </div>
-              <div
-                className={`${style.select_box} ${
-                  showEmailOptions ? style.show_options : ""
-                }`}
-                onClick={() => setShowEmailOptions(!showEmailOptions)}
-              >
-                <label className={style.select_value}>
-                  {selectedEmailOption}
-                </label>
-                <ul className={style.select_options}>
-                  {emailOptions.map((option) => (
-                    <li
-                      key={option}
-                      className={style.option}
-                      onClick={() => handleEmailOptionClick(option)}
-                    >
-                      {option}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-              {!isValid.email && isClicked.email && (
-                <p style={{ color: "red" }}>이메일을 다시 확인해주세요.</p>
-              )}
-            </form>
-          </div>
+              ) : (
+                <input
+                  type="text"
+                  placeholder="이메일 뒷자리"
+                  value={selectedEmailOption}
+                  readOnly
+                />
+              )}{" "}
+            </div>
+            <div
+              className={`${style.select_box} ${
+                showEmailOptions ? style.show_options : ""
+              }`}
+              onClick={() => setShowEmailOptions(!showEmailOptions)}
+            >
+              <label className={style.select_value}>
+                {selectedEmailOption}
+              </label>
+              <ul className={style.select_options}>
+                {emailOptions.map((option) => (
+                  <li
+                    key={option}
+                    className={style.option}
+                    onClick={() => handleEmailOptionClick(option)}
+                  >
+                    {option}
+                  </li>
+                ))}
+              </ul>
+            </div>
+            {!isValid.email && isClicked.email && (
+              <p className={style.validation}>이메일을 다시 확인해주세요.</p>
+            )}
+          </form>
         </div>
 
         <button

@@ -20,56 +20,25 @@
   margin-bottom: 24px;
 }
 
+/* Commmon */
+.validation {
+  color: red;
+  /* margin-bottom: 20px; */
+  font-weight: 700;
+  font-size: 14px;
+}
+
 .wrap {
   display: flex;
   flex-direction: column;
   margin-bottom: 20px;
-}
-
-.left {
-  padding-top: 93px;
-  width: 422px;
-  margin-right: 61px;
-}
-
-.left p {
-  font-weight: 300;
-  font-size: 20px;
-  line-height: 22px;
-  margin-bottom: 55px;
-}
-
-.left .profile {
-  display: flex;
-
-  font-weight: 300;
-  font-size: 16px;
-  line-height: 17.6px;
-}
-
-.left .profile_left {
-  display: flex;
-  flex-direction: column;
-  gap: 28px;
-  color: rgba(0, 0, 0, 0.5);
-  width: 116px;
-}
-
-.left .profile_right {
-  display: flex;
-  flex-direction: column;
-  gap: 28px;
-  width: 306px;
-}
-
-.right {
   width: 486px;
   font-weight: 300;
   font-size: 16px;
   line-height: 17.6px;
 }
 
-.right input {
+.wrap input {
   height: 62px;
   border: 1px solid rgba(0, 0, 0, 0.5);
   border-radius: 5px;
@@ -82,46 +51,46 @@
   line-height: 110%;
 }
 
-.right input::placeholder {
+.wrap input::placeholder {
   font-weight: 300;
   font-size: 16px;
   line-height: 17.6px;
   color: rgba(0, 0, 0, 0.5);
 }
 
-.right .ID {
+.wrap .ID {
   display: flex;
   flex-direction: column;
   gap: 11px;
   width: 486px;
-  margin-bottom: 45px;
+  margin-bottom: 25px;
 }
 
-.right .PASSWORD {
+.wrap .PASSWORD {
   display: flex;
   flex-direction: column;
   gap: 11px;
   width: 486px;
-  margin-bottom: 45px;
+  margin-bottom: 25px;
 }
 
-.right .PASSWORD label:nth-child(2) {
+.wrap .PASSWORD label:nth-child(2) {
   color: rgba(0, 0, 0, 0.5);
 }
 
-.right .EMAIL {
+.wrap .EMAIL {
   display: flex;
   flex-direction: column;
   gap: 11px;
   width: 486px;
 }
 
-.right .EMAIL .email_input {
+.wrap .EMAIL .email_input {
   display: flex;
   justify-content: space-between;
 }
 
-.right .EMAIL .email_input input {
+.wrap .EMAIL .email_input input {
   width: 217px;
   color: #000;
   font-family: "Pretendard";
@@ -131,18 +100,18 @@
   line-height: 110%;
 }
 
-.right .EMAIL .email_input label {
+.wrap .EMAIL .email_input label {
   display: flex;
   align-items: center;
   justify-items: center;
 }
 
-.right .EMAIL .email_link {
+.wrap .EMAIL .email_link {
   width: 486px;
   height: 53px;
 }
 
-.right .EMAIL .email_link li {
+.wrap .EMAIL .email_link li {
   display: flex;
   align-items: center;
   justify-items: center;
