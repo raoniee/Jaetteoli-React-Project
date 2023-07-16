@@ -73,7 +73,7 @@ export default function MembershipPhone() {
         birth: userInfo.birthday,
         phoneNum: userInfo.phone,
       };
-      console.log(requestBody)
+      console.log(requestBody);
       const response = await fetch(
         "https://www.insung.shop/jat/sellers/authy",
         {
@@ -271,7 +271,7 @@ export default function MembershipPhone() {
             value={userInfo.name || ""}
           />
           {!isValid.name && isClicked.name && (
-            <p style={{ color: "red" }}>이름을 확인해주세요.</p>
+            <p className={style.validation}>이름을 확인해주세요.</p>
           )}
           <label htmlFor="">생년월일</label>
           <input
@@ -283,7 +283,7 @@ export default function MembershipPhone() {
             value={userInfo.birthday || ""}
           />
           {!isValid.birthday && isClicked.birthday && (
-            <p style={{ color: "red" }}>
+            <p className={style.validation}>
               올바른 형식(YYYY.MM.DD)으로 입력해주세요.
             </p>
           )}
@@ -313,7 +313,7 @@ export default function MembershipPhone() {
             )}
           </div>
           {!isValid.phone && isClicked.phone && (
-            <p style={{ color: "red" }}>
+            <p className={style.validation}>
               올바른 형식(01012341234)으로 입력해주세요.
             </p>
           )}

@@ -30,6 +30,8 @@
   background-color: rgba(245, 243, 255, 1);
 }
 
+/* .SIGNUP_PHONE FROM */
+
 .SIGNUP_PHONE {
   display: block;
   width: 486px;
@@ -56,6 +58,16 @@
   font-size: 16px;
   line-height: 17.6px;
 }
+
+/* Commmon */
+.validation {
+  color: red;
+  margin-bottom: 20px;
+  font-weight: 700;
+  font-size: 14px;
+}
+
+/* .SIGNUP_PHONE .name */
 
 .SIGNUP_PHONE .name {
   margin-bottom: 20px;
@@ -206,6 +218,7 @@
   font-size: 13px;
   line-height: 18.85px;
   color: rgba(0, 0, 0, 0.5);
+  margin-top: 10px;
   margin-bottom: 31px;
 }
 
