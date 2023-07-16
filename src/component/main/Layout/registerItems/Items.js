@@ -1,22 +1,79 @@
+import { useState } from "react";
 import Input from "../../UI/Input";
 import classes from "./Items.module.css";
 
 const Items = (props) => {
-    
-  const menuList = props.menu.map((menu, index) => (
+  const { menu } = props;
+
+  const [menuList, setMenuList] = useState(menu);
+
+  const handleDiscountRatioChange = (index, event) => {
+    const updatedMenuList = [...menuList];
+    const currentRatio = parseInt(event.target.value) >= 100 ? 100 : parseInt(event.target.value)
+    const resultRatio = parseInt(currentRatio) <= 0 ? 0 : parseInt(currentRatio)
+    const discountRatio = resultRatio || 0;
+
+    // discountRatio 업데이트
+    updatedMenuList[index].discountRatio = discountRatio;
+
+    // discountPrice 업데이트
+    const originPrice = updatedMenuList[index].originPrice;
+    const discountPrice = originPrice - (originPrice * discountRatio) / 100;
+    const truncatedNumber = Math.floor(discountPrice / 100) * 100; //십의자리 일의 자리 절사
+    updatedMenuList[index].discountPrice = truncatedNumber;
+
+    // 메뉴 목록 업데이트
+    setMenuList(updatedMenuList);
+    props.updatedMenuList(props.type, updatedMenuList);
+  };
+
+  const handlerCountChange = (index, event) => {
+    const updatedMenuList = [...menuList];
+    const remain = parseInt(event.target.value) || 0;
+
+    // remain 업데이트
+    console.log(updatedMenuList);
+    updatedMenuList[index].remain = remain;
+
+    // 메뉴 목록 업데이트
+    setMenuList(updatedMenuList);
+    props.updatedMenuList(props.type, updatedMenuList);
+  };
+
+  const menuItems = menuList.map((menu, index) => (
     <tr key={menu.menuIdx}>
       <th scope="row">{index + 1}</th>
       <td>
-        <Input placeholder={menu.menuName} />
+        <Input value={menu.menuName} readonly={true} />
       </td>
       <td>
-        <Input placeholder={menu.price} />
+        <Input value={menu.originPrice + "원"} readonly={true} />
       </td>
       <td>
-        <Input placeholder="0" />
+        <Input
+          value={
+            menu.discountRatio === 0
+              ? menu.originPrice + "원"
+              : menu.discountPrice.toFixed(0) + "원"
+          }
+          readonly={true}
+        />
       </td>
       <td>
-        <Input placeholder="100" />
+        <Input
+          value={menu.discountRatio}
+          onChange={handleDiscountRatioChange}
+          index={index}
+          readonly={false}
+        />
+      </td>
+      <td>
+        <Input
+          value={menu.remain}
+          readonly={false}
+          index={index}
+          onChange={handlerCountChange}
+        />
       </td>
     </tr>
   ));
@@ -36,11 +93,12 @@ const Items = (props) => {
               <th scope="cols"></th>
               <th scope="cols">메뉴명</th>
               <th scope="cols">가격</th>
-              <th scope="cols">할인율</th>
-              <th scope="cols">수량</th>
+              <th scope="cols">할인가격</th>
+              <th scope="cols">할인율 (%)</th>
+              <th scope="cols">수량 (개)</th>
             </tr>
           </thead>
-          <tbody>{menuList}</tbody>
+          <tbody>{menuItems}</tbody>
         </table>
       </div>
     </div>
