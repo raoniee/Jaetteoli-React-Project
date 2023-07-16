@@ -9,12 +9,26 @@ export default function NavAdmin() {
         <li>
           <span className={styles.title}>관리자 페이지</span>
           <ul className={styles.depth2}>
-            <NavLink to="/admin/register">
-              <li>· 가게 등록 승인</li>
-            </NavLink>
-            <NavLink to="/admin/review">
-              <li>· 리뷰 관리</li>
-            </NavLink>
+            <li>
+              <NavLink
+                to="/admin/register"
+                className={({ isActive }) =>
+                  isActive ? styles.active : undefined
+                }
+              >
+                · 가게 등록 승인
+              </NavLink>
+            </li>
+            <li>
+              <NavLink
+                to="/admin/review"
+                className={({ isActive }) =>
+                  isActive ? styles.active : undefined
+                }
+              >
+                · 리뷰 관리
+              </NavLink>
+            </li>
           </ul>
         </li>
       </ul>
