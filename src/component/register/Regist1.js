@@ -976,7 +976,7 @@ export default function Regist1Component({setStoreInfo}) {
                         </Regist1Box1Styled>
                         <Regist1Box2Styled>
                             <Regist1TextBoxStyled
-                                style={{ fontFamily: 'Abhaya Libre, serif' }}호
+                                style={{ fontFamily: 'Abhaya Libre, serif' }}
                                 placeholder="055-1234-5678"
                                 onChange={(event)=>handleStoreInfo({storePhone:event.target.value})}/>
                         </Regist1Box2Styled>
