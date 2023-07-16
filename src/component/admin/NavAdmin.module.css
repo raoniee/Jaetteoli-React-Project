@@ -24,3 +24,12 @@
   font-size: 16px;
   color: rgba(96, 78, 248, 1);
 }
+
+.depth2 li a:hover,
+.depth2 li a.active {
+  color: #604ef8;
+  font-size: 16px;
+  font-family: "Pretendard";
+  font-style: normal;
+  font-weight: 700;
+}

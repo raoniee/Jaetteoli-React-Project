@@ -10,7 +10,7 @@ export default function StoreReviewPage() {
       <Header />
       <div className={styles.wrap}>
         <NavAdmin />
-        <div></div>
+        <div className={styles.wrap_review}></div>
       </div>
       <Footer />
     </>
