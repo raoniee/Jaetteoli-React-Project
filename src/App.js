@@ -17,6 +17,7 @@ import PasswordNew from "./component/login/PasswordNew";
 import Regist1 from "./component/register/Regist1";
 import Regist2 from "./component/register/Regist2";
 import Regist3 from "./component/register/Regist3";
+import Modify1 from "./component/main/Modify1";
 
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import Home from "./component/home/Home";
