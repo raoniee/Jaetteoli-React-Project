@@ -39,6 +39,8 @@ const router = createBrowserRouter([
   { path: "/today/order", element: <TodayOrder /> },
   { path: "/review", element: <ManageReview /> },
   { path: "/sales", element: <ManageSale /> },
+  { path: "/operation", element: <Modify1 /> },
+  //
   { path: "/register/store", element: <Regist1 /> },
   { path: "/register/menu", element: <Regist2 /> },
   { path: "/register/origin", element: <Regist3 /> },

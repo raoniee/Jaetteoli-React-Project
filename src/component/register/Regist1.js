@@ -1,19 +1,22 @@
 
-import styled, {keyframes} from "styled-components";
+import styled from "styled-components";
 import { ReactComponent as SelectButton} from "../../assets/images/Vector 30.svg";
-import {useRef, useState} from "react";
-import { useNavigate } from 'react-router-dom';
-import { useSelector } from 'react-redux';
-import RegistContainer from "./RegistContainer";
+import {useEffect, useRef, useState} from "react";
+import {useLocation, useNavigate} from 'react-router-dom';
 import AlarmModal from "./AlarmModal";
+import { getCookieToken } from "../../store/common/Cookie";
+import Header from "../header/Header";
+import Footer from "../footer/Footer";
 
-export default function Regist1(){
-    return(
-        <RegistContainer>
-            <Regist1Component />
-        </RegistContainer>
-    );
-}
+const RegistContainerStyled = styled.div`
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  top: 72px;
+  height: calc(100% - 72px);
+  width: 100%;
+  overflow: scroll;
+`
 
 const Regist1Styled = styled.div`
     display: flex;
@@ -58,10 +61,54 @@ const Regist1BorderStyled = styled.div`
 
 const Regist1BoxContainer1Styled = styled.div`
     display: flex;
-    padding: 13px 0;
+    padding: 15px 0;
     margin: 0 30px;
     justify-content: space-between; /* 요소들을 양 끝으로 정렬 */
     align-items: center;
+`
+
+const Regist1BoxContainer3Styled = styled.div`
+    position: relative;
+    display: flex;
+    padding: 15px 0 65px;
+    margin: 0 30px;
+    justify-content: right;
+`
+
+const Regist1TextBox2Styled = styled.div`
+  position: absolute;
+  color: ${props => (props.error ? "#604EF8" : "#F00")};
+  font-family: Pretendard-Regular;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 140%;
+  left: 275px;
+  top: 83px
+`
+
+const Regist1DupliCheck = styled.div`
+  position: absolute;
+  right: 0;
+  top: 0;
+  display: flex;
+  width: 80px;
+  height: 48px;
+  padding: 13px 11px;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+  border-radius: 0px 5px 5px 0px;
+  border: 1px solid #C2C3C6;
+  background: #FFF;
+  color: #000;
+  text-align: center;
+  font-family: Pretendard-Regular;
+  font-size: 13px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 140%;
 `
 
 const Regist1Box1Styled = styled.div`
@@ -84,10 +131,18 @@ const Regist1Box2Styled = styled.div`
     width: 457px;
     height: 48px;
     border-radius: 5px;
-    
     border-bottom: 1px solid #00000033;
-
     background: rgba(242, 244, 248, 1);
+`
+
+const Regist1Box2Wrapper = styled.div`
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    height: 126px;
+    padding-bottom: 60px;
 `
 
 const Regist1TextBoxStyled = styled.input`
@@ -158,6 +213,7 @@ const Regist1InputButtonStyled = styled.label`
   
   &:hover {
       background: #F5F3FF;
+      cursor: pointer;
     }
 `
 
@@ -212,8 +268,39 @@ const Regist1Box9Styled = styled.div`
   
     &:hover{
       background: #F5F3FF;
+      cursor: pointer;
     }
 
+`
+
+
+const Regist1Box10Styled = styled.div`
+    position: relative;
+    display: flex;
+    justify-content: space-between; /* 요소들을 양 끝으로 정렬 */
+    align-items: center;
+    width: 214px;
+    height: 48px;
+    border-radius: 5px;
+    border-bottom: 1px solid #00000033;
+    background: rgba(242, 244, 248, 1);
+`
+
+const Regist1Box10Wrapper = styled.div`
+  position: relative;
+  display: flex;
+  justify-content: space-between; /* 요소들을 양 끝으로 정렬 */
+  align-items: center;
+  width: 457px;
+  height: 48px;
+
+  color: rgba(0, 0, 0, 0.50);
+
+  font-family: 'Roboto', sans-serif;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 140%;
 `
 
 const Regist1Submit = styled.div`
@@ -241,7 +328,7 @@ const Regist1SelectBoxStyled = styled.div`
     display: flex;
     flex-direction: column;
     width: 457px;
-    top: 0px;
+    top: 46px;
     box-sizing: border-box;
     z-index: 100;
     border: 1px solid rgb(200, 200, 200);
@@ -275,7 +362,7 @@ const Regist1SelectedButtonContainerStyled = styled.div`
     height: 17px;
 `
 
-function Regist1Component({setStoreInfo}) {
+export default function Regist1Component({setStoreInfo}) {
     const [postalCode1, setPostalCode1] = useState('');
     const [postalCode2, setPostalCode2] = useState('');
     const [isHovered, setIsHovered] = useState(false);
@@ -292,24 +379,19 @@ function Regist1Component({setStoreInfo}) {
     const fileInput4 = useRef();
     const fileInput5 = useRef();
     const navigate = useNavigate();
-    const auth = useSelector((state) => state.auth)
     const [showAlarm, setShowAlarm] = useState(false);
-    const [showAlarmBar, setShowAlarmBar] = useState(false);
     const [alarmTitle, setAlarmTitle] = useState("");
     const [alarmText, setAlarmText] = useState("");
+    const [ storeNames, setStoreNames ] = useState(["",""]);
+    const [ dupliCheck, setDupliCheck ] = useState(0);
+    const location = useLocation();
+    const ref = useRef(null);
 
-    const handleAlarm = () => {
-        if (!showAlarmBar){
-            setShowAlarm(true);
-            setShowAlarmBar(true);
-            setTimeout(() => {
-                setShowAlarm(false);
-            }, 4500);
-            setTimeout(() => {
-                setShowAlarmBar(false);
-            }, 5000);
+    useEffect(() => {
+        if (ref.current) {
+            ref.current.scrollTop = 0;
         }
-    };
+    }, [location]);
 
     const initialStoreInfo = {
         storeName: '',
@@ -394,26 +476,44 @@ function Regist1Component({setStoreInfo}) {
     }
 
     const sendDataToServer = () => {
-        const token = auth.value.jwt;
+        const token = getCookieToken()
         const {detailAddress, ...body} = storeInfoState;
         body.storeAddress = body.storeAddress + ' ' + detailAddress;
         const formData = new FormData();
         for (const key in body) {
             formData.append(key, body[key]);
+            console.log(key, body[key])
         }
         const requestOptions = {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json',
                 'X-ACCESS-TOKEN': token, // X-ACCESS-TOKEN 헤더에 토큰 값을 추가합니다.
             },
             body: formData
         };
 
+        let totalSize = 0;
+
+        for (const pair of formData.entries()) {
+            const [key, value] = pair;
+
+            if (value instanceof File) {
+                // 파일일 경우 파일 크기를 누적
+                totalSize += value.size;
+            } else {
+                // 텍스트 데이터의 경우 문자열 크기를 누적
+                totalSize += new Blob([value]).size;
+            }
+        }
+
+        console.log('총 데이터 크기:', totalSize);
+
         fetch('https://www.insung.shop/jat/stores', requestOptions)
             .then(response => response.json())
             .then(data => {
                 console.log(data);
+                if (data.code === 1000)
+                    navigate('/register/menu')
             })
             .catch(error => {
                 console.error(error);
@@ -422,494 +522,542 @@ function Regist1Component({setStoreInfo}) {
 
     const testRedux = () => {
         if (storeInfoState.storeName === ""){
-            if (!showAlarmBar){
-                setAlarmTitle("오류!")
-                setAlarmText("기업명을 입력해주세요.")
-                handleAlarm();
+            if (!showAlarm){
+                setAlarmTitle("재떨이.com 내용:")
+                setAlarmText("기업명(상호명)과 지점명을 입력 해주세요.")
+                setShowAlarm(true)
             }
             return;
+        } else if (dupliCheck !== 1){
+            if (!showAlarm){
+                setAlarmTitle("재떨이.com 내용:")
+                setAlarmText("기업명(상호명) 중복 확인을 해주세요.")
+                setShowAlarm(true)
+            }
         }
+
+
         if (storeInfoState.categoryIdx === 0){
-            if (!showAlarmBar){
-                setAlarmTitle("오류!")
-                setAlarmText("가게 업종을 입력해주세요.")
-                handleAlarm();
+            if (!showAlarm){
+                setAlarmTitle("재떨이.com 내용:")
+                setAlarmText("가게 업종을 입력 해주세요.")
+                setShowAlarm(true)
             }
             return;
         }
 
         if (storeInfoState.businessPhone === ""){
-            if (!showAlarmBar){
-                setAlarmTitle("오류!")
-                setAlarmText("사업주 휴대번호를 입력해주세요.")
-                handleAlarm();
+            if (!showAlarm){
+                setAlarmTitle("재떨이.com 내용:")
+                setAlarmText("사업주 휴대번호를 입력 해주세요.")
+                setShowAlarm(true)
             }
             return;
         }
         else {
             const phoneNumberRegex = /^\d{10,11}$/;
-            console.log(phoneNumberRegex.test(storeInfoState.businessPhone))
             if (!phoneNumberRegex.test(storeInfoState.businessPhone)){
-                if (!showAlarmBar){
-                    setAlarmTitle("오류!")
-                    setAlarmText("사업주 휴대번호를 양식에 맞춰 입력해주세요.")
-                    handleAlarm();
+                if (!showAlarm){
+                    setAlarmTitle("재떨이.com 내용:")
+                    setAlarmText("사업주 휴대번호를 양식에 맞춰 입력 해주세요.")
+                    setShowAlarm(true)
                 }
                 return;
             }
         }
 
         if (storeInfoState.businessEmail === ""){
-            if (!showAlarmBar){
-                setAlarmTitle("오류!")
-                setAlarmText("사업주 이메일을 입력해주세요.")
-                handleAlarm();
+            if (!showAlarm){
+                setAlarmTitle("재떨이.com 내용:")
+                setAlarmText("사업주 이메일을 입력 해주세요.")
+                setShowAlarm(true)
             }
             return;
         } else {
             const emailRegex = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/;
             if (!emailRegex.test(storeInfoState.businessEmail)) {
-                if (!showAlarmBar){
-                    setAlarmTitle("오류!");
-                    setAlarmText("올바른 이메일 양식으로 입력해주세요.");
-                    handleAlarm();
+                if (!showAlarm){
+                    setAlarmTitle("재떨이.com 내용:");
+                    setAlarmText("올바른 이메일 양식으로 입력 해주세요.");
+                    setShowAlarm(true)
                 }
                 return;
             }
         }
 
         if (storeInfoState.businessCertificateFile === ""){
-            if (!showAlarmBar){
-                setAlarmTitle("오류!")
-                setAlarmText("사업자 등록증을 등록해주세요.")
-                handleAlarm();
+            if (!showAlarm){
+                setAlarmTitle("재떨이.com 내용:")
+                setAlarmText("사업자 등록증을 등록 해주세요.")
+                setShowAlarm(true)
             }
             return;
         }
         if (storeInfoState.sellerCertificateFile === ""){
-            if (!showAlarmBar){
-                setAlarmTitle("오류!")
-                setAlarmText("영업자 등록증을 등록해주세요.")
-                handleAlarm();
+            if (!showAlarm){
+                setAlarmTitle("재떨이.com 내용:")
+                setAlarmText("영업자 등록증을 등록 해주세요.")
+                setShowAlarm(true)
             }
             return;
         }
         if (storeInfoState.copyAccountFile === ""){
-            if (!showAlarmBar){
-                setAlarmTitle("오류!")
-                setAlarmText("통장 사본을 등록해주세요.")
-                handleAlarm();
+            if (!showAlarm){
+                setAlarmTitle("재떨이.com 내용:")
+                setAlarmText("통장 사본을 등록 해주세요.")
+                setShowAlarm(true)
             }
             return;
         }
         if (storeInfoState.storeOpen === ""){
-            if (!showAlarmBar){
-                setAlarmTitle("오류!")
-                setAlarmText("운영시간을 입력해주세요.")
-                handleAlarm();
+            if (!showAlarm){
+                setAlarmTitle("재떨이.com 내용:")
+                setAlarmText("운영시간을 입력 해주세요.")
+                setShowAlarm(true)
             }
             return;
         }
         if (storeInfoState.breakDay === ""){
-            if (!showAlarmBar){
-                setAlarmTitle("오류!")
-                setAlarmText("휴무일을 입력해주세요.")
-                handleAlarm();
+            if (!showAlarm){
+                setAlarmTitle("재떨이.com 내용:")
+                setAlarmText("휴무일을 입력 해주세요.")
+                setShowAlarm(true)
             }
             return;
         }
         if (storeInfoState.storePhone === ""){
-            if (!showAlarmBar){
-                setAlarmTitle("오류!")
-                setAlarmText("가게 전화번호를 입력해주세요.")
-                handleAlarm();
+            if (!showAlarm){
+                setAlarmTitle("재떨이.com 내용:")
+                setAlarmText("가게 전화번호를 입력 해주세요.")
+                setShowAlarm(true)
             }
             return;
         }
         else {
             const phoneNumberRegex = /^\d{3}-\d{4}-\d{4}$/;
-            console.log(phoneNumberRegex.test(storeInfoState.storePhone))
             if (!phoneNumberRegex.test(storeInfoState.storePhone)){
-                if (!showAlarmBar){
-                    setAlarmTitle("오류!")
-                    setAlarmText("가게 전화번호를 양식에 맞춰 입력해주세요.")
-                    handleAlarm();
+                if (!showAlarm){
+                    setAlarmTitle("재떨이.com 내용:")
+                    setAlarmText("가게 전화번호를 양식에 맞춰 입력 해주세요.")
+                    setShowAlarm(true)
                 }
                 return;
             }
         }
 
         if (storeInfoState.city === "" || storeInfoState.local === "" || storeInfoState.town === "" || storeInfoState.detailAddress === ""){
-            if (!showAlarmBar){
-                setAlarmTitle("오류!")
-                setAlarmText("가게 주소를 입력해주세요.")
-                handleAlarm();
+            if (!showAlarm){
+                setAlarmTitle("재떨이.com 내용:")
+                setAlarmText("가게 주소를 입력 해주세요.")
+                setShowAlarm(true)
             }
             return;
         }
         if (storeInfoState.storeLogoFile === ""){
-            if (!showAlarmBar){
-                setAlarmTitle("오류!")
-                setAlarmText("가게 로고를 등록주세요.")
-                handleAlarm();
+            if (!showAlarm){
+                setAlarmTitle("재떨이.com 내용:")
+                setAlarmText("가게 로고를 등록 해주세요.")
+                setShowAlarm(true)
             }
             return;
         }
         if (storeInfoState.signFile === ""){
-            if (!showAlarmBar){
-                setAlarmTitle("오류!")
-                setAlarmText("매장간판 사진을 등록해주세요.")
-                handleAlarm();
+            if (!showAlarm){
+                setAlarmTitle("재떨이.com 내용:")
+                setAlarmText("매장간판 사진을 등록 해주세요.")
+                setShowAlarm(true)
             }
             return;
         }
 
         sendDataToServer()
-        navigate('/register/menu')
     }
 
+    function dupliCheckToServer() {
+        const token = getCookieToken();
+        const requestOptions = {
+            method: 'GET',
+            headers: {
+                'X-ACCESS-TOKEN': token,
+            },
+        };
 
+        if (storeInfoState.storeName === "")
+            return setDupliCheck(3);
+
+        fetch(`https://www.insung.shop/jat/stores/duplicate?storeName=${storeInfoState.storeName}`, requestOptions)
+            .then(response => response.json())
+            .then(data => {
+                const check = data.result.isDuplicate;
+                if (check === 0) setDupliCheck(1)
+                else if (check === 1) setDupliCheck(2)
+                else setDupliCheck(4)
+            })
+            .catch(error => {
+                console.error(error);
+            });
+    }
+
+    // 모달창에 넘길 off함수
+    function onClose(){
+        setShowAlarm(false);
+    }
+
+    useEffect(() => {
+        if (storeNames[0] === "" || storeNames[1] === "")
+            handleStoreInfo({ storeName: "" });
+        else handleStoreInfo({ storeName : storeNames.join(" ")});
+    }, [storeNames]);
 
     return (
-        <Regist1Styled>
-            <AlarmModal showAlarm={showAlarm} showAlarmBar={showAlarmBar} title={alarmTitle} text={alarmText} />
-            <Regist1BIStyled>
-                기본정보
-            </Regist1BIStyled>
-            <Regist1BI2Styled>
-                가게정보등록후 심사가 끝나면 서비스 이용이 가능합니다. 심사는 24시간 이내에 이루어집니다.
-            </Regist1BI2Styled>
-            <Regist1BorderStyled />
-            <Regist1BoxContainer1Styled>
-                <Regist1Box1Styled>
-                    기업명(상호명)
-                </Regist1Box1Styled>
-                <Regist1Box2Styled>
-                    <Regist1TextBoxStyled
-                        placeholder="cu 편의점 울산 문수점"
-                        onChange={(event)=>handleStoreInfo({storeName:event.target.value})}/>
-                </Regist1Box2Styled>
-            </Regist1BoxContainer1Styled>
-            <Regist1BoxContainer1Styled>
-                <Regist1Box1Styled>
-                    가게 업종
-                </Regist1Box1Styled>
-                <Regist1Box2Styled>
-                    <Regist1TextBoxStyled
-                        readOnly
-                        value={clickSectors ? clickSectors : ''}
-                        placeholder="업종 선택하기"
-                    />
-                    <Regist1SelectedButtonContainerStyled
-                        onMouseEnter={() => {
-                            setIsHovered(true)
-                        }}
-                        onMouseLeave={() => {
-                            setIsHovered(false)
-                        }}>
-                        <SelectButton />
-                    </Regist1SelectedButtonContainerStyled>
-                    {isHovered && (<Regist1SelectBoxStyled>
-                        <Regist1SelectEmptyStyled
-                            onMouseEnter={() => {
-                                setIsHovered(true)
-                            }}
+        <>
+            <Header />
+            <AlarmModal isOpen={showAlarm} onClose={() => onClose()} title={alarmTitle} text={alarmText} />
+            <RegistContainerStyled ref={ref}>
+                <Regist1Styled>
+                    <Regist1BIStyled>
+                        기본정보
+                    </Regist1BIStyled>
+                    <Regist1BI2Styled>
+                        가게정보등록후 심사가 끝나면 서비스 이용이 가능합니다. 심사는 24시간 이내에 이루어집니다.
+                    </Regist1BI2Styled>
+                    <Regist1BorderStyled />
+                    <Regist1BoxContainer1Styled>
+                        <Regist1Box1Styled>
+                            기업명(상호명)
+                        </Regist1Box1Styled>
+                        <Regist1Box2Styled>
+                            <Regist1TextBoxStyled
+                                placeholder="cu편의점"
+                                onChange={(event) => {
+                                    if(!event.target.value.trim().includes(" "))
+                                        setStoreNames([event.target.value.trim(), storeNames[1]])
+                                    else setStoreNames(["", storeNames[1]])
+                                }
+                                } />
+                        </Regist1Box2Styled>
+                    </Regist1BoxContainer1Styled>
+                    <Regist1BoxContainer1Styled>
+                        <Regist1Box1Styled>
+                            지점명
+                        </Regist1Box1Styled>
+                        <Regist1Box2Styled>
+                            <Regist1TextBoxStyled
+                                placeholder="울산문수점"
+                                onChange={(event) => {
+                                    if(!event.target.value.trim().includes(" "))
+                                        setStoreNames([storeNames[0], event.target.value.trim()])
+                                    else setStoreNames([storeNames[0], ""])
+                                }
+                                } />
+                        </Regist1Box2Styled>
+                    </Regist1BoxContainer1Styled>
+                    <Regist1BoxContainer3Styled>
+                        <Regist1Box2Styled>
+                            <Regist1TextBoxStyled
+                                readOnly
+                                placeholder="cu편의점 울산문수점"
+                                value={storeInfoState.storeName}
+                            />
+                            <Regist1DupliCheck children={"중복확인"}
+                                               onClick={dupliCheckToServer}
+                            />
+                        </Regist1Box2Styled>
+                        <Regist1TextBox2Styled children={
+                            dupliCheck === 0 ? "반드시 띄어쓰기 없이 기입해 주세요!" :
+                                dupliCheck === 1 ? "사용가능한 가게명 입니다." :
+                                    dupliCheck === 2 ? "이미 존재하는 가게명 입니다.":
+                                        dupliCheck === 3 ? "양식에 맞게 입력해 주세요" : "서버 에러!"}
+                                               error={dupliCheck <= 1}
+                        />
+                    </Regist1BoxContainer3Styled>
+                    <Regist1BoxContainer1Styled>
+                        <Regist1Box1Styled>
+                            가게 업종
+                        </Regist1Box1Styled>
+                        <Regist1Box2Styled
                             onMouseLeave={() => {
-                                setIsHovered(false)
-                            }} />
-                        <Regist1SelectBoxItemStyled
-                            onMouseEnter={() => {
-                                setIsHovered(true)
-                            }}
-                            onMouseLeave={() => {
-                                setIsHovered(false)
-                            }}
-                            onClick={() => {
-                                setClickSectors("백화점")
-                                handleStoreInfo({categoryIdx: 1})
-                                setIsHovered(false)
+                                if (isHovered)
+                                    setIsHovered(false)
                             }}>
-                            백화점
-                        </Regist1SelectBoxItemStyled>
-                        <Regist1SelectBoxItemStyled
-                            onMouseEnter={() => {
-                                setIsHovered(true)
-                            }}
-                            onMouseLeave={() => {
-                                setIsHovered(false)
-                            }}
-                            onClick={() => {
-                                setClickSectors("편의점")
-                                handleStoreInfo({categoryIdx: 2})
-                                setIsHovered(false)
-                            }}>
-                            편의점
-                        </Regist1SelectBoxItemStyled>
-                        <Regist1SelectBoxItemStyled
-                            onMouseEnter={() => {
-                                setIsHovered(true)
-                            }}
-                            onMouseLeave={() => {
-                                setIsHovered(false)
-                            }}
-                            onClick={() => {
-                                setClickSectors("디저트")
-                                handleStoreInfo({categoryIdx: 3})
-                                setIsHovered(false)
-                            }}>
-                            디저트
-                        </Regist1SelectBoxItemStyled>
-                        <Regist1SelectBoxItemStyled
-                            onMouseEnter={() => {
-                                setIsHovered(true)
-                            }}
-                            onMouseLeave={() => {
-                                setIsHovered(false)
-                            }}
-                            onClick={() => {
-                                setClickSectors("샐러드")
-                                handleStoreInfo({categoryIdx: 4})
-                                setIsHovered(false)
-                            }}>
-                            샐러드
-                        </Regist1SelectBoxItemStyled>
-                        <Regist1SelectBoxItemStyled
-                            onMouseEnter={() => {
-                                setIsHovered(true)
-                            }}
-                            onMouseLeave={() => {
-                                setIsHovered(false)
-                            }}
-                            onClick={() => {
-                                setClickSectors("초밥")
-                                handleStoreInfo({categoryIdx: 5})
-                                setIsHovered(false)
-                            }}>
-                            초밥
-                        </Regist1SelectBoxItemStyled>
-                        <Regist1SelectBoxItemStyled
-                            onMouseEnter={() => {
-                                setIsHovered(true)
-                            }}
-                            onMouseLeave={() => {
-                                setIsHovered(false)
-                            }}
-                            onClick={() => {
-                                setClickSectors("카페")
-                                handleStoreInfo({categoryIdx: 6})
-                                setIsHovered(false)
-                            }}>
-                            카페
-                        </Regist1SelectBoxItemStyled>
-                        <Regist1SelectBoxItemStyled
-                            onMouseEnter={() => {
-                                setIsHovered(true)
-                            }}
-                            onMouseLeave={() => {
-                                setIsHovered(false)
-                            }}
-                            onClick={() => {
-                                setClickSectors("대형마트")
-                                handleStoreInfo({categoryIdx: 7})
-                                setIsHovered(false)
-                            }}>
-                            대형마트
-                        </Regist1SelectBoxItemStyled>
-                    </Regist1SelectBoxStyled>
-                    )}
-                </Regist1Box2Styled>
-            </Regist1BoxContainer1Styled>
-            <Regist1BoxContainer1Styled>
-                <Regist1Box1Styled>
-                    사업주 휴대번호
-                </Regist1Box1Styled>
-                <Regist1Box2Styled>
-                    <Regist1TextBoxStyled
-                        placeholder="010-9778-8973"
-                        onChange={(event)=>handleStoreInfo({businessPhone:event.target.value.split('-').join('')})}/>
-                </Regist1Box2Styled>
-            </Regist1BoxContainer1Styled>
-            <Regist1BoxContainer1Styled>
-                <Regist1Box1Styled>
-                    사업주 이메일
-                </Regist1Box1Styled>
-                <Regist1Box2Styled>
-                    <Regist1TextBoxStyled
-                        placeholder="sdfsdfsdfsd@gmail.com"
-                        onChange={(event)=>handleStoreInfo({businessEmail:event.target.value})}/>
-                </Regist1Box2Styled>
-            </Regist1BoxContainer1Styled>
-            <Regist1EmptyBoxStyled />
-            <Regist1BoxContainer2Styled>
-                <Regist1Box1Styled>
-                    사업자 등록증
-                </Regist1Box1Styled>
-                <Regist1Box3Styled>
-                    <Regist1Box4Styled src={previewImage1 ? previewImage1 : "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"} />
-                    <Regist1InputButtonStyled
-                        onClick={() => {
-                            fileInput1.current.click();
-                        }}>
-                        이미지 업로드
-                    </Regist1InputButtonStyled>
-                    <input type="file"
-                        name="image1"
-                        accept="image/jpeg, image/png"
-                        ref={fileInput1}
-                        style={{ display: "none" }}
-                        onChange={(event) => { handleImageChange(event, 0) }}
-                    />
-                </Regist1Box3Styled>
-            </Regist1BoxContainer2Styled>
-            <Regist1BoxContainer2Styled>
-                <Regist1Box1Styled>
-                    영업자 등록증
-                </Regist1Box1Styled>
-                <Regist1Box3Styled>
-                    <Regist1Box4Styled src={previewImage2 ? previewImage2 : "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"} />
-                    <Regist1InputButtonStyled
-                        onClick={() => {
-                            fileInput2.current.click();
-                        }}>
-                        이미지 업로드
-                    </Regist1InputButtonStyled>
-                    <input type="file"
-                        name="image2"
-                        accept="image/jpeg, image/png"
-                        ref={fileInput2}
-                        style={{ display: "none" }}
-                        onChange={(event) => { handleImageChange(event, 1) }}
-                    />
-                </Regist1Box3Styled>
-            </Regist1BoxContainer2Styled>
-            <Regist1BoxContainer2Styled>
-                <Regist1Box1Styled>
-                    통장 사본
-                </Regist1Box1Styled>
-                <Regist1Box3Styled>
-                    <Regist1Box4Styled src={previewImage3 ? previewImage3 : "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"} />
-                    <Regist1InputButtonStyled
-                        onClick={() => {
-                            fileInput3.current.click();
-                        }}>
-                        이미지 업로드
-                    </Regist1InputButtonStyled>
-                    <input type="file"
-                        name="image3"
-                        accept="image/jpeg, image/png"
-                        ref={fileInput3}
-                        style={{ display: "none" }}
-                        onChange={(event) => { handleImageChange(event, 2) }}
-                    />
-                </Regist1Box3Styled>
-            </Regist1BoxContainer2Styled>
-            <Regist1EmptyBoxStyled />
-            <Regist1BoxContainer1Styled>
-                <Regist1Box1Styled>
-                    운영시간
-                </Regist1Box1Styled>
-                <Regist1Box2Styled>
-                    <Regist1TextBoxStyled
-                        placeholder="08:00 ~ 12:00"
-                        onChange={(event)=> {
-                            const [storeOpen, storeClose] = event.target.value.split('~').map(part => part.trim());
-                            handleStoreInfo({storeOpen: storeOpen, storeClose: storeClose});
-                        }}/>
-                </Regist1Box2Styled>
-            </Regist1BoxContainer1Styled>
-            <Regist1BoxContainer1Styled>
-                <Regist1Box1Styled>
-                    휴무일
-                </Regist1Box1Styled>
-                <Regist1Box2Styled>
-                    <Regist1TextBoxStyled
-                        placeholder="홀수주 화요일, 공휴일"
-                        onChange={(event)=>handleStoreInfo({breakDay:event.target.value})}/>
-                </Regist1Box2Styled>
-            </Regist1BoxContainer1Styled>
-            <Regist1BoxContainer1Styled>
-                <Regist1Box1Styled>
-                    가게 전화번호
-                </Regist1Box1Styled>
-                <Regist1Box2Styled>
-                    <Regist1TextBoxStyled
-                        placeholder="055-1234-5678"
-                        onChange={(event)=>handleStoreInfo({storePhone:event.target.value})}/>
-                </Regist1Box2Styled>
-            </Regist1BoxContainer1Styled>
-            <Regist1BoxContainer1Styled>
-                <Regist1Box1Styled>
-                    가게 주소
-                </Regist1Box1Styled>
-                <Regist1Box6Styled>
-                    <Regist1Box7Styled>
-                        <Regist1TextBoxStyled
-                            readOnly
-                            value={postalCode1}
-                            placeholder="050505" />
-                    </Regist1Box7Styled>
-                    <Regist1Box9Styled onClick={getPostalCode}>
-                        우편번호
-                    </Regist1Box9Styled>
-                    <Regist1Box7Styled>
-                        <Regist1TextBoxStyled
-                            readOnly
-                            value={postalCode2}
-                            placeholder="울산 남구 대학로 33번길 18-4" />
-                    </Regist1Box7Styled>
-                    <Regist1Box8Styled>
-                        <Regist1TextBoxStyled
-                            placeholder="2층"
-                            onChange={(event)=>handleStoreInfo({detailAddress: event.target.value})}/>
-                    </Regist1Box8Styled>
-                </Regist1Box6Styled>
-            </Regist1BoxContainer1Styled>
-            <Regist1EmptyBoxStyled />
-            <Regist1BoxContainer2Styled>
-                <Regist1Box1Styled>
-                    가게 로고
-                </Regist1Box1Styled>
-                <Regist1Box3Styled>
-                    <Regist1Box4Styled src={previewImage4 ? previewImage4 : "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"} />
-                    <Regist1InputButtonStyled
-                        onClick={() => {
-                            fileInput4.current.click();
-                        }}>
-                        이미지 업로드
-                    </Regist1InputButtonStyled>
-                    <input type="file"
-                        name="filename"
-                        accept="image/jpeg, image/png"
-                        ref={fileInput4}
-                        style={{ display: "none" }}
-                        onChange={(event) => { handleImageChange(event, 3) }}
-                    />
-                </Regist1Box3Styled>
-            </Regist1BoxContainer2Styled>
-            <Regist1BoxContainer2Styled>
-                <Regist1Box1Styled>
-                    매장간판 사진
-                </Regist1Box1Styled>
-                <Regist1Box3Styled>
-                    <Regist1Box4Styled src={previewImage5 ? previewImage5 : "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"} />
-                    <Regist1InputButtonStyled
-                        onClick={() => {
-                            fileInput5.current.click();
-                        }}>
-                        이미지 업로드
-                    </Regist1InputButtonStyled>
-                    <input type="file"
-                        name="filename"
-                        accept="image/jpeg, image/png"
-                        ref={fileInput5}
-                        style={{ display: "none" }}
-                        onChange={(event) => { handleImageChange(event, 4) }}
-                    />
-                </Regist1Box3Styled>
-            </Regist1BoxContainer2Styled>
-            <Regist1Submit onClick={testRedux}>
-                가게 정보 신청하기
-            </Regist1Submit>
-        </Regist1Styled>
+                            <Regist1TextBoxStyled
+                                readOnly
+                                value={clickSectors ? clickSectors : ''}
+                                placeholder="업종 선택하기"
+                            />
+                            <Regist1SelectedButtonContainerStyled
+                                onMouseEnter={() => {
+                                    setIsHovered(true)
+                                }}>
+                                <SelectButton />
+                            </Regist1SelectedButtonContainerStyled>
+                            {isHovered && (<Regist1SelectBoxStyled>
+                                    <Regist1SelectBoxItemStyled
+                                        onClick={() => {
+                                            setClickSectors("백화점")
+                                            handleStoreInfo({categoryIdx: 1})
+                                            setIsHovered(false)
+                                        }}>
+                                        백화점
+                                    </Regist1SelectBoxItemStyled>
+                                    <Regist1SelectBoxItemStyled
+                                        onClick={() => {
+                                            setClickSectors("편의점")
+                                            handleStoreInfo({categoryIdx: 2})
+                                            setIsHovered(false)
+                                        }}>
+                                        편의점
+                                    </Regist1SelectBoxItemStyled>
+                                    <Regist1SelectBoxItemStyled
+                                        onClick={() => {
+                                            setClickSectors("디저트")
+                                            handleStoreInfo({categoryIdx: 3})
+                                            setIsHovered(false)
+                                        }}>
+                                        디저트
+                                    </Regist1SelectBoxItemStyled>
+                                    <Regist1SelectBoxItemStyled
+                                        onClick={() => {
+                                            setClickSectors("샐러드")
+                                            handleStoreInfo({categoryIdx: 4})
+                                            setIsHovered(false)
+                                        }}>
+                                        샐러드
+                                    </Regist1SelectBoxItemStyled>
+                                    <Regist1SelectBoxItemStyled
+                                        onClick={() => {
+                                            setClickSectors("초밥")
+                                            handleStoreInfo({categoryIdx: 5})
+                                            setIsHovered(false)
+                                        }}>
+                                        초밥
+                                    </Regist1SelectBoxItemStyled>
+                                    <Regist1SelectBoxItemStyled
+                                        onClick={() => {
+                                            setClickSectors("카페")
+                                            handleStoreInfo({categoryIdx: 6})
+                                            setIsHovered(false)
+                                        }}>
+                                        카페
+                                    </Regist1SelectBoxItemStyled>
+                                    <Regist1SelectBoxItemStyled
+                                        onClick={() => {
+                                            setClickSectors("대형마트")
+                                            handleStoreInfo({categoryIdx: 7})
+                                            setIsHovered(false)
+                                        }}>
+                                        대형마트
+                                    </Regist1SelectBoxItemStyled>
+                                </Regist1SelectBoxStyled>
+                            )}
+                        </Regist1Box2Styled>
+                    </Regist1BoxContainer1Styled>
+                    <Regist1BoxContainer1Styled>
+                        <Regist1Box1Styled>
+                            사업주 휴대번호
+                        </Regist1Box1Styled>
+                        <Regist1Box2Styled>
+                            <Regist1TextBoxStyled
+                                placeholder="010-9778-8973"
+                                onChange={(event)=>handleStoreInfo({businessPhone:event.target.value.split('-').join('')})}/>
+                        </Regist1Box2Styled>
+                    </Regist1BoxContainer1Styled>
+                    <Regist1BoxContainer1Styled>
+                        <Regist1Box1Styled>
+                            사업주 이메일
+                        </Regist1Box1Styled>
+                        <Regist1Box2Styled>
+                            <Regist1TextBoxStyled
+                                style={{ fontFamily: 'Abhaya Libre, serif' }}
+                                placeholder="sdfsdfsdfsd@gmail.com"
+                                onChange={(event)=>handleStoreInfo({businessEmail:event.target.value})}/>
+                        </Regist1Box2Styled>
+                    </Regist1BoxContainer1Styled>
+                    <Regist1EmptyBoxStyled />
+                    <Regist1BoxContainer2Styled>
+                        <Regist1Box1Styled>
+                            사업자 등록증
+                        </Regist1Box1Styled>
+                        <Regist1Box3Styled>
+                            <Regist1Box4Styled src={previewImage1 ? previewImage1 : "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"} />
+                            <Regist1InputButtonStyled
+                                onClick={() => {
+                                    fileInput1.current.click();
+                                }}>
+                                이미지 업로드
+                            </Regist1InputButtonStyled>
+                            <input type="file"
+                                   name="image1"
+                                   accept="image/jpeg, image/png"
+                                   ref={fileInput1}
+                                   style={{ display: "none" }}
+                                   onChange={(event) => { handleImageChange(event, 0) }}
+                            />
+                        </Regist1Box3Styled>
+                    </Regist1BoxContainer2Styled>
+                    <Regist1BoxContainer2Styled>
+                        <Regist1Box1Styled>
+                            영업자 등록증
+                        </Regist1Box1Styled>
+                        <Regist1Box3Styled>
+                            <Regist1Box4Styled src={previewImage2 ? previewImage2 : "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"} />
+                            <Regist1InputButtonStyled
+                                onClick={() => {
+                                    fileInput2.current.click();
+                                }}>
+                                이미지 업로드
+                            </Regist1InputButtonStyled>
+                            <input type="file"
+                                   name="image2"
+                                   accept="image/jpeg, image/png"
+                                   ref={fileInput2}
+                                   style={{ display: "none" }}
+                                   onChange={(event) => { handleImageChange(event, 1) }}
+                            />
+                        </Regist1Box3Styled>
+                    </Regist1BoxContainer2Styled>
+                    <Regist1BoxContainer2Styled>
+                        <Regist1Box1Styled>
+                            통장 사본
+                        </Regist1Box1Styled>
+                        <Regist1Box3Styled>
+                            <Regist1Box4Styled src={previewImage3 ? previewImage3 : "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"} />
+                            <Regist1InputButtonStyled
+                                onClick={() => {
+                                    fileInput3.current.click();
+                                }}>
+                                이미지 업로드
+                            </Regist1InputButtonStyled>
+                            <input type="file"
+                                   name="image3"
+                                   accept="image/jpeg, image/png"
+                                   ref={fileInput3}
+                                   style={{ display: "none" }}
+                                   onChange={(event) => { handleImageChange(event, 2) }}
+                            />
+                        </Regist1Box3Styled>
+                    </Regist1BoxContainer2Styled>
+                    <Regist1EmptyBoxStyled />
+                    <Regist1BoxContainer1Styled>
+                        <Regist1Box1Styled>
+                            운영시간
+                        </Regist1Box1Styled>
+                        <Regist1Box10Wrapper>
+                            <Regist1Box10Styled>
+                                <Regist1TextBoxStyled
+                                    placeholder="08:00"
+                                    onChange={(event)=> {
+                                        handleStoreInfo({storeOpen: event.target.value});
+                                    }}/>
+                            </Regist1Box10Styled>
+                            ~
+                            <Regist1Box10Styled>
+                                <Regist1TextBoxStyled
+                                    placeholder="12:00"
+                                    onChange={(event)=> {
+                                        handleStoreInfo({storeClose: event.target.value});
+                                    }}/>
+                            </Regist1Box10Styled>
+                        </Regist1Box10Wrapper>
+                    </Regist1BoxContainer1Styled>
+                    <Regist1BoxContainer1Styled>
+                        <Regist1Box1Styled>
+                            휴무일
+                        </Regist1Box1Styled>
+                        <Regist1Box2Styled>
+                            <Regist1TextBoxStyled
+                                placeholder="홀수주 화요일, 공휴일"
+                                onChange={(event)=>handleStoreInfo({breakDay:event.target.value})}/>
+                        </Regist1Box2Styled>
+                    </Regist1BoxContainer1Styled>
+                    <Regist1BoxContainer1Styled>
+                        <Regist1Box1Styled>
+                            가게 전화번호
+                        </Regist1Box1Styled>
+                        <Regist1Box2Styled>
+                            <Regist1TextBoxStyled
+                                style={{ fontFamily: 'Abhaya Libre, serif' }}호
+                                placeholder="055-1234-5678"
+                                onChange={(event)=>handleStoreInfo({storePhone:event.target.value})}/>
+                        </Regist1Box2Styled>
+                    </Regist1BoxContainer1Styled>
+                    <Regist1BoxContainer1Styled>
+                        <Regist1Box1Styled>
+                            가게 주소
+                        </Regist1Box1Styled>
+                        <Regist1Box6Styled>
+                            <Regist1Box7Styled>
+                                <Regist1TextBoxStyled
+                                    readOnly
+                                    style={{ fontFamily: 'Abhaya Libre, serif' }}
+                                    value={postalCode1}
+                                    placeholder="050505" />
+                            </Regist1Box7Styled>
+                            <Regist1Box9Styled onClick={getPostalCode}>
+                                우편번호
+                            </Regist1Box9Styled>
+                            <Regist1Box7Styled>
+                                <Regist1TextBoxStyled
+                                    readOnly
+                                    value={postalCode2}
+                                    placeholder="울산 남구 대학로 33번길 18-4" />
+                            </Regist1Box7Styled>
+                            <Regist1Box8Styled>
+                                <Regist1TextBoxStyled
+                                    placeholder="2층"
+                                    onChange={(event)=>handleStoreInfo({detailAddress: event.target.value})}/>
+                            </Regist1Box8Styled>
+                        </Regist1Box6Styled>
+                    </Regist1BoxContainer1Styled>
+                    <Regist1EmptyBoxStyled />
+                    <Regist1BoxContainer2Styled>
+                        <Regist1Box1Styled>
+                            가게 로고
+                        </Regist1Box1Styled>
+                        <Regist1Box3Styled>
+                            <Regist1Box4Styled src={previewImage4 ? previewImage4 : "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"} />
+                            <Regist1InputButtonStyled
+                                onClick={() => {
+                                    fileInput4.current.click();
+                                }}>
+                                이미지 업로드
+                            </Regist1InputButtonStyled>
+                            <input type="file"
+                                   name="filename"
+                                   accept="image/jpeg, image/png"
+                                   ref={fileInput4}
+                                   style={{ display: "none" }}
+                                   onChange={(event) => { handleImageChange(event, 3) }}
+                            />
+                        </Regist1Box3Styled>
+                    </Regist1BoxContainer2Styled>
+                    <Regist1BoxContainer2Styled>
+                        <Regist1Box1Styled>
+                            매장간판 사진
+                        </Regist1Box1Styled>
+                        <Regist1Box3Styled>
+                            <Regist1Box4Styled src={previewImage5 ? previewImage5 : "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"} />
+                            <Regist1InputButtonStyled
+                                onClick={() => {
+                                    fileInput5.current.click();
+                                }}>
+                                이미지 업로드
+                            </Regist1InputButtonStyled>
+                            <input type="file"
+                                   name="filename"
+                                   accept="image/jpeg, image/png"
+                                   ref={fileInput5}
+                                   style={{ display: "none" }}
+                                   onChange={(event) => { handleImageChange(event, 4) }}
+                            />
+                        </Regist1Box3Styled>
+                    </Regist1BoxContainer2Styled>
+                    <Regist1Submit onClick={testRedux}>
+                        가게 정보 신청하기
+                    </Regist1Submit>
+                </Regist1Styled>
+                <Footer />
+            </RegistContainerStyled>
+        </>
     );
 }

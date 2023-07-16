@@ -1,8 +1,10 @@
 import styled from "styled-components";
 import { ReactComponent as DeleteButton} from "../../assets/images/Group 8.svg";
-import {useRef, useState} from "react";
+import {useEffect, useRef, useState} from "react";
 import SideBar from "../sidebar/SideBar";
 import Header from "../header/Header";
+import { getCookieToken } from "../../store/common/Cookie";
+import store from "../../store";
 
 const Modify1Styled = styled.div`
     display: flex;
@@ -79,7 +81,7 @@ const Modify1Box2Styled = styled.div`
     background: rgba(242, 244, 248, 1);
 `
 
-const Modify1TextBoxStyled = styled.textarea`
+const Modify1TextBoxStyled = styled.input`
     /* 텍스트 박스 스타일 */
     width: 100%;
     height: 22px;
@@ -126,6 +128,20 @@ const Modify1Box4Styled = styled.img`
     border-radius: 5px;
     background: rgba(242, 244, 248, 1);
     border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+`
+
+const Modify1Box5Styled = styled.div`
+    position: relative;
+    display: flex;
+    justify-content: space-between; /* 요소들을 양 끝으로 정렬 */
+    align-items: center;
+    width: 214px;
+    height: 48px;
+    border-radius: 5px;
+    
+    border-bottom: 1px solid #00000033;
+
+    background: rgba(242, 244, 248, 1);
 `
 
 const Modify1InputButtonStyled = styled.label`
@@ -313,7 +329,7 @@ const Modify2InputButtonStyled = styled.div`
   }
 `
 
-const Modify2FlexTextArea1Styled = styled.textarea`
+const Modify2FlexTextArea1Styled = styled.input`
     /* 텍스트 박스 스타일 */
     width: 100%;
     height: 18px;
@@ -426,16 +442,167 @@ const Modify1ContainerStyled = styled.div`
     top: 72px;
 `
 
+const Modify1Box5Wrapper = styled.div`
+  position: relative;
+  display: flex;
+  justify-content: space-between; /* 요소들을 양 끝으로 정렬 */
+  align-items: center;
+  width: 457px;
+  height: 48px;
+
+  color: rgba(0, 0, 0, 0.50);
+
+  font-family: 'Roboto', sans-serif;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 140%;
+`
+
 export default function Modify1() {
-    const [grid1Items, setGrid1Items] = useState([0, 1, 2]);
-    const [grid2Items, setGrid2Items] = useState([0, 1, 2]);
+    const [grid1Items, setGrid1Items] = useState(1);
+    const [grid2Items, setGrid2Items] = useState(1);
     const [previewImageSetters, setPreviewImageSetters] = useState(false);
     const previewImage0 = useRef({ 0: null, 1: null });
-    const previewImage1 = useRef({ 0: null, 1: null, 2: null });
-    const previewImage2 = useRef({ 0: null, 1: null, 2: null });
+    const previewImage1 = useRef({ 0: null});
+    const previewImage2 = useRef({ 0: null});
     const tempList0 = [];
     const tempList1 = [];
     const tempList2 = [];
+
+    useEffect(() => {
+        getStoreInfo();
+        getMenuInfo();
+
+    }, [])
+
+    const initialStoreInfo = {
+        storeName : "",
+        businessPhone: "",
+        businessEmail: "",
+        breakDay: "",
+        storeOpen: "",
+        storeClose: "",
+        storePhone: "",
+        storeLogoUrl: "",
+        signUrl: ""
+    }
+    const [ storeInfo, setStoreInfo ] = useState(initialStoreInfo)
+
+    const initialMenuInfo = {
+        storeIdx: "",
+        mainMenuList: [],
+        sideMenuList: []
+    }
+    const [ menuInfo, setMenuInfo ] = useState(initialMenuInfo)
+
+
+    const getStoreInfo = () => {
+        const token = getCookieToken();
+
+        const requestOptions = {
+            method: 'GET',
+            headers: {
+                'X-ACCESS-TOKEN': token, // X-ACCESS-TOKEN 헤더에 토큰 값을 추가합니다.
+            },
+        };
+
+        fetch('https://www.insung.shop/jat/stores', requestOptions)
+            .then(response => response.json())
+            .then(data => {
+                const {storeLogoUrl, signUrl, ...storeData } = data.result;
+                console.log(data);
+                if (data.code === 1000){
+                    setStoreInfo({...storeInfo, ...storeData});
+                    previewImage0.current[0] = storeLogoUrl;
+                    previewImage0.current[1] = signUrl;
+                }
+
+            })
+            .catch(error => {
+                console.error(error);
+            });
+    }
+
+    const patchStoreInfo = () => {
+        const token = getCookieToken();
+
+        const formData = new FormData();
+        for (const key in storeInfo) {
+            formData.append(key, storeInfo[key]);
+            console.log(key, storeInfo[key])
+        }
+
+        for (let pair of formData.entries()) {
+            console.log(pair[0]+', '+pair[1])
+        }
+        return;
+
+        const requestOptions = {
+            method: 'PATCH',
+            headers: {
+                'X-ACCESS-TOKEN': token, // X-ACCESS-TOKEN 헤더에 토큰 값을 추가합니다.
+            },
+            body: formData
+        };
+
+        fetch('https://www.insung.shop/jat/stores', requestOptions)
+            .then(response => response.json())
+            .then(data => {
+                console.log(data);
+            })
+            .catch(error => {
+                console.error(error);
+            });
+
+    }
+
+    const getMenuInfo = () => {
+        const token = getCookieToken();
+
+        const requestOptions = {
+            method: 'GET',
+            headers: {
+                'X-ACCESS-TOKEN': token, // X-ACCESS-TOKEN 헤더에 토큰 값을 추가합니다.
+            },
+        };
+
+        fetch('https://www.insung.shop/jat/menus', requestOptions)
+            .then(response => response.json())
+            .then(data => {
+                console.log(data);
+                if (data.code === 1000){
+                    const result = data.result;
+                    const storeIdx = result.storeIdx;
+                    const mainMenuList = result.mainMenuList ? result.mainMenuList : [];
+                    const sideMenuList = result.sideMenuList ? result.sideMenuList : [];
+                    mainMenuList.forEach((item, index) => {
+                        for(let key in item){
+                            if (key === "menuUrl")
+                                previewImage1.current[index] = item[key]
+                        }
+                        delete item.menuUrl
+                    })
+                    sideMenuList.forEach((item, index) => {
+                        for(let key in item){
+                            if (key === "menuUrl")
+                                previewImage2.current[index] = item[key]
+                        }
+                        delete item.menuUrl
+                    })
+
+                    setMenuInfo({...menuInfo, storeIdx: storeIdx, mainMenuList: mainMenuList, sideMenuList: sideMenuList})
+                    console.log(mainMenuList)
+                    console.log(sideMenuList)
+                    setGrid1Items(mainMenuList.length)
+                    setGrid2Items(sideMenuList.length)
+                }
+            })
+            .catch(error => {
+                console.error(error);
+            });
+    }
+
 
     const fileCheck = (obj) => {
         const pathPoint = obj.value.lastIndexOf(".");
@@ -459,12 +626,29 @@ export default function Modify1() {
 
                 reader.onload = (e) => {
                     const imageUrl = e.target.result;
-                    if (type === 0)
+                    if (type === 0){
                         previewImage0.current[number] = imageUrl;
-                    else if (type === 1)
+                        switch (number){
+                            case 0:
+                                setStoreInfo({...storeInfo, storeLogoUrl: selectedFile});
+                                break;
+                            case 1:
+                                setStoreInfo({...storeInfo, signUrl: selectedFile});
+                                break;
+                        }
+                    }
+                    else if (type === 1){
                         previewImage1.current[number] = imageUrl;
-                    else
+                        const updateMenuUrl = [...menuInfo.mainMenuList]
+                        updateMenuUrl[number].menuUrl = selectedFile
+                        setMenuInfo({...menuInfo, mainMenuList: updateMenuUrl})
+                    }
+                    else{
                         previewImage2.current[number] = imageUrl;
+                        const updateMenuUrl = [...menuInfo.mainMenuList]
+                        updateMenuUrl[number].menuUrl = selectedFile
+                        setMenuInfo({...menuInfo, sideMenuList: updateMenuUrl})
+                    }
                     setPreviewImageSetters(!previewImageSetters);
                 };
 
@@ -491,7 +675,13 @@ export default function Modify1() {
                             기업명(상호명)
                         </Modify1Box1Styled>
                         <Modify1Box2Styled>
-                            <Modify1TextBoxStyled placeholder="cu 편의점 울산 문수점" maxLength={25} />
+                            <Modify1TextBoxStyled
+                                value={storeInfo.storeName}
+                                onChange={event => {
+                                    const newStoreName = event.target.value;
+                                    setStoreInfo({...storeInfo, storeName: newStoreName})
+                                }}
+                                placeholder="cu 편의점 울산 문수점"/>
                         </Modify1Box2Styled>
                     </Modify1BoxContainer1Styled>
                     <Modify1BoxContainer1Styled>
@@ -499,7 +689,15 @@ export default function Modify1() {
                             사업주 휴대번호
                         </Modify1Box1Styled>
                         <Modify1Box2Styled>
-                            <Modify1TextBoxStyled placeholder="010-9778-8973" maxLength={25} />
+                            <Modify1TextBoxStyled
+                                value={storeInfo.businessPhone}
+                                onChange={event => {
+                                    const newBusinessPhone = event.target.value.includes('-')
+                                        ? event.target.value.replace(/-/g, '')
+                                        : event.target.value;;
+                                    setStoreInfo({...storeInfo, businessPhone: newBusinessPhone})
+                                }}
+                                placeholder="010-9778-8973"/>
                         </Modify1Box2Styled>
                     </Modify1BoxContainer1Styled>
                     <Modify1BoxContainer1Styled>
@@ -507,23 +705,53 @@ export default function Modify1() {
                             사업주 이메일
                         </Modify1Box1Styled>
                         <Modify1Box2Styled>
-                            <Modify1TextBoxStyled placeholder="sdfsdfsdfsd@gmail.com" maxLength={25} />
+                            <Modify1TextBoxStyled
+                                value={storeInfo.businessEmail}
+                                onChange={event => {
+                                    const newBusinessEmaill = event.target.value;
+                                    setStoreInfo({...storeInfo, businessEmail: newBusinessEmaill})
+                                }}
+                                placeholder="sdfsdfsdfsd@gmail.com"/>
                         </Modify1Box2Styled>
                     </Modify1BoxContainer1Styled>
                     <Modify1BoxContainer1Styled>
                         <Modify1Box1Styled>
                             운영시간
                         </Modify1Box1Styled>
-                        <Modify1Box2Styled>
-                            <Modify1TextBoxStyled placeholder="08:00 ~ 12:00" maxLength={25} />
-                        </Modify1Box2Styled>
+                        <Modify1Box5Wrapper>
+                            <Modify1Box5Styled>
+                                <Modify1TextBoxStyled
+                                    value={storeInfo.storeOpen}
+                                    onChange={event => {
+                                        const newStoreOpen = event.target.value;
+                                        setStoreInfo({...storeInfo, storeOpen: newStoreOpen})
+                                    }}
+                                    placeholder="08:00" />
+                            </Modify1Box5Styled>
+                            ~
+                            <Modify1Box5Styled>
+                                <Modify1TextBoxStyled
+                                    value={storeInfo.storeClose}
+                                    onChange={event => {
+                                        const newStoreClose = event.target.value;
+                                        setStoreInfo({...storeInfo, storeClose: newStoreClose})
+                                    }}
+                                    placeholder="12:00" />
+                            </Modify1Box5Styled>
+                        </Modify1Box5Wrapper>
                     </Modify1BoxContainer1Styled>
                     <Modify1BoxContainer1Styled>
                         <Modify1Box1Styled>
                             휴무일
                         </Modify1Box1Styled>
                         <Modify1Box2Styled>
-                            <Modify1TextBoxStyled placeholder="홀수주 화요일, 공휴일" maxLength={25} />
+                            <Modify1TextBoxStyled
+                                value={storeInfo.breakDay}
+                                onChange={event => {
+                                    const newBreakDay = event.target.value;
+                                    setStoreInfo({...storeInfo, breakDay: newBreakDay})
+                                }}
+                                placeholder="홀수주 화요일, 공휴일" />
                         </Modify1Box2Styled>
                     </Modify1BoxContainer1Styled>
                     <Modify1BoxContainer1Styled>
@@ -531,7 +759,15 @@ export default function Modify1() {
                             가게 전화번호
                         </Modify1Box1Styled>
                         <Modify1Box2Styled>
-                            <Modify1TextBoxStyled placeholder="055-1234-5678" maxLength={25} />
+                            <Modify1TextBoxStyled
+                                value={storeInfo.storePhone}
+                                onChange={event => {
+                                    const newStorePhone = event.target.value.includes('-')
+                                        ? event.target.value.replace(/-/g, '')
+                                        : event.target.value;
+                                    setStoreInfo({...storeInfo, storePhone: newStorePhone})
+                                }}
+                                placeholder="055-1234-5678" />
                         </Modify1Box2Styled>
                     </Modify1BoxContainer1Styled>
                     <Modify1EmptyBoxStyled />
@@ -540,7 +776,8 @@ export default function Modify1() {
                             가게 로고
                         </Modify1Box1Styled>
                         <Modify1Box3Styled>
-                            <Modify1Box4Styled src={previewImage0.current[0] ? previewImage0.current[0] : "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"} />
+                            <Modify1Box4Styled
+                                src={previewImage0.current[0] ? previewImage0.current[0] : "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"} />
                             <Modify1InputButtonStyled
                                 onClick={() => {
                                     tempList0[0].click();
@@ -592,7 +829,7 @@ export default function Modify1() {
                         </Modify1Box3Styled>
                     </Modify1BoxContainer2Styled>
                     <Modify1SubmitContainer>
-                        <Modify1Submit>
+                        <Modify1Submit onClick={patchStoreInfo}>
                             가게정보 수정완료
                         </Modify1Submit>
                     </Modify1SubmitContainer>
@@ -621,22 +858,54 @@ export default function Modify1() {
                                 사진
                             </Modify2FlexBox9Styled>
                         </Modify2FlexContinaer2Styled>
-                        {grid1Items.map((index) => (
-                            <Modify2FlexContinaer2Styled key='grid1-{index}'>
+                        {Array.from({ length: grid1Items}).map((_, index) => (
+                            <Modify2FlexContinaer2Styled key={`grid1-${index}`}>
                                 <Modify2FlexBox1Styled>
                                     {index + 1}
                                 </Modify2FlexBox1Styled>
                                 <Modify2FlexBox2Styled>
-                                    <Modify2FlexTextArea1Styled placeholder={"연어 샐러드"} />
+                                    <Modify2FlexTextArea1Styled
+                                        value={menuInfo.mainMenuList[index] ? menuInfo.mainMenuList[index].menuName : ""}
+                                        onChange={event => {
+                                            const newMainMenuName = event.target.value;
+                                            const updatedMainMenuList = [...menuInfo.mainMenuList]; // 기존 mainMenuList 복사
+                                            updatedMainMenuList[index] = { ...updatedMainMenuList[index], menuName: newMainMenuName }; // 특정 인덱스의 menuName 업데이트
+                                            setMenuInfo({...menuInfo, mainMenuList: updatedMainMenuList})
+                                        }}
+                                        placeholder={"연어 샐러드"} />
                                 </Modify2FlexBox2Styled>
                                 <Modify2FlexBox2Styled>
-                                    <Modify2FlexTextArea1Styled placeholder={"1,000,000원"} />
+                                    <Modify2FlexTextArea1Styled
+                                        value={menuInfo.mainMenuList[index] ? menuInfo.mainMenuList[index].price : ""}
+                                        onChange={event => {
+                                            const newMainMenuPrice = event.target.value;
+                                            const updatedMainMenuList = [...menuInfo.mainMenuList]; // 기존 mainMenuList 복사
+                                            updatedMainMenuList[index] = { ...updatedMainMenuList[index], price: newMainMenuPrice }; // 특정 인덱스의 menuName 업데이트
+                                            setMenuInfo({...menuInfo, mainMenuList: updatedMainMenuList})
+                                        }}
+                                        placeholder={"1000000"} />
                                 </Modify2FlexBox2Styled>
                                 <Modify2FlexBox2Styled>
-                                    <Modify2FlexTextArea1Styled placeholder={"연어, 풀"} />
+                                    <Modify2FlexTextArea1Styled
+                                        value={menuInfo.mainMenuList[index] ? menuInfo.mainMenuList[index].composition : ""}
+                                        onChange={event => {
+                                            const newMainMenuComposition = event.target.value;
+                                            const updatedMainMenuList = [...menuInfo.mainMenuList]; // 기존 mainMenuList 복사
+                                            updatedMainMenuList[index] = { ...updatedMainMenuList[index], composition: newMainMenuComposition }; // 특정 인덱스의 menuName 업데이트
+                                            setMenuInfo({...menuInfo, mainMenuList: updatedMainMenuList})
+                                        }}
+                                        placeholder={"연어, 풀"} />
                                 </Modify2FlexBox2Styled>
                                 <Modify2FlexBox3Styled>
-                                    <Modify2FlexTextArea1Styled placeholder={"자연산 연어로 만들어서 싱싱해요."} />
+                                    <Modify2FlexTextArea1Styled
+                                        value={menuInfo.mainMenuList[index] ? menuInfo.mainMenuList[index].description : ""}
+                                        onChange={event => {
+                                            const newMainMenuDescription = event.target.value;
+                                            const updatedMainMenuList = [...menuInfo.mainMenuList]; // 기존 mainMenuList 복사
+                                            updatedMainMenuList[index] = { ...updatedMainMenuList[index], description: newMainMenuDescription }; // 특정 인덱스의 menuName 업데이트
+                                            setMenuInfo({...menuInfo, mainMenuList: updatedMainMenuList})
+                                        }}
+                                        placeholder={"자연산 연어로 만들어서 싱싱해요."} />
                                 </Modify2FlexBox3Styled>
                                 <Modify2FlexBox4Styled>
                                     <Modify2FlexBox5Styled src={previewImage1.current[index] ? previewImage1.current[index] : "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"} />
@@ -664,7 +933,7 @@ export default function Modify1() {
                                         이미지 업로드
                                     </Modify2InputButtonStyled>
                                 </Modify2FlexBox4Styled>
-                                <Modify2FlexBox6Styled onClick={}>
+                                <Modify2FlexBox6Styled>
                                     <DeleteButton />
                                 </Modify2FlexBox6Styled>
                             </Modify2FlexContinaer2Styled>
@@ -697,22 +966,54 @@ export default function Modify1() {
                                 사진
                             </Modify2FlexBox9Styled>
                         </Modify2FlexContinaer2Styled>
-                        {grid2Items.map((index) => (
+                        {Array.from({length: grid2Items}).map((_, index) => (
                             <Modify2FlexContinaer2Styled key='grid2-{index}'>
                                 <Modify2FlexBox1Styled>
                                     {index + 1}
                                 </Modify2FlexBox1Styled>
                                 <Modify2FlexBox2Styled>
-                                    <Modify2FlexTextArea1Styled placeholder={"연어 샐러드"} />
+                                    <Modify2FlexTextArea1Styled
+                                        value={menuInfo.sideMenuList[index] ? menuInfo.sideMenuList[index].menuName : ""}
+                                        onChange={event => {
+                                            const newSideMenuName = event.target.value;
+                                            const updatedSideMenuList = [...menuInfo.sideMenuList]; // 기존 mainMenuList 복사
+                                            updatedSideMenuList[index] = { ...updatedSideMenuList[index], composition: newSideMenuName }; // 특정 인덱스의 menuName 업데이트
+                                            setMenuInfo({...menuInfo, sideMenuList: updatedSideMenuList})
+                                        }}
+                                        placeholder={"연어 샐러드"} />
                                 </Modify2FlexBox2Styled>
                                 <Modify2FlexBox2Styled>
-                                    <Modify2FlexTextArea1Styled placeholder={"1,000,000원"} />
+                                    <Modify2FlexTextArea1Styled
+                                        value={menuInfo.sideMenuList[index] ? menuInfo.sideMenuList[index].price : ""}
+                                        onChange={event => {
+                                            const newSideMenuPrice = event.target.value;
+                                            const updatedSideMenuList = [...menuInfo.sideMenuList]; // 기존 mainMenuList 복사
+                                            updatedSideMenuList[index] = { ...updatedSideMenuList[index], composition: newSideMenuPrice }; // 특정 인덱스의 menuName 업데이트
+                                            setMenuInfo({...menuInfo, sideMenuList: updatedSideMenuList})
+                                        }}
+                                        placeholder={"1,000,000원"} />
                                 </Modify2FlexBox2Styled>
                                 <Modify2FlexBox2Styled>
-                                    <Modify2FlexTextArea1Styled placeholder={"연어, 풀"} />
+                                    <Modify2FlexTextArea1Styled
+                                        value={menuInfo.sideMenuList[index] ? menuInfo.sideMenuList[index].composition : ""}
+                                        onChange={event => {
+                                            const newSideMenuComposition = event.target.value;
+                                            const updatedSideMenuList = [...menuInfo.sideMenuList]; // 기존 mainMenuList 복사
+                                            updatedSideMenuList[index] = { ...updatedSideMenuList[index], composition: newSideMenuComposition }; // 특정 인덱스의 menuName 업데이트
+                                            setMenuInfo({...menuInfo, sideMenuList: updatedSideMenuList})
+                                        }}
+                                        placeholder={"연어, 풀"} />
                                 </Modify2FlexBox2Styled>
                                 <Modify2FlexBox3Styled>
-                                    <Modify2FlexTextArea1Styled placeholder={"자연산 연어로 만들어서 싱싱해요."} />
+                                    <Modify2FlexTextArea1Styled
+                                        value={menuInfo.sideMenuList[index] ? menuInfo.sideMenuList[index].description : ""}
+                                        onChange={event => {
+                                            const newSideMenuDescription = event.target.value;
+                                            const updatedSideMenuList = [...menuInfo.sideMenuList]; // 기존 mainMenuList 복사
+                                            updatedSideMenuList[index] = { ...updatedSideMenuList[index], description: newSideMenuDescription }; // 특정 인덱스의 menuName 업데이트
+                                            setMenuInfo({...menuInfo, sideMenuList: updatedSideMenuList})
+                                        }}
+                                        placeholder={"자연산 연어로 만들어서 싱싱해요."} />
                                 </Modify2FlexBox3Styled>
                                 <Modify2FlexBox4Styled>
                                     <Modify2FlexBox5Styled src={previewImage2.current[index] ? previewImage2.current[index] : "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"} />
