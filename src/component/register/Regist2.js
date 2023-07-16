@@ -1,19 +1,22 @@
 import styled from "styled-components";
-import {useRef, useState} from "react";
-import { useNavigate } from 'react-router-dom';
+import {useEffect, useRef, useState} from "react";
+import {useLocation, useNavigate} from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { registMenuInfo } from '../../store/menuRegisteringSlice';
-import RegistContainer from "./RegistContainer";
+import Header from "../header/Header";
+import Footer from "../footer/Footer";
+import AlarmModal from "./AlarmModal";
 
 
-
-export default function Regist2(){
-    return(
-        <RegistContainer>
-            <Regist2Component />
-        </RegistContainer>
-    );
-}
+const RegistContainerStyled = styled.div`
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  top: 72px;
+  height: calc(100% - 72px);
+  width: 100%;
+  overflow: scroll;
+`
 
 const Regist2Styled = styled.div`
     display: flex;
@@ -133,7 +136,7 @@ const Regist2InputButtonStyled = styled.div`
     
     font-family: Pretendard-Regular;
     font-size: 13px;
-    font-weight: 300;
+    font-weight: 700;
     line-height: 30px;
     letter-spacing: 0em;
     text-align: center;
@@ -173,7 +176,7 @@ const Regist2Add = styled.div`
 
     font-family: Pretendard-Regular;
     font-size: 20px;
-    font-weight: 400;
+    font-weight: 700;
     line-height: 70px;
     letter-spacing: 0em;
     text-align: center;
@@ -202,7 +205,7 @@ const Regist2Submit = styled.div`
 
     font-family: Pretendard-Regular;
     font-size: 20px;
-    font-weight: 400;
+    font-weight: 700;
     line-height: 70px;
     letter-spacing: 0em;
     text-align: center;
@@ -253,7 +256,7 @@ const Regist2FlexEmptyBoxStyled = styled.div`
 
 
 
-function Regist2Component({setMenuInfo}) {
+export default function Regist2Component() {
     const [grid1Items, setGrid1Items] = useState([0, 1, 2]);
     const [grid2Items, setGrid2Items] = useState([0, 1, 2]);
     const [previewImageSetters, setPreviewImageSetters] = useState(false);
@@ -263,6 +266,17 @@ function Regist2Component({setMenuInfo}) {
     const tempList2 = [];
     const navigate = useNavigate();
     const dispatch = useDispatch();
+    const location = useLocation();
+    const ref = useRef(null);
+    const [showAlarm, setShowAlarm] = useState(false);
+    const [alarmTitle, setAlarmTitle] = useState("");
+    const [alarmText, setAlarmText] = useState("");
+
+    useEffect(() => {
+        if (ref.current) {
+            ref.current.scrollTop = 0;
+        }
+    }, [location]);
 
     const fileCheck = (obj) => {
         const pathPoint = obj.value.lastIndexOf(".");
@@ -286,13 +300,13 @@ function Regist2Component({setMenuInfo}) {
 
                 reader.onload = (e) => {
                     const imageUrl = e.target.result;
-                    if (type == 1){
+                    if (type === 1){
                         previewImage1.current[number] = imageUrl;
-                        handleMenuInfo({menuUrl:imageUrl}, number, 'menus')
+                        handleMenuInfo({menuUrl:selectedFile}, number, 'menus')
                     }
                     else{
                         previewImage2.current[number] = imageUrl;
-                        handleMenuInfo({menuUrl:imageUrl}, number, 'sideMenus')
+                        handleMenuInfo({menuUrl:selectedFile}, number, 'sideMenus')
                     }
                     setPreviewImageSetters(!previewImageSetters);
                 };
@@ -313,7 +327,7 @@ function Regist2Component({setMenuInfo}) {
                 menuUrl: ''
             }
         ],
-        SideMenuItems: [
+        sideMenuItems: [
             {
                 menuName: '',
                 price: 0,
@@ -323,12 +337,12 @@ function Regist2Component({setMenuInfo}) {
             }
         ]
     }
-    const [ menuInfoState, setMenuInfoState] = useState({});
+    const [ menuInfoState, setMenuInfoState] = useState(initialMenuInfo);
 
 
     const handleMenuInfo = (data, index, type) => {
         const updatedMenus = menuInfoState.mainMenuItems ? [...menuInfoState.mainMenuItems] : [];
-        const updatedSideMenus = menuInfoState.SideMenuItems ? [...menuInfoState.SideMenuItems] : [];
+        const updatedSideMenus = menuInfoState.sideMenuItems ? [...menuInfoState.sideMenuItems] : [];
         if (type==='menus'){
             updatedMenus[index] = {
                 ...initialMenuInfo.mainMenuItems[0],
@@ -338,7 +352,7 @@ function Regist2Component({setMenuInfo}) {
         }
         else if (type==='sideMenus'){
             updatedSideMenus[index] = {
-                ...initialMenuInfo.SideMenuItems[0],
+                ...initialMenuInfo.sideMenuItems[0],
                 ...updatedSideMenus[index], // 이전 객체의 속성 복사
                 ...data, // 새로운 데이터로 속성 변경 또는 추가
             };
@@ -346,192 +360,279 @@ function Regist2Component({setMenuInfo}) {
         setMenuInfoState(
             {
                 mainMenuItems: updatedMenus,
-                SideMenuItems: updatedSideMenus
+                sideMenuItems: updatedSideMenus
             }
         )
     }
 
-    const testRedux = () =>{
-        dispatch(registMenuInfo(menuInfoState))
+    function onClose(){
+        setShowAlarm(false);
+    }
+
+    function checkList() {
+        let fillOrDel = 0;
+
+        // 메인 검사
+        const filteredMainList = menuInfoState.mainMenuItems.filter(item => {
+            let count = 0
+            for (const key in item) {
+                if (item[key] === "" || item[key] === null || item[key] === undefined || item[key] === 0) {
+                    count++;
+                }
+            }
+            if (count === 5)
+                return false // 전부 비어있으면 제거
+            else if (count === 0)
+                return true; // 비어있는 속성이 없으면 유지
+            else {           // 1개 이상 채워진 경우
+                fillOrDel = 1;
+                return false;
+            }
+        });
+
+        if (fillOrDel) {
+            if (!showAlarm){
+                setAlarmTitle("재떨이.com 내용:")
+                setAlarmText("메인메뉴에 입력된 필드가 있습니다. 나머지 필드를 완성하거나 입력된 값들을 지워주세요.")
+                setShowAlarm(true)
+            }
+            return;
+        }
+
+        if (filteredMainList.length === 0){
+            if (!showAlarm){
+                setAlarmTitle("재떨이.com 내용:")
+                setAlarmText("메인메뉴에 값을 입력하세요. 모든 필드가 비워져 있습니다.")
+                setShowAlarm(true)
+            }
+            return;
+        }
+
+        fillOrDel = 0;
+
+        // 사이드 검사
+        const filteredSideList = menuInfoState.sideMenuItems.filter(item => {
+            let count = 0
+            for (const key in item) {
+                if (item[key] === "" || item[key] === null || item[key] === undefined || item[key] === 0) {
+                    count++;
+                }
+            }
+            if (count === 5)
+                return false // 전부 비어있으면 제거
+            else if (count === 0)
+                return true; // 비어있는 속성이 없으면 유지
+            else {           // 1개 이상 채워진 경우
+                fillOrDel = 1;
+                return false;
+            }
+        });
+
+        if (fillOrDel) {
+            if (!showAlarm){
+                setAlarmTitle("재떨이.com 내용:")
+                setAlarmText("사이드 메뉴에 입력된 필드가 있습니다. 나머지 필드를 완성하거나 입력된 값들을 지워주세요.")
+                setShowAlarm(true)
+            }
+            return;
+        }
+
+
+
+        dispatch(registMenuInfo({
+            mainMenuItems: filteredMainList,
+            sideMenuItems: filteredSideList
+        }))
         navigate('/register/origin');
     }
 
+    const testRedux = () =>{
+        checkList()
+    }
+
     return (
-        <Regist2Styled>
-            <Regist2BIStyled>
-                메인메뉴
-            </Regist2BIStyled>
-            <Regist2BI2Styled>
-                소비자에게 보여지는 메인메뉴들입니다. 메뉴명, 가격, 구성, 설명, 사진 다 기입해주세요.
-            </Regist2BI2Styled>
-            <Regist2BorderStyled />
-            <Regist2FlexContainer1Styled>
-                <Regist2FlexContinaer2Styled>
-                    <Regist2FlexBox1Styled />
-                    <Regist2FlexBox7Styled>
-                        메뉴명
-                    </Regist2FlexBox7Styled>
-                    <Regist2FlexBox7Styled>
-                        가격
-                    </Regist2FlexBox7Styled>
-                    <Regist2FlexBox7Styled>
-                        구성
-                    </Regist2FlexBox7Styled>
-                    <Regist2FlexBox8Styled>
-                        설명
-                    </Regist2FlexBox8Styled>
-                    <Regist2FlexBox9Styled>
-                        사진
-                    </Regist2FlexBox9Styled>
-                </Regist2FlexContinaer2Styled>
-                {grid1Items.map((index) => (
-                    <Regist2FlexContinaer2Styled key={`grid1-${index}`}>
-                        <Regist2FlexBox1Styled>
-                            {index + 1}
-                        </Regist2FlexBox1Styled>
-                        <Regist2FlexBox2Styled>
-                            <Regist2FlexTextArea1Styled
-                                placeholder={"연어 샐러드"}
-                                onChange={(event) => {handleMenuInfo({menuName:event.target.value}, index, 'menus')}}/>
-                        </Regist2FlexBox2Styled>
-                        <Regist2FlexBox2Styled>
-                            <Regist2FlexTextArea1Styled
-                                placeholder={"1,000,000원"}
-                                onChange={(event) => {handleMenuInfo({price:event.target.value}, index, 'menus')}}/>
-                        </Regist2FlexBox2Styled>
-                        <Regist2FlexBox2Styled>
-                            <Regist2FlexTextArea1Styled
-                                placeholder={"연어, 풀"}
-                                onChange={(event) => {handleMenuInfo({composition:event.target.value}, index, 'menus')}}/>
-                        </Regist2FlexBox2Styled>
-                        <Regist2FlexBox3Styled>
-                            <Regist2FlexTextArea1Styled
-                                placeholder={"자연산 연어로 만들어서 싱싱해요."}
-                                onChange={(event) => {handleMenuInfo({description:event.target.value}, index, 'menus')}}/>
-                        </Regist2FlexBox3Styled>
-                        <Regist2FlexBox4Styled>
-                            <Regist2FlexBox5Styled src={previewImage1.current[index] ? previewImage1.current[index] : "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"} />
-                            <input type="file"
-                                name="filename"
-                                accept="image/jpeg, image/png"
-                                ref={(a) => {
-                                    if (a) {
-                                        console.log(a, "마운트됨");
-                                        tempList1.push(a);
-                                        if (index == grid1Items.length - 1) {
-                                            console.log(tempList1)
-                                        }
-                                    }
-                                    else { console.log("언마운트됨") }
-                                }
-                                }
-                                style={{ display: "none" }}
-                                onChange={(event) => { handleImageChange(event, index, 1) }}
-                            />
-                            <Regist2InputButtonStyled
-                                onClick={() => {
-                                    tempList1[index].click();
-                                }}>
-                                이미지 업로드
-                            </Regist2InputButtonStyled>
-                        </Regist2FlexBox4Styled>
-                    </Regist2FlexContinaer2Styled>
-                ))}
-            </Regist2FlexContainer1Styled>
-            <Regist2Add onClick={() => { setGrid1Items([...grid1Items, grid1Items.length]) }}>
-                항목 추가하기
-            </Regist2Add>
-            <Regist2FlexEmptyBoxStyled />
-            <Regist2BIStyled>
-                사이드 메뉴
-            </Regist2BIStyled>
-            <Regist2BI2Styled>
-                소비자에게 보여지는 사이드메뉴들입니다.
-                <p />
-                메뉴명, 가격, 구성 필수로 등록입니다. 설명과 사진은 선택입니다.
-            </Regist2BI2Styled>
-            <Regist2BorderStyled />
-            <Regist2FlexContainer1Styled>
-                <Regist2FlexContinaer2Styled>
-                    <Regist2FlexBox1Styled />
-                    <Regist2FlexBox7Styled>
-                        메뉴명
-                    </Regist2FlexBox7Styled>
-                    <Regist2FlexBox7Styled>
-                        가격
-                    </Regist2FlexBox7Styled>
-                    <Regist2FlexBox7Styled>
-                        구성
-                    </Regist2FlexBox7Styled>
-                    <Regist2FlexBox8Styled>
-                        설명
-                    </Regist2FlexBox8Styled>
-                    <Regist2FlexBox9Styled>
-                        사진
-                    </Regist2FlexBox9Styled>
-                </Regist2FlexContinaer2Styled>
-                {grid2Items.map((index) => (
-                    <Regist2FlexContinaer2Styled key={`grid2-${index}`}>
-                        <Regist2FlexBox1Styled>
-                            {index + 1}
-                        </Regist2FlexBox1Styled>
-                        <Regist2FlexBox2Styled>
-                            <Regist2FlexTextArea1Styled
-                                placeholder={"연어 샐러드"}
-                                onChange={(event) => {handleMenuInfo({menuName:event.target.value}, index, 'sideMenus')}}/>
-                        </Regist2FlexBox2Styled>
-                        <Regist2FlexBox2Styled>
-                            <Regist2FlexTextArea1Styled
-                                placeholder={"1,000,000원"}
-                                onChange={(event) => {handleMenuInfo({price:event.target.value}, index, 'sideMenus')}}/>
-                        </Regist2FlexBox2Styled>
-                        <Regist2FlexBox2Styled>
-                            <Regist2FlexTextArea1Styled
-                                placeholder={"연어, 풀"}
-                                onChange={(event) => {handleMenuInfo({composition:event.target.value}, index, 'sideMenus')}}/>
-                        </Regist2FlexBox2Styled>
-                        <Regist2FlexBox3Styled>
-                            <Regist2FlexTextArea1Styled
-                                placeholder={"자연산 연어로 만들어서 싱싱해요."}
-                                onChange={(event) => {handleMenuInfo({description:event.target.value}, index, 'sideMenus')}}/>
-                        </Regist2FlexBox3Styled>
-                        <Regist2FlexBox4Styled>
-                            <Regist2FlexBox5Styled src={previewImage2.current[index] ? previewImage2.current[index] : "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"} />
-                            <input type="file"
-                                name="filename"
-                                accept="image/jpeg, image/png"
-                                ref={(a) => {
-                                    if (a) {
-                                        console.log(a, "마운트됨");
-                                        tempList2.push(a);
-                                        if (index == grid2Items.length - 1) {
-                                            console.log(tempList2)
-                                        }
-                                    }
-                                    else { console.log("언마운트됨") }
-                                }
-                                }
-                                style={{ display: "none" }}
-                                onChange={(event) => { handleImageChange(event, index, 2) }}
-                            />
-                            <Regist2InputButtonStyled
-                                onClick={() => {
-                                    tempList2[index].click();
-                                }}>
-                                이미지 업로드
-                            </Regist2InputButtonStyled>
-                        </Regist2FlexBox4Styled>
-                    </Regist2FlexContinaer2Styled>
-                ))}
-            </Regist2FlexContainer1Styled>
-            <Regist2Add onClick={() => { setGrid2Items([...grid2Items, grid2Items.length]) }}>
-                항목 추가하기
-            </Regist2Add>
-            <Regist2SubmitContatiner>
-                <Regist2Submit onClick={testRedux}>
-                    메뉴등록 완료하기
-                </Regist2Submit>
-            </Regist2SubmitContatiner>
-        </Regist2Styled>
+        <>
+            <Header />
+            <AlarmModal isOpen={showAlarm} onClose={() => onClose()} title={alarmTitle} text={alarmText} />
+            <RegistContainerStyled ref={ref}>
+                <Regist2Styled>
+                    <Regist2BIStyled>
+                        메인메뉴
+                    </Regist2BIStyled>
+                    <Regist2BI2Styled>
+                        소비자에게 보여지는 메인메뉴들입니다. 메뉴명, 가격, 구성, 설명, 사진 다 기입해주세요.
+                    </Regist2BI2Styled>
+                    <Regist2BorderStyled />
+                    <Regist2FlexContainer1Styled>
+                        <Regist2FlexContinaer2Styled>
+                            <Regist2FlexBox1Styled />
+                            <Regist2FlexBox7Styled>
+                                메뉴명
+                            </Regist2FlexBox7Styled>
+                            <Regist2FlexBox7Styled>
+                                가격
+                            </Regist2FlexBox7Styled>
+                            <Regist2FlexBox7Styled>
+                                구성
+                            </Regist2FlexBox7Styled>
+                            <Regist2FlexBox8Styled>
+                                설명
+                            </Regist2FlexBox8Styled>
+                            <Regist2FlexBox9Styled>
+                                사진
+                            </Regist2FlexBox9Styled>
+                        </Regist2FlexContinaer2Styled>
+                        {grid1Items.map((index) => (
+                            <Regist2FlexContinaer2Styled key={`grid1-${index}`}>
+                                <Regist2FlexBox1Styled>
+                                    {index + 1}
+                                </Regist2FlexBox1Styled>
+                                <Regist2FlexBox2Styled>
+                                    <Regist2FlexTextArea1Styled
+                                        placeholder={"연어 샐러드"}
+                                        onChange={(event) => {handleMenuInfo({menuName:event.target.value}, index, 'menus')}}/>
+                                </Regist2FlexBox2Styled>
+                                <Regist2FlexBox2Styled>
+                                    <Regist2FlexTextArea1Styled
+                                        placeholder={"1000000"}
+                                        onChange={(event) => {handleMenuInfo({price:event.target.value}, index, 'menus')}}/>
+                                </Regist2FlexBox2Styled>
+                                <Regist2FlexBox2Styled>
+                                    <Regist2FlexTextArea1Styled
+                                        placeholder={"연어, 풀"}
+                                        onChange={(event) => {handleMenuInfo({composition:event.target.value}, index, 'menus')}}/>
+                                </Regist2FlexBox2Styled>
+                                <Regist2FlexBox3Styled>
+                                    <Regist2FlexTextArea1Styled
+                                        placeholder={"자연산 연어로 만들어서 싱싱해요."}
+                                        onChange={(event) => {handleMenuInfo({description:event.target.value}, index, 'menus')}}/>
+                                </Regist2FlexBox3Styled>
+                                <Regist2FlexBox4Styled>
+                                    <Regist2FlexBox5Styled src={previewImage1.current[index] ? previewImage1.current[index] : "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"} />
+                                    <input type="file"
+                                           name="filename"
+                                           accept="image/jpeg, image/png"
+                                           ref={(a) => {
+                                               if (a) {
+                                                   console.log(a, "마운트됨");
+                                                   tempList1.push(a);
+                                                   if (index == grid1Items.length - 1) {
+                                                       console.log(tempList1)
+                                                   }
+                                               }
+                                               else { console.log("언마운트됨") }
+                                           }
+                                           }
+                                           style={{ display: "none" }}
+                                           onChange={(event) => { handleImageChange(event, index, 1) }}
+                                    />
+                                    <Regist2InputButtonStyled
+                                        onClick={() => {
+                                            tempList1[index].click();
+                                        }}>
+                                        이미지 업로드
+                                    </Regist2InputButtonStyled>
+                                </Regist2FlexBox4Styled>
+                            </Regist2FlexContinaer2Styled>
+                        ))}
+                    </Regist2FlexContainer1Styled>
+                    <Regist2Add onClick={() => { setGrid1Items([...grid1Items, grid1Items.length]) }}>
+                        항목 추가하기
+                    </Regist2Add>
+                    <Regist2FlexEmptyBoxStyled />
+                    <Regist2BIStyled>
+                        사이드 메뉴
+                    </Regist2BIStyled>
+                    <Regist2BI2Styled>
+                        소비자에게 보여지는 사이드메뉴들입니다.
+                        <p />
+                        메뉴명, 가격, 구성 필수로 등록입니다. 설명과 사진은 선택입니다.
+                    </Regist2BI2Styled>
+                    <Regist2BorderStyled />
+                    <Regist2FlexContainer1Styled>
+                        <Regist2FlexContinaer2Styled>
+                            <Regist2FlexBox1Styled />
+                            <Regist2FlexBox7Styled>
+                                메뉴명
+                            </Regist2FlexBox7Styled>
+                            <Regist2FlexBox7Styled>
+                                가격
+                            </Regist2FlexBox7Styled>
+                            <Regist2FlexBox7Styled>
+                                구성
+                            </Regist2FlexBox7Styled>
+                            <Regist2FlexBox8Styled>
+                                설명
+                            </Regist2FlexBox8Styled>
+                            <Regist2FlexBox9Styled>
+                                사진
+                            </Regist2FlexBox9Styled>
+                        </Regist2FlexContinaer2Styled>
+                        {grid2Items.map((index) => (
+                            <Regist2FlexContinaer2Styled key={`grid2-${index}`}>
+                                <Regist2FlexBox1Styled>
+                                    {index + 1}
+                                </Regist2FlexBox1Styled>
+                                <Regist2FlexBox2Styled>
+                                    <Regist2FlexTextArea1Styled
+                                        placeholder={"연어 샐러드"}
+                                        onChange={(event) => {handleMenuInfo({menuName:event.target.value}, index, 'sideMenus')}}/>
+                                </Regist2FlexBox2Styled>
+                                <Regist2FlexBox2Styled>
+                                    <Regist2FlexTextArea1Styled
+                                        placeholder={"1000000"}
+                                        onChange={(event) => {handleMenuInfo({price:event.target.value}, index, 'sideMenus')}}/>
+                                </Regist2FlexBox2Styled>
+                                <Regist2FlexBox2Styled>
+                                    <Regist2FlexTextArea1Styled
+                                        placeholder={"연어, 풀"}
+                                        onChange={(event) => {handleMenuInfo({composition:event.target.value}, index, 'sideMenus')}}/>
+                                </Regist2FlexBox2Styled>
+                                <Regist2FlexBox3Styled>
+                                    <Regist2FlexTextArea1Styled
+                                        placeholder={"자연산 연어로 만들어서 싱싱해요."}
+                                        onChange={(event) => {handleMenuInfo({description:event.target.value}, index, 'sideMenus')}}/>
+                                </Regist2FlexBox3Styled>
+                                <Regist2FlexBox4Styled>
+                                    <Regist2FlexBox5Styled src={previewImage2.current[index] ? previewImage2.current[index] : "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"} />
+                                    <input type="file"
+                                           name="filename"
+                                           accept="image/jpeg, image/png"
+                                           ref={(a) => {
+                                               if (a) {
+                                                   console.log(a, "마운트됨");
+                                                   tempList2.push(a);
+                                                   if (index == grid2Items.length - 1) {
+                                                       console.log(tempList2)
+                                                   }
+                                               }
+                                               else { console.log("언마운트됨") }
+                                           }
+                                           }
+                                           style={{ display: "none" }}
+                                           onChange={(event) => { handleImageChange(event, index, 2) }}
+                                    />
+                                    <Regist2InputButtonStyled
+                                        onClick={() => {
+                                            tempList2[index].click();
+                                        }}>
+                                        이미지 업로드
+                                    </Regist2InputButtonStyled>
+                                </Regist2FlexBox4Styled>
+                            </Regist2FlexContinaer2Styled>
+                        ))}
+                    </Regist2FlexContainer1Styled>
+                    <Regist2Add onClick={() => { setGrid2Items([...grid2Items, grid2Items.length]) }}>
+                        항목 추가하기
+                    </Regist2Add>
+                    <Regist2SubmitContatiner>
+                        <Regist2Submit onClick={testRedux}>
+                            메뉴등록 완료하기
+                        </Regist2Submit>
+                    </Regist2SubmitContatiner>
+                </Regist2Styled>
+                <Footer />
+            </RegistContainerStyled>
+        </>
     );
 }
