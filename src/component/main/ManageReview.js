@@ -6,6 +6,7 @@ import starRatingDown from '../../assets/images/star_rating_down.png'
 import ReviewContainer from './ReviewContainer'
 import Header from '../header/Header'
 import SideBar from '../sidebar/SideBar'
+import ReportComment from './Layout/modal/ReportComment';
 
 const ManageReview = () => {
     const [reviewItems, setReviewItems] = useState(null);
@@ -41,6 +42,16 @@ const ManageReview = () => {
             starRatio: 0
         }
     ]);
+
+    const [reportModalIsShown, setReportModalIsShown] = useState(false);
+
+    const hideReporModalHandler = () => {
+        setReportModalIsShown(false)
+    }
+
+    const showReporModalHandler = () => {
+        setReportModalIsShown(true)
+    }
 
     const token = getCookieToken();
 
@@ -131,6 +142,7 @@ const ManageReview = () => {
     
     return (
         <div>
+            {reportModalIsShown && <ReportComment onClose={hideReporModalHandler} />}
             <Header />
             <SideBar />
             <div className={style.mainContainer}>
@@ -202,7 +214,7 @@ const ManageReview = () => {
                     </div>
                 </div>
                 <hr className={style.reviewScopeHr} />
-                <ReviewContainer reviews={reviews} />
+                <ReviewContainer reviews={reviews} hideReporModalHandler={hideReporModalHandler} showReporModalHandler={showReporModalHandler}/>
             </div>
         </div>
 

@@ -73,6 +73,7 @@
   font-size: 14px;
   line-height: 100%;
   letter-spacing: 0.5px;
+  cursor: pointer;
 }
 
 .replyInput {
@@ -102,6 +103,7 @@
   position: absolute;
   top: 26px;
   right: 5px;
+  cursor: pointer;
 }
 
 .reply {
@@ -128,6 +130,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  cursor: pointer;
 }
 
 .review {
@@ -159,6 +162,7 @@
   position: absolute;
   top: calc(50% - 20px);
   right: 20px;
+  cursor: pointer;
 }
 
 .reportBtn svg {

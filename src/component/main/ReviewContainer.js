@@ -18,6 +18,8 @@ const ReviewContainer = (props) => {
                     review={review.review}
                     comment={review.comment}
                     imgUrl={review.imgUrl}
+                    hideReporModalHandler={props.hideReporModalHandler}
+                    showReporModalHandler={props.showReporModalHandler}
                 />
             ))}
         </div>
