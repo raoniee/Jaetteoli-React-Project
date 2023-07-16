@@ -1,32 +1,66 @@
 import styled from "styled-components";
 
+const Backdrop = styled.div`
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: ${props => props.isActive ? 'flex' : 'none'};
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+`;
+
 const Alarm = styled.div`
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   position: fixed;
-  width: 300px;
-  height: 200px;
-  top: 72px;
-  right: ${({ isActive }) => (isActive ? 0 : -300)}px;
-  background: #F2F4F8;
+  top: 26px;
+  left: calc(50% - 221px);
+  width: 442px;
+  height: 118px;
+  flex-shrink: 0;
   z-index: 100;
-  transition: right 0.5s;
+
+  border-radius: 5px;
+  border: 1px solid rgba(0, 0, 0, 0.30);
+  background: #FFF;
+  box-shadow: 0px 4px 16px 0px rgba(0, 0, 0, 0.15);
 `
 
-const AlarmBar = styled.div`
-  width: ${({ isActive }) => (isActive ? 0 : 300)}px;
-  height: 10px;
-  background: #604EF8;
-  transition: ${({ isActive }) => isActive ? 'width 4.5s linear' : 'none'};
+const AlarmButton = styled.div`
+  position: absolute;
+  width: 63px;
+  height: 31px;
+  right: 14px;
+  bottom: 10px;
+
+  border-radius: 5px;
+  background: #3871E0;
+  flex-shrink: 0;
+
+  color: #FFF;
+  font-family: Pretendard-Regular;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 31px;
+  text-align: center;
+  
+  &:hover{
+    cursor: pointer;
+  }
 `
 
 const AlarmTitle = styled.div`
-  width: 100%;
+  width: 75%;
   height: 50px;
   font-family: Pretendard-Regular;
-  font-size: 20px;
+  font-size: 15px;
   font-weight: 700;
   line-height: 50px;
   letter-spacing: 0em;
@@ -36,26 +70,30 @@ const AlarmTitle = styled.div`
 
 
 const AlarmText = styled.div`
-  width: 100%;
+  width: 75%;
   height: 100%;
   font-family: Pretendard-Regular;
-  font-size: 18px;
+  font-size: 13px;
   font-weight: 400;
   letter-spacing: 0em;
   text-align: left;
   padding-left: 20px;
 `
 
-export default function AlarmModal({showAlarm, showAlarmBar, title, text}) {
+export default function AlarmModal({isOpen, onClose, title, text}) {
     return (
-        <Alarm isActive={showAlarm}>
-            <AlarmTitle>
-                {title}
-            </AlarmTitle>
-            <AlarmText>
-                {text}
-            </AlarmText>
-            <AlarmBar isActive={showAlarmBar}/>
-        </Alarm>
+        <Backdrop isActive={isOpen}>
+            <Alarm>
+                <AlarmTitle>
+                    {title}
+                </AlarmTitle>
+                <AlarmText>
+                    {text}
+                </AlarmText>
+                <AlarmButton onClick={onClose}>
+                    확인
+                </AlarmButton>
+            </Alarm>
+        </Backdrop>
     )
 }
