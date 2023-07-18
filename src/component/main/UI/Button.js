@@ -2,7 +2,7 @@ import classes from './Button.module.css'
 
 const Button = (props) => {
     return (
-        <button type='submit' className={classes['custom-btn']}>
+        <button className={classes['custom-btn']} onClick={props.onClick}>
             오늘의 떨이 등록하기
         </button>
     )
