@@ -26,6 +26,7 @@ import StoreReviewPage from "./component/admin/StoreReviewPage";
 
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import Home from "./component/home/Home";
+import { checkAdmin, checkRegisterMenu, checkRegisterStore, checkTodayPage } from "./store/auth";
 
 const router = createBrowserRouter([
   { path: "/", element: <Home /> },
@@ -40,19 +41,19 @@ const router = createBrowserRouter([
   { path: "/help/complete", element: <IDShow /> },
   { path: "/help/new-pw", element: <PasswordNew /> },
   //
-  { path: "/today/menu", element: <TodayMenu /> },
-  { path: "/today/order", element: <TodayOrder /> },
-  { path: "/review", element: <ManageReview /> },
-  { path: "/sales", element: <ManageSale /> },
-  { path: "/operation", element: <Modify1 /> },
+  { path: "/today/menu", element: <TodayMenu />, loader: checkTodayPage },
+  { path: "/today/order", element: <TodayOrder />, loader: checkTodayPage },
+  { path: "/review", element: <ManageReview />, loader: checkTodayPage },
+  { path: "/sales", element: <ManageSale />, loader: checkTodayPage },
+  { path: "/operation", element: <Modify1 />, loader: checkTodayPage },
   //
-  { path: "/register/store", element: <Regist1 /> },
-  { path: "/register/menu", element: <Regist2 /> },
-  { path: "/register/origin", element: <Regist3 /> },
+  { path: "/register/store", element: <Regist1 />, loader: checkRegisterStore },
+  { path: "/register/menu", element: <Regist2 />, loader: checkRegisterMenu },
+  { path: "/register/origin", element: <Regist3 />, loader: checkRegisterMenu },
   //
-  { path: "/admin/register", element: <StoreRegisterPage /> },
-  { path: "/admin/review", element: <StoreReviewPage /> },
-  { path: "/admin/store", element: <StoreInfoPage /> },
+  { path: "/admin/register", element: <StoreRegisterPage />, loader:checkAdmin },
+  { path: "/admin/review", element: <StoreReviewPage />, loader:checkAdmin  },
+  { path: "/admin/store", element: <StoreInfoPage />, loader:checkAdmin  },
 ]);
 
 function App() {

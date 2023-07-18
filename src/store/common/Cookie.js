@@ -1,5 +1,4 @@
-import { Cookies } from 'react-cookie';
-
+import { Cookies } from "react-cookie";
 
 // setToken : Token를 Cookie에 저장하기 위한 함수
 // getCookieToken : Cookie에 저장된 Token 값을 갖고 오기 위한 함수
@@ -9,20 +8,23 @@ import { Cookies } from 'react-cookie';
 const cookies = new Cookies();
 
 export const setToken = (jwt) => {
-    const today = new Date();
-    const expireDate = today.setDate(today.getDate() + 7);
+  const today = new Date();
+  const expireDate = today.setDate(today.getDate() + 7);
 
-    return cookies.set('jwt', jwt, { 
-        sameSite: 'strict', 
-        path: "/", 
-        expires: new Date(expireDate)
-    });
+  return cookies.set("jwt", jwt, {
+    sameSite: "strict",
+    path: "/",
+    expires: new Date(expireDate),
+  });
 };
 
 export const getCookieToken = () => {
-    return cookies.get('jwt');
+  return cookies.get("jwt");
 };
 
 export const removeCookieToken = () => {
-    return cookies.remove('jwt', { sameSite: 'strict', path: "/" })
-}
+  localStorage.removeItem("firstLogin");
+  localStorage.removeItem("menuRegister");
+  localStorage.removeItem("storeStaute");
+  return cookies.remove("jwt", { sameSite: "strict", path: "/" });
+};
