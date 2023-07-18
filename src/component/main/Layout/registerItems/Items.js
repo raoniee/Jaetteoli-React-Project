@@ -47,14 +47,14 @@ const Items = (props) => {
         <Input value={menu.menuName} readonly={true} />
       </td>
       <td>
-        <Input value={menu.originPrice + "원"} readonly={true} />
+        <Input value={menu.originPrice + " 원"} readonly={true} />
       </td>
       <td>
         <Input
           value={
             menu.discountRatio === 0
-              ? menu.originPrice + "원"
-              : menu.discountPrice.toFixed(0) + "원"
+              ? menu.originPrice + " 원"
+              : menu.discountPrice.toFixed(0) + " 원"
           }
           readonly={true}
         />
@@ -94,8 +94,8 @@ const Items = (props) => {
               <th scope="cols">메뉴명</th>
               <th scope="cols">가격</th>
               <th scope="cols">할인가격</th>
-              <th scope="cols">할인율 (%)</th>
-              <th scope="cols">수량 (개)</th>
+              <th scope="cols"><span style={{color: 'red'}}>* </span>할인율 (%)</th>
+              <th scope="cols"><span style={{color: 'red'}}>* </span>수량 (개)</th>
             </tr>
           </thead>
           <tbody>{menuItems}</tbody>

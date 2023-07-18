@@ -14,7 +14,7 @@ const Input = (props) => {
   }
   return (
     <input
-      className={classes["custom-input"]}
+      className={`${classes["custom-input"]} ${classes['readonly-input']}`}
       type="text"
       value={props.value}
       onChange={(event) => props.onChange(props.index, event)}
