@@ -43,6 +43,8 @@ const ManageReview = () => {
         }
     ]);
 
+    const [reviewIdx, setReviewIdx] = useState(null);
+
     const [reportModalIsShown, setReportModalIsShown] = useState(false);
 
     const hideReporModalHandler = () => {
@@ -142,7 +144,7 @@ const ManageReview = () => {
     
     return (
         <div>
-            {reportModalIsShown && <ReportComment onClose={hideReporModalHandler} />}
+            {reportModalIsShown && <ReportComment onClose={hideReporModalHandler} reviewIdx={reviewIdx} />}
             <Header />
             <SideBar />
             <div className={style.mainContainer}>
@@ -214,7 +216,7 @@ const ManageReview = () => {
                     </div>
                 </div>
                 <hr className={style.reviewScopeHr} />
-                <ReviewContainer reviews={reviews} hideReporModalHandler={hideReporModalHandler} showReporModalHandler={showReporModalHandler}/>
+                <ReviewContainer reviews={reviews} hideReporModalHandler={hideReporModalHandler} showReporModalHandler={showReporModalHandler} setReviewIdx={setReviewIdx}/>
             </div>
         </div>
 

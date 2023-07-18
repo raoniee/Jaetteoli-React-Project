@@ -1,7 +1,54 @@
+import { useEffect, useState } from 'react';
 import Modal from "../../UI/Modal";
 import classes from "./FinishStore.module.css";
+import { getCookieToken } from "../../../../store/common/Cookie";
 
 const ReportComment = (props) => {
+
+  useEffect(() => {
+    console.log('id', props.reviewIdx);
+  })
+
+  const token = getCookieToken();
+
+  const reportBtnHandler = () => {
+    sendReport()
+      .then(result => {
+        if (result.reviewIdx == props.reviewIdx && result.reportDone == 1) {
+          console.log('댓글 신고 완료');
+          props.onClose();
+          alert('해당 댓글을 신고하였습니다.')
+        }
+      })
+  }
+
+  async function sendReport() {
+    const requestBody = {
+      reviewIdx: props.reviewIdx,
+    };
+
+    const requestOptions = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-ACCESS-TOKEN': token,
+      },
+      body: JSON.stringify(requestBody),
+    };
+    try {
+      const response = await fetch("https://www.insung.shop/jat/review/report", requestOptions);
+      const data = await response.json();
+
+      if (!data.isSuccess) {
+        console.log(data.message);
+        return;
+      }
+      return data.result;
+    } catch (error) {
+      console.log('서버가 아직 안켜져있습니다.')
+      console.log(error)
+    }
+  }
 
   return (
     <Modal onClose={props.onClose}>
@@ -45,7 +92,7 @@ const ReportComment = (props) => {
             </button>
             <button
               className={`${classes["finish-button"]} ${classes["button-yes"]}`}
-              
+              onClick={reportBtnHandler}
             >
               네
             </button>

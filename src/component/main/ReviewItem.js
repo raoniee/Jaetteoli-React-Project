@@ -19,7 +19,7 @@ const ReviewItem = (props) => {
     const submintBtnHandler = (event) => {
         event.preventDefault();
         if (reply != '') {
-            setComment()
+            setComment(reply)
                 .then(result => {
                     if(result.reviewIdx == props.reviewId) {
                         setHasReply(true);
@@ -35,10 +35,20 @@ const ReviewItem = (props) => {
     }
 
     const deleteReplyBtnHandler = () => {
-        setIsBtnVisible(true)
-        setIsFormVisible(false)
-        setHasReply(false)
-        setReply('')
+        setComment('')
+                .then(result => {
+                    if(result.reviewIdx == props.reviewId) {
+                        setHasReply(false);
+                        setIsFormVisible(false);
+                        setIsBtnVisible(true);
+                        setReply(result.comment);
+                    }
+                })
+    }
+
+    const reportBtnHandler = () => {
+        props.setReviewIdx(props.reviewId);
+        props.showReporModalHandler();
     }
 
     useEffect(() => {
@@ -51,10 +61,10 @@ const ReviewItem = (props) => {
 
     const token = getCookieToken();
 
-    async function setComment() {
+    async function setComment(comment) {
         const requestBody = {
             reviewIdx: props.reviewId,
-            comment: reply,
+            comment: comment,
         };
 
         const requestOptions = {
@@ -73,7 +83,6 @@ const ReviewItem = (props) => {
                 console.log(data.message);
                 return;
             }
-
             return data.result;
         } catch (error) {
             console.log('서버가 아직 안켜져있습니다.')
@@ -111,7 +120,7 @@ const ReviewItem = (props) => {
                 </div>
                 <div className={style.reviewEtc}>
                     {props.imgUrl && <img src={props.imgUrl} />}
-                    <div className={style.reportBtn} onClick={props.showReporModalHandler}>
+                    <div className={style.reportBtn} onClick={reportBtnHandler}>
                         <svg width="23" height="23" viewBox="0 0 23 23" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <g id="report_problem_black_24dp 1" clip-path="url(#clip0_359_8042)">
                                 <path id="Vector" d="M0.958374 20.1248H22.0417L11.5 1.9165L0.958374 20.1248ZM12.4584 17.2498H10.5417V15.3332H12.4584V17.2498ZM12.4584 13.4165H10.5417V9.58317H12.4584V13.4165Z" fill="#929292" fill-opacity="0.5" />
