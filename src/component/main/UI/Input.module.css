@@ -2,27 +2,24 @@
   box-sizing: border-box;
   font-size: 14px;
   outline: none;
-  padding: 15px 0px 15px 12px;
+  padding: 15px 12px 15px 12px;
   width: 90%;
   height: 100%;
   border: 0;
+  color: rgba(0, 0, 0, 0.5);
+  font-weight: 400;
   border-radius: 5px;
   border-bottom: 1px solid rgba(0, 0, 0, 0.2);
   background: #f2f4f8;
+  cursor: default;
 }
 
 .custom-input {
   position: relative;
 }
 
-.custom-input input {
-  padding-right: 2em;
-}
-
-.custom-input::after {
-  content: attr(data-suffix);
-  position: absolute;
-  top: 0;
-  right: 0;
-  padding: 0.5em;
+.readonly-input {
+  color: rgba(0, 0, 0, 0.5);
+  font-weight: 400;
+  cursor:text;
 }
