@@ -55,6 +55,7 @@
 
 .percentageItemName {
     display: flex;
+    width: 80%;
 }
 
 .percentageItemName div {

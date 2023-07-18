@@ -29,6 +29,11 @@ const ManageSale = () => {
     const [closeTime, setCloseTime] = useState(null);
     const [timeData, setTimeData] = useState(null);
 
+    // 월간 메뉴별 판매량
+    const currentDate = new Date();
+    const currentMonth = currentDate.getMonth() + 1;
+    const [pieData, setPieData] = useState(null);
+
     const token = getCookieToken();
 
     async function getTodayTotalsales() {
@@ -103,6 +108,32 @@ const ManageSale = () => {
         }
     }
 
+    async function getMontlySalesRatio() {
+
+        const requestOptions = {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-ACCESS-TOKEN': token,
+            },
+        };
+        try {
+            const response = await fetch(`https://www.insung.shop/jat/sales/monthly-ratio?month=${currentMonth}`, requestOptions);
+            const data = await response.json();
+
+            if (!data.isSuccess) {
+                console.log(data.message);
+                return;
+            }
+            console.log('ms', data);
+
+            return data.result.itemOrdersRatio;
+        } catch (error) {
+            console.log('서버가 아직 안켜져있습니다.')
+            console.log(error)
+        }
+    }
+
     useEffect(() => {
         getTodayTotalsales()
             .then(todayTotalSales => {
@@ -119,6 +150,17 @@ const ManageSale = () => {
                 setYesterdayHourlySales(result.salesYesterday);
                 setOpenTime(result.storeOpen.split(':')[0]);
                 setCloseTime(result.storeClose.split(':')[0]);
+            })
+        getMontlySalesRatio()
+            .then(itemOrdersRatio => {
+                console.log('hi', itemOrdersRatio)
+                const pieData = itemOrdersRatio.map((item) => ({
+                    name: item.menuName,
+                    value: item.menuOrderCount,
+                    percentage: item.menuCharge
+                }))
+                const sortedPieData = pieData.sort((a, b) => b.value - a.value);
+                setPieData(sortedPieData);
             })
     }, []);
 
@@ -137,41 +179,41 @@ const ManageSale = () => {
         if (openTime && closeTime) {
             const startTime = parseInt(openTime, 10); // 오픈시간을 정수형으로 변환
             const endTime = parseInt(closeTime, 10); // 클로즈시간을 정수형으로 변환
-        
+
             // timeData 생성
             const updatedTimeData = [];
             for (let i = startTime; i <= endTime; i++) {
-              updatedTimeData.push({
-                name: `${i}시`,
-                오늘: 0,
-                어제: 0,
-              });
+                updatedTimeData.push({
+                    name: `${i}시`,
+                    오늘: 0,
+                    어제: 0,
+                });
             }
             setTimeData(updatedTimeData);
-          }
+        }
     }, [openTime, closeTime]);
 
     useEffect(() => {
         if (todayHourlySales && yesterdayHourlySales, timeData) {
-          const updatedTimeData = [...timeData]; // timeData 복사하여 수정할 배열 생성
-      
-          todayHourlySales.forEach(sale => {
-            const { time, totalSalesPriceInTime } = sale;
-            const hour = Number(time.split(' ')[1]); // 시간 부분 추출
-            const index = hour - 10; // 시간에 해당하는 인덱스 계산
-            updatedTimeData[index].오늘 = totalSalesPriceInTime; // 해당 시간의 오늘 매출액 업데이트
-          });
-      
-          yesterdayHourlySales.forEach(sale => {
-            const { time, totalSalesPriceInTime } = sale;
-            const hour = Number(time.split(' ')[1]); // 시간 부분 추출
-            const index = hour - 10; // 시간에 해당하는 인덱스 계산
-            updatedTimeData[index].어제 = totalSalesPriceInTime; // 해당 시간의 어제 매출액 업데이트
-          });
-      
-          setTimeData(updatedTimeData); // 수정된 timeData 업데이트
+            const updatedTimeData = [...timeData]; // timeData 복사하여 수정할 배열 생성
+
+            todayHourlySales.forEach(sale => {
+                const { time, totalSalesPriceInTime } = sale;
+                const hour = Number(time.split(' ')[1]); // 시간 부분 추출
+                const index = hour - 10; // 시간에 해당하는 인덱스 계산
+                updatedTimeData[index].오늘 = totalSalesPriceInTime; // 해당 시간의 오늘 매출액 업데이트
+            });
+
+            yesterdayHourlySales.forEach(sale => {
+                const { time, totalSalesPriceInTime } = sale;
+                const hour = Number(time.split(' ')[1]); // 시간 부분 추출
+                const index = hour - 10; // 시간에 해당하는 인덱스 계산
+                updatedTimeData[index].어제 = totalSalesPriceInTime; // 해당 시간의 어제 매출액 업데이트
+            });
+
+            setTimeData(updatedTimeData); // 수정된 timeData 업데이트
         }
-      }, [todayHourlySales, yesterdayHourlySales, timeData]);
+    }, [todayHourlySales, yesterdayHourlySales, timeData]);
 
     const data = [
         {
@@ -218,21 +260,7 @@ const ManageSale = () => {
         },
     ];
 
-    const pieData = [
-        { name: '음식1', value: 700 },
-        { name: '음식2', value: 300 },
-        { name: '음식3', value: 300 },
-        { name: '음식4', value: 200 },
-    ];
-
-    const total = pieData.reduce((sum, data) => sum + data.value, 0);
-
-    const pieDataWithPercentage = pieData.map(data => ({
-        ...data,
-        percentage: ((data.value / total) * 100).toFixed(2),
-    }));
-
-    const COLORS = ['#8884d8', '#9F93EA', '#82ca9d', '#C3E8DD', '#DDD1EE'];
+    const COLORS = ['#8884d8', '#9F93EA', '#DDD1EE', '#82ca9d', '#a0dbb7', '#C3E8DD', ];
 
     return (
         <div>
@@ -323,24 +351,26 @@ const ManageSale = () => {
                                 </BarChart>
                             </ResponsiveContainer>
                         </div>
-                        <PieChart width={260} height={300}>
-                            <Pie
-                                data={pieData}
-                                cx={120}
-                                cy={200}
-                                innerRadius={60}
-                                outerRadius={80}
-                                fill="#8884d8"
-                                paddingAngle={5}
-                                dataKey="value"
-                            >
-                                {pieData.map((entry, index) => (
-                                    <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-                                ))}
-                            </Pie>
-                        </PieChart>
+                        {
+                            pieData && <PieChart width={260} height={300}>
+                                <Pie
+                                    data={pieData}
+                                    cx={120}
+                                    cy={200}
+                                    innerRadius={60}
+                                    outerRadius={80}
+                                    fill="#8884d8"
+                                    paddingAngle={5}
+                                    dataKey="value"
+                                >
+                                    {pieData.map((entry, index) => (
+                                        <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                                    ))}
+                                </Pie>
+                            </PieChart>
+                        }
                         <div className={style.percentage}>
-                            {pieDataWithPercentage.map((entry, index) => (
+                            {pieData && pieData.map((entry, index) => (
                                 <div key={`text-${index}`} className={style.percentageContainer}>
                                     <div className={style.percentageItem}>
                                         <div className={style.percentageItemName}>
