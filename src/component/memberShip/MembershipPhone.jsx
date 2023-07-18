@@ -88,6 +88,7 @@ export default function MembershipPhone() {
       if (!data["isSuccess"]) {
         console.log(data["code"]);
         console.log(data["message"]);
+        alert(data['message'])
         return;
       }
     } catch (err) {
