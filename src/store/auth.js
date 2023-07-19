@@ -43,16 +43,21 @@ export default authSlice.reducer;
 
 export const getFirstLogin = () => {
     const firstLogin = localStorage.getItem('firstLogin')
+    console.log(typeof firstLogin)
     return firstLogin
 }
 
 export const getMenuRegister = () => {
     const menuRegister = localStorage.getItem('menuRegister')
+    console.log(typeof menuRegister)
+
     return menuRegister
 }
 
 export const getStoreStatus = () => {
     const storeStatus = localStorage.getItem('storeStatus')
+    console.log(typeof storeStatus)
+
     return storeStatus
 }
 
@@ -73,7 +78,7 @@ export const checkRegisterStore = () => {
     const firstLogin = getFirstLogin()
     const menuRegister = getMenuRegister()
     const storeStaute = getStoreStatus()
-    const result = firstLogin === "1" && menuRegister === "1" && storeStaute === null
+    const result = firstLogin === "1" && menuRegister === "1" && storeStaute === "null"
     if(!result){
         alert('올바르지 않은 권한 접근입니다.')
         return redirect('/')
