@@ -5,7 +5,7 @@ import Items from "./Layout/registerItems/Items";
 import Button from "./UI/Button";
 import { getCookieToken } from "../../store/common/Cookie";
 
-const Main1 = (props) => {
+const Main1 = () => {
   const [menu, setMenu] = useState({
     mainMenu: null,
     sideMenu: null,
@@ -31,14 +31,13 @@ const Main1 = (props) => {
           console.log(data.message);
           return;
         }
-        console.log(data.result);
         setMenu({
           mainMenu: data.result.mainMenus,
           sideMenu: data.result.sideMenus,
         });
         setOriginMenu({
-          mainMenu: data.result.mainMenus,
-          sideMenu: data.result.sideMenus,
+          mainMenu: JSON.parse(JSON.stringify(data.result.mainMenus)),
+          sideMenu: JSON.parse(JSON.stringify(data.result.sideMenus)),
         });
       } catch (err) {
         console.log(err);
@@ -60,21 +59,11 @@ const Main1 = (props) => {
         sideMenu: list,
       }));
     }
-    // console.log(originMenu)
   };
-
-  useEffect(() => {
-    console.log('change')
-  }, [originMenu])
 
   const onTodayMenuSubmit = async () => {
     //메인메뉴
     for (let i = 0; i < originMenu.mainMenu.length; i++) {
-      console.log('기존 메뉴의 할인율')
-      console.log(originMenu.mainMenu[i].discountRatio);
-      console.log('바뀐 메뉴의 할인율')
-      console.log(menu.mainMenu[i].discountRatio);
-      console.log('-------------------')
       if (originMenu.mainMenu[i].isUpdated === -1) {
         if (
           menu.mainMenu[i].discountRatio === 0 &&
@@ -94,16 +83,12 @@ const Main1 = (props) => {
           });
         }
       } else if (originMenu.mainMenu[i].isUpdated === 0) {
-        console.log('hihi')
         if (
           menu.mainMenu[i].discountRatio !==
             originMenu.mainMenu[i].discountRatio ||
           menu.mainMenu[i].remain !== originMenu.mainMenu[i].remain
         ) {
           //origin이 0인데 할인율이나 재고를 수정하면 1
-          console.log(menu.mainMenu[i].discountRatio);
-          console.log(originMenu.mainMenu[i].discountRatio);
-
           setMenu((prevMenu) => {
             const updatedMainMenu = [...prevMenu.mainMenu];
             updatedMainMenu[i].isUpdated = 1;
@@ -162,8 +147,6 @@ const Main1 = (props) => {
       }
     }
 
-    console.log(menu.mainMenu); //requsetBody 전
-    return //api보내기전 확인
     try {
       // setMenu 호출 후 업데이트된 menu 상태를 기다림
       await new Promise((resolve) => {
@@ -173,13 +156,10 @@ const Main1 = (props) => {
           return updatedMenu;
         });
       });
-      // console.log(menu.mainMenu); //requsetBody 전
       const requestBody = {
         mainMenus: menu.mainMenu,
         sideMenus: menu.sideMenu,
       };
-      // console.log(JSON.stringify(requestBody)); //내가 보낸 requset
-      return;
       const response = await fetch("https://www.insung.shop/jat/today", {
         method: "POST",
         headers: {
@@ -194,8 +174,28 @@ const Main1 = (props) => {
         console.log(data.message);
         return;
       }
-      const result = await data["result"];
-      console.log(result);
+
+      // POST 요청 이후에 GET 요청으로 데이터 가져오기
+      const getResponse = await fetch("https://www.insung.shop/jat/today", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          "X-ACCESS-TOKEN": getCookieToken(),
+        },
+      });
+      const getData = await getResponse.json();
+      if (!getData.isSuccess) {
+        console.log(getData.message);
+        return;
+      }
+      setMenu({
+        mainMenu: getData.result.mainMenus,
+        sideMenu: getData.result.sideMenus,
+      });
+      setOriginMenu({
+        mainMenu: JSON.parse(JSON.stringify(getData.result.mainMenus)),
+        sideMenu: JSON.parse(JSON.stringify(getData.result.sideMenus)),
+      });
     } catch (err) {
       console.log(err);
     }
