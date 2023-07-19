@@ -28,3 +28,22 @@ export const removeCookieToken = () => {
   localStorage.removeItem("storeStaute");
   return cookies.remove("jwt", { sameSite: "strict", path: "/" });
 };
+
+export const setStoreUid = (uid) => {
+  const today = new Date();
+  const expireDate = today.setDate(today.getDate() + 7);
+
+  return cookies.set("uid", uid, {
+    sameSite: "strict",
+    path: "/",
+    expires: new Date(expireDate),
+  });
+};
+
+export const getStoreUid = () => {
+  return cookies.get("uid");
+};
+
+export const removeStoreUid = () => {
+  return cookies.remove("uid", { sameSite: "strict", path: "/" });
+};

@@ -1,18 +1,22 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import style from "./LoginStart.module.css";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import Header from "../header/Header";
 import Footer from "../footer/Footer";
 import { SET_AUTH, TOKEN_TIME_OUT } from "../../store/auth";
-import { getCookieToken, setToken } from "../../store/common/Cookie";
+import { getCookieToken, getStoreUid, setStoreUid, setToken } from "../../store/common/Cookie";
 
 export default function LoginStart() {
   const [inputId, setInputId] = useState("");
   const [inputPw, setInputPw] = useState("");
   const dispatch = useDispatch();
-  const auth = useSelector((state) => state.auth.value); //auth 리듀서 값 꺼내기
   const navigate = useNavigate();
+  const [isChecked, setIsChecked] = useState(false);
+
+  const handleCheckboxChange = () => {
+    setIsChecked((prevChecked) => !prevChecked);
+  };
 
   const handleInputId = (e) => {
     setInputId(e.target.value);
@@ -21,6 +25,13 @@ export default function LoginStart() {
   const handleInputPw = (e) => {
     setInputPw(e.target.value);
   };
+
+  useEffect(() => {
+    const storedUid = getStoreUid();
+    if (storedUid) {
+      setInputId(storedUid);
+    }
+  }, []);
 
   async function onClickLogin() {
     if (inputId.trim() === "" || inputPw.trim() === "") {
@@ -55,12 +66,14 @@ export default function LoginStart() {
       const loginSuccess = data["result"];
 
       setToken(loginSuccess.jwt);
+      if(isChecked){
+        setStoreUid(inputId)
+      }
       //각 상태 localStorage.setItem
       localStorage.setItem("firstLogin", loginSuccess["first_login"]);
       localStorage.setItem("menuRegister", loginSuccess["menu_register"]);
       localStorage.setItem("storeStatus", loginSuccess["store_status"]);
-      console.log(localStorage.getItem('firstLogin'))
-      
+
       dispatch(
         SET_AUTH({
           authenticated: true,
@@ -73,16 +86,15 @@ export default function LoginStart() {
           menuRegister: loginSuccess["menu_register"],
         })
       );
-      
+
       //관리자
       if (
         loginSuccess["first_login"] === 99 &&
         loginSuccess["menu_register"] === 99
       ) {
         //관리자용 페이지 이동
-        return navigate('/admin/register')
+        return navigate("/admin/register");
       }
-
 
       console.log(loginSuccess);
       console.log(`쿠키 jwt 확인 : ${getCookieToken()}`);
@@ -136,6 +148,7 @@ export default function LoginStart() {
             type="text"
             placeholder="아이디"
             className={style.id}
+            value={inputId}
             onChange={handleInputId}
           />
           <input
@@ -147,7 +160,12 @@ export default function LoginStart() {
         </form>
         <div className={style.login_options}>
           <div className={style.left}>
-            <input type="checkbox" className={style.checkbox} />
+            <input
+              type="checkbox"
+              className={style.checkbox}
+              checked={isChecked}
+              onChange={handleCheckboxChange}
+            />
             <label htmlFor="">아이디 저장</label>
           </div>
           <div className={style.right}>
