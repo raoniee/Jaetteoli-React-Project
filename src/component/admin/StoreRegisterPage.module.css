@@ -15,22 +15,24 @@
 
 .wrap_register .title {
   display: block;
-  width: 1115px;
+  width: 70%;
   font-weight: 700;
   font-size: 32px;
   padding-left: 152px;
   padding-bottom: 30px;
+  margin-left: 150px;
   margin-bottom: 60px;
   border-bottom: 1px solid rgba(0, 0, 0, 1);
 }
 
 .wrap_register .store_list {
-  width: 914px;
+  width: 70%;
   height: 300px;
   padding-left: 122px;
   display: flex;
   flex-direction: column;
   gap: 52px;
+  margin-left: 150px;
   margin-bottom: 100px;
 }
 

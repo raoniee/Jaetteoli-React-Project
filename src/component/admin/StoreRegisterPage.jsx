@@ -122,13 +122,15 @@ function Posts({ stores, startnum, onClick }) {
 }
 
 const PaginationBox = styled.div`
+  width: 50%;
+  margin-left: 400px;
+
   .pagination {
     display: flex;
     justify-content: space-between;
-    width: 792px;
     height: 33px;
-    margin-left: 112px;
   }
+
   .pagination li a {
     display: block;
     width: 33px;
