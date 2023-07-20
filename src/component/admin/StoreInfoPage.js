@@ -1,10 +1,11 @@
 
 import styled from "styled-components";
 import {useEffect, useRef, useState} from "react";
-import {useLocation, useNavigate} from 'react-router-dom';
+import {redirect, useLocation, useNavigate} from 'react-router-dom';
 import { getCookieToken } from "../../store/common/Cookie";
 import Header from "../header/Header";
 import Footer from "../footer/Footer";
+import store from "../../store";
 
 const AdminContainerStyled = styled.div`
   display: flex;
@@ -346,10 +347,7 @@ const AdminStoreSelectedButtonContainerStyled = styled.div`
 `
 
 export default function StoreInfoPage() {
-    const [isHovered, setIsHovered] = useState(false);
-    const [clickSectors, setClickSectors] = useState(false);
     const navigate = useNavigate();
-    const [ storeNames, setStoreNames ] = useState(["",""]);
     const location = useLocation();
     const ref = useRef(null);
 
@@ -360,82 +358,79 @@ export default function StoreInfoPage() {
     }, [location]);
 
     const initialStoreInfo = {
+        storeIdx: 0,
         storeName: '',
-        categoryIdx: 0,
+        categoryName: 0,
         businessPhone: '',
         businessEmail: '',
-        businessCertificateFile: '',
-        sellerCertificateFile: '',
-        copyAccountFile: '',
+        businessCertificateUrl: '',
+        sellerCertificateUrl: '',
+        copyAccountUrl: '',
         breakDay: '',
         storeOpen: '',
         storeClose: '',
         storePhone: '',
-        city: '',
-        local: '',
-        town: '',
         storeAddress: '',
-        detailAddress: '',
-        storeLogoFile: '',
-        signFile: ''
+        storeLogoUrl: '',
+        signUrl: ''
     }
     const [storeInfoState, setStoreInfoState] = useState(initialStoreInfo);
 
-    const getStoreInfo = () => {
-        const token = getCookieToken()
+    useEffect(()=>{
+        getStoreInfo();
+    }, [])
 
+    const getStoreInfo = () => {
+        const token = getCookieToken();
+
+        const requestOptions = {
+            method: 'GET',
+            headers: {
+                'X-ACCESS-TOKEN': token, // X-ACCESS-TOKEN 헤더에 토큰 값을 추가합니다.
+            },
+        };
+
+        fetch('https://www.insung.shop/jat/stores/admin/info?storeIdx=64', requestOptions)
+            .then(response => response.json())
+            .then(data => {
+                console.log(data);
+                if (data.code === 1000){
+                    setStoreInfoState(data.result);
+                }
+            })
+            .catch(error => {
+                console.error(error);
+            });
     }
 
     const sendDataToServer = () => {
         const token = getCookieToken()
-        const {detailAddress, ...body} = storeInfoState;
-        body.storeAddress = body.storeAddress + ' ' + detailAddress;
-        const formData = new FormData();
-        for (const key in body) {
-            formData.append(key, body[key]);
-            console.log(key, body[key])
+
+        const data = {
+            storeIdx: storeInfoState.storeIdx
         }
+
         const requestOptions = {
-            method: 'POST',
+            method: 'PATCH',
             headers: {
+                "Content-Type": "application/json",
                 'X-ACCESS-TOKEN': token, // X-ACCESS-TOKEN 헤더에 토큰 값을 추가합니다.
             },
-            body: formData
+            body: JSON.stringify(data)
         };
 
-        let totalSize = 0;
 
-        for (const pair of formData.entries()) {
-            const [key, value] = pair;
-
-            if (value instanceof File) {
-                // 파일일 경우 파일 크기를 누적
-                totalSize += value.size;
-            } else {
-                // 텍스트 데이터의 경우 문자열 크기를 누적
-                totalSize += new Blob([value]).size;
-            }
-        }
-
-        console.log('총 데이터 크기:', totalSize);
-
-        fetch('https://www.insung.shop/jat/stores', requestOptions)
+        fetch('https://www.insung.shop/jat/stores/admin', requestOptions)
             .then(response => response.json())
             .then(data => {
                 console.log(data);
-                if (data.code === 1000)
-                    navigate('/register/menu')
+                if(data.code === 1000)
+                    navigate('/admin/register')
             })
             .catch(error => {
                 console.error(error);
             });
     };
-
-    const testRedux = () => {
-
-
-        sendDataToServer()
-    }
 
     return (
         <>
@@ -466,7 +461,12 @@ export default function StoreInfoPage() {
                         <AdminStoreBox2Styled>
                             <AdminStoreTextBoxStyled
                                 readOnly
-                                value={storeInfoState.storeName}/>
+                                value={()=>{
+                                    switch (storeInfoState.categoryName){
+                                        case 1: return "백화점";
+                                        case 2:
+                                    }
+                                }}/>
                         </AdminStoreBox2Styled>
                     </AdminStoreBoxContainer1Styled>
                     <AdminStoreBoxContainer1Styled>
@@ -476,7 +476,7 @@ export default function StoreInfoPage() {
                         <AdminStoreBox2Styled>
                             <AdminStoreTextBoxStyled
                                 readOnly
-                                value={storeInfoState.storeName}/>
+                                value={storeInfoState.businessPhone}/>
                         </AdminStoreBox2Styled>
                     </AdminStoreBoxContainer1Styled>
                     <AdminStoreBoxContainer1Styled>
@@ -487,7 +487,7 @@ export default function StoreInfoPage() {
                             <AdminStoreTextBoxStyled
                                 style={{ fontFamily: 'Abhaya Libre, serif' }}
                                 readOnly
-                                value={storeInfoState.storeName}/>
+                                value={storeInfoState.businessEmail}/>
                         </AdminStoreBox2Styled>
                     </AdminStoreBoxContainer1Styled>
                     <AdminStoreEmptyBoxStyled />
@@ -496,7 +496,7 @@ export default function StoreInfoPage() {
                             사업자 등록증
                         </AdminStoreBox1Styled>
                         <AdminStoreBox3Styled>
-                            <AdminStoreBox4Styled src={storeInfoState.businessCertificateFile !== "" ? storeInfoState.businessCertificateFile : "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"} />
+                            <AdminStoreBox4Styled src={storeInfoState.businessCertificateUrl !== "" ? storeInfoState.businessCertificateUrl : "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"} />
                             <AdminStoreInputButtonStyled>
                             </AdminStoreInputButtonStyled>
                         </AdminStoreBox3Styled>
@@ -506,7 +506,7 @@ export default function StoreInfoPage() {
                             영업자 등록증
                         </AdminStoreBox1Styled>
                         <AdminStoreBox3Styled>
-                            <AdminStoreBox4Styled src={storeInfoState.sellerCertificateFile !== "" ? storeInfoState.sellerCertificateFile : "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"} />
+                            <AdminStoreBox4Styled src={storeInfoState.sellerCertificateUrl !== "" ? storeInfoState.sellerCertificateUrl : "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"} />
                             <AdminStoreInputButtonStyled>
                             </AdminStoreInputButtonStyled>
                         </AdminStoreBox3Styled>
@@ -516,7 +516,7 @@ export default function StoreInfoPage() {
                             통장 사본
                         </AdminStoreBox1Styled>
                         <AdminStoreBox3Styled>
-                            <AdminStoreBox4Styled src={storeInfoState.copyAccountFile !== "" ? storeInfoState.copyAccountFile : "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"} />
+                            <AdminStoreBox4Styled src={storeInfoState.copyAccountUrl !== "" ? storeInfoState.copyAccountUrl : "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"} />
                             <AdminStoreInputButtonStyled>
                             </AdminStoreInputButtonStyled>
                         </AdminStoreBox3Styled>
@@ -530,13 +530,13 @@ export default function StoreInfoPage() {
                             <AdminStoreBox10Styled>
                                 <AdminStoreTextBoxStyled
                                     readOnly
-                                    value={storeInfoState.storeName}/>
+                                    value={storeInfoState.storeOpen}/>
                             </AdminStoreBox10Styled>
                             ~
                             <AdminStoreBox10Styled>
                                 <AdminStoreTextBoxStyled
                                     readOnly
-                                    value={storeInfoState.storeName}/>
+                                    value={storeInfoState.storeClose}/>
                             </AdminStoreBox10Styled>
                         </AdminStoreBox10Wrapper>
                     </AdminStoreBoxContainer1Styled>
@@ -547,7 +547,7 @@ export default function StoreInfoPage() {
                         <AdminStoreBox2Styled>
                             <AdminStoreTextBoxStyled
                                 readOnly
-                                value={storeInfoState.storeName}/>
+                                value={storeInfoState.breakDay}/>
                         </AdminStoreBox2Styled>
                     </AdminStoreBoxContainer1Styled>
                     <AdminStoreBoxContainer1Styled>
@@ -558,7 +558,7 @@ export default function StoreInfoPage() {
                             <AdminStoreTextBoxStyled
                                 style={{ fontFamily: 'Abhaya Libre, serif' }}
                                 readOnly
-                                value={storeInfoState.storeName}/>
+                                value={storeInfoState.storePhone}/>
                         </AdminStoreBox2Styled>
                     </AdminStoreBoxContainer1Styled>
                     <AdminStoreBoxContainer1Styled>
@@ -577,7 +577,7 @@ export default function StoreInfoPage() {
                             가게 로고
                         </AdminStoreBox1Styled>
                         <AdminStoreBox3Styled>
-                            <AdminStoreBox4Styled src={storeInfoState.storeLogoFile !== "" ? storeInfoState.storeLogoFile : "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"} />
+                            <AdminStoreBox4Styled src={storeInfoState.storeLogoUrl !== "" ? storeInfoState.storeLogoUrl : "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"} />
                             <AdminStoreInputButtonStyled>
                             </AdminStoreInputButtonStyled>
                         </AdminStoreBox3Styled>
@@ -587,12 +587,12 @@ export default function StoreInfoPage() {
                             매장간판 사진
                         </AdminStoreBox1Styled>
                         <AdminStoreBox3Styled>
-                            <AdminStoreBox4Styled src={storeInfoState.signFile ? storeInfoState.signFile : "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"} />
+                            <AdminStoreBox4Styled src={storeInfoState.signUrl ? storeInfoState.signUrl : "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"} />
                             <AdminStoreInputButtonStyled>
                             </AdminStoreInputButtonStyled>
                         </AdminStoreBox3Styled>
                     </AdminStoreBoxContainer2Styled>
-                    <AdminStoreSubmit onClick={testRedux}>
+                    <AdminStoreSubmit onClick={sendDataToServer}>
                         가게 승인하기
                     </AdminStoreSubmit>
                 </AdminStoreStyled>
