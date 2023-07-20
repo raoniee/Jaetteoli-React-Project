@@ -26,6 +26,7 @@
 
 .wrap_register .store_list {
   width: 914px;
+  height: 300px;
   padding-left: 122px;
   display: flex;
   flex-direction: column;
@@ -44,7 +45,6 @@
   font-size: 20px;
   text-align: center;
   margin-right: 21px;
-  cursor: pointer;
 }
 
 .wrap_register .store_list .store_name {
@@ -57,37 +57,4 @@
 
 .wrap_register .store_list .store_more {
   cursor: pointer;
-}
-
-.wrap_register .wrap_index {
-  display: flex;
-  width: 1115px;
-  padding: 5px 214px;
-}
-
-.wrap_register .wrap_index .left_endstep {
-  margin-right: 33px;
-}
-
-.wrap_register .wrap_index .left_onestep {
-  margin-right: 56px;
-}
-
-.wrap_register .wrap_index .num_list {
-  display: flex;
-  justify-content: space-between;
-  width: 393px;
-}
-
-.wrap_register .wrap_index .num_list li {
-  line-height: 18px;
-  cursor: pointer;
-}
-
-.wrap_register .wrap_index .right_onestep {
-  margin-left: 56px;
-}
-
-.wrap_register .wrap_index .right_endstep {
-  margin-left: 33px;
 }
