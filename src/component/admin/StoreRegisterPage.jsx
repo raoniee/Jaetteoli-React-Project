@@ -1,4 +1,4 @@
-import React, { startTransition, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { getCookieToken } from "../../store/common/Cookie";
 import Footer from "../footer/Footer";
 import Header from "../header/Header";
@@ -11,8 +11,10 @@ import { ReactComponent as Arrow_Left_1 } from "../../assets/images/arrow_left_1
 import { ReactComponent as Arrow_Left_2 } from "../../assets/images/arrow_left_2.svg";
 import Pagination from "react-js-pagination";
 import styled from "styled-components";
+import { useNavigate } from "react-router-dom";
 
 export default function StoreRegisterPage() {
+  const navigate = useNavigate();
   const [stores, setStores] = useState([]);
   const [page, setPage] = useState(1); //페이지
   const [startnum, setStartNum] = useState(1);
@@ -30,6 +32,10 @@ export default function StoreRegisterPage() {
   const handlePageChange = (page) => {
     setPage(page);
     setStartNum((page - 1) * 5 + 1);
+  };
+
+  const handleClick = (index) => {
+    navigate(`/admin/store?storeIdx=${stores[index].storeIdx}`);
   };
 
   useEffect(() => {
@@ -50,6 +56,7 @@ export default function StoreRegisterPage() {
           console.log(data.message);
           return;
         }
+        console.log(data.result);
         setStores(data.result);
       } catch (err) {
         console.log(err);
@@ -66,7 +73,11 @@ export default function StoreRegisterPage() {
         <NavAdmin />
         <div className={styles.wrap_register}>
           <span className={styles.title}>가게등록 승인</span>
-          <Posts stores={postsData(stores)} startnum={startnum} />
+          <Posts
+            stores={postsData(stores)}
+            startnum={startnum}
+            onClick={handleClick}
+          />
           <PaginationBox>
             <Pagination
               activePage={page} // 현재 페이지
@@ -91,13 +102,18 @@ export default function StoreRegisterPage() {
   );
 }
 
-function Posts({ stores, startnum }) {
+function Posts({ stores, startnum, onClick }) {
   return (
     <ul className={styles.store_list}>
       {stores.map((store, index) => (
         <li key={index}>
           <span className={styles.store_num}>{startnum + index}</span>
-          <p className={styles.store_name}>{store.storeName}</p>
+          <p
+            className={styles.store_name}
+            onClick={() => onClick(startnum + index - 1)}
+          >
+            {store.storeName}
+          </p>
           <Caret_Right className={styles.store_more} />
         </li>
       ))}
@@ -145,96 +161,3 @@ const PaginationBox = styled.div`
     width: 20px;
   }
 `;
-
-// const init = [
-//   {
-//     storeName: "가게1",
-//   },
-//   {
-//     storeName: "가게2",
-//   },
-//   {
-//     storeName: "가게3",
-//   },
-//   {
-//     storeName: "가게4",
-//   },
-//   {
-//     storeName: "가게5",
-//   },
-//   {
-//     storeName: "가게6",
-//   },
-//   {
-//     storeName: "가게7",
-//   },
-//   {
-//     storeName: "가게8",
-//   },
-//   {
-//     storeName: "가게9",
-//   },
-//   {
-//     storeName: "가게10",
-//   },
-//   {
-//     storeName: "가게11",
-//   },
-//   {
-//     storeName: "가게12",
-//   },
-//   {
-//     storeName: "가게13",
-//   },
-//   {
-//     storeName: "가게14",
-//   },
-//   {
-//     storeName: "가게15",
-//   },
-//   {
-//     storeName: "가게16",
-//   },
-//   {
-//     storeName: "가게17",
-//   },
-//   {
-//     storeName: "가게18",
-//   },
-//   {
-//     storeName: "가게19",
-//   },
-//   {
-//     storeName: "가게20",
-//   },
-//   {
-//     storeName: "가게21",
-//   },
-//   {
-//     storeName: "가게22",
-//   },
-//   {
-//     storeName: "가게23",
-//   },
-//   {
-//     storeName: "가게24",
-//   },
-//   {
-//     storeName: "가게25",
-//   },
-//   {
-//     storeName: "가게26",
-//   },
-//   {
-//     storeName: "가게27",
-//   },
-//   {
-//     storeName: "가게28",
-//   },
-//   {
-//     storeName: "가게29",
-//   },
-//   {
-//     storeName: "가게230",
-//   },
-// ];
