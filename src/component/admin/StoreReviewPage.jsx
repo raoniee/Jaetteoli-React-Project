@@ -4,8 +4,8 @@ import Header from "../header/Header";
 import NavAdmin from "./NavAdmin";
 import styles from "./StoreReviewPage.module.css";
 import styled from "styled-components";
-import { ReactComponent as ReviewStarUp } from "../../assets/images/review_star_up.svg";
-import { ReactComponent as ReviewStarDown } from "../../assets/images/review_star_down.svg";
+import starRatingUp from "../../assets/images/star_rating_up.png";
+import starRatingDown from "../../assets/images/star_rating_down.png";
 import { ReactComponent as CheckCircle } from "../../assets/images/check-circle.svg";
 import { ReactComponent as XCircle } from "../../assets/images/x-circle.svg";
 import { ReactComponent as Arrow_Right_1 } from "../../assets/images/arrow_right_1.svg";
@@ -17,7 +17,7 @@ import Pagination from "react-js-pagination";
 
 export default function StoreReviewPage() {
   const [reviews, setReviews] = useState([]);
-  const [result, setResult] = useState("");
+  const [result, setResult] = useState();
   const [page, setPage] = useState(1);
   const [startnum, setStartNum] = useState(1);
 
@@ -64,21 +64,21 @@ export default function StoreReviewPage() {
     fetchData();
   }, []);
 
-  const handleMaintain = () => {
+  const handleMaintain = (e) => {
     setResult("A");
-    goResultAdmin();
+    //goResultAdmin();
   };
 
   const handleCancle = () => {
     setResult("D");
-    goResultAdmin();
+    //goResultAdmin();
   };
 
   const token = getCookieToken();
 
   async function goResultAdmin() {
     const requestBody = {
-      reviewIdx: reviews.reviewId,
+      // reviewIdx: ,
       status: result,
     };
 
@@ -201,12 +201,24 @@ function ReviewCard({ results, maintain, cancle }) {
                 {result.customerName.slice(0, -1) + "*"}
               </p>
               <div className={styles.review_source}>
-                <div className={styles.starbox}>
-                  <ReviewStarUp />
-                  <ReviewStarUp />
-                  <ReviewStarUp />
-                  <ReviewStarUp />
-                  <ReviewStarUp />
+                <div className={styles.starRating}>
+                  <div className={styles.starRatingDown}>
+                    <img src={starRatingDown}></img>
+                    <img src={starRatingDown}></img>
+                    <img src={starRatingDown}></img>
+                    <img src={starRatingDown}></img>
+                    <img src={starRatingDown}></img>
+                  </div>
+                  <div
+                    className={styles.starRatingUp}
+                    style={{ width: `${result.reviewStar * 20}%` }}
+                  >
+                    <img src={starRatingUp}></img>
+                    <img src={starRatingUp}></img>
+                    <img src={starRatingUp}></img>
+                    <img src={starRatingUp}></img>
+                    <img src={starRatingUp}></img>
+                  </div>
                 </div>
                 <span className={styles.store_name}>{result.storeName}</span>
               </div>
@@ -220,11 +232,19 @@ function ReviewCard({ results, maintain, cancle }) {
           </div>
           <div className={styles.bottom}>
             <div className={styles.result}>
-              <div className={styles.maintain} onClick={() => maintain()}>
+              <div
+                className={styles.maintain}
+                id={result.reviewIdx}
+                onClick={() => maintain()}
+              >
                 <CheckCircle />
                 <p>유지하기</p>
               </div>
-              <div className={styles.delete} onClick={() => cancle()}>
+              <div
+                className={styles.delete}
+                id={result.reviewIdx}
+                onClick={() => cancle()}
+              >
                 <XCircle />
                 <p>삭제하기</p>
               </div>
