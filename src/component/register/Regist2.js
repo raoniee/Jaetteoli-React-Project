@@ -324,7 +324,7 @@ export default function Regist2Component() {
                 price: 0,
                 composition: '',
                 description: '',
-                menuUrl: new File([""], "empty.txt", { type: "image/jpeg"})
+                menuUrl: new File([""], "empty.jpg", { type: "image/jpeg"})
             }
         ],
         sideMenuItems: [
@@ -333,7 +333,7 @@ export default function Regist2Component() {
                 price: 0,
                 composition: '',
                 description: '',
-                menuUrl: new File([""], "empty.txt", { type: "image/jpeg"})
+                menuUrl: new File([""], "empty.jpg", { type: "image/jpeg"})
             }
         ]
     }
