@@ -14,6 +14,7 @@ const Nav = (props) => {
   const logoutHandler = () => {
     removeCookieToken();
     navigate('/')
+    window.location.reload()
   }
 
   if(jwt){

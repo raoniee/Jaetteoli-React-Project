@@ -5,13 +5,15 @@
     justify-content: space-around;
 }
 
-button {
-    width: 123px;
-    height: 48px;
+.btnContainer button {
+    min-width: 123px;
+    height: auto;
+    padding: 10px 8px;
     border: 2px solid #604EF8;
     font-family: 'Pretendard-Regular';
     font-size: 18px;
     border-radius: 5px;
+    line-height: 1.8;
 }
 
 .login {
