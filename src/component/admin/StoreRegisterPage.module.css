@@ -75,12 +75,13 @@
 
 .wrap_register .wrap_index .num_list {
   display: flex;
-  gap: 30px;
+  justify-content: space-between;
   width: 393px;
 }
 
 .wrap_register .wrap_index .num_list li {
   line-height: 18px;
+  cursor: pointer;
 }
 
 .wrap_register .wrap_index .right_onestep {
