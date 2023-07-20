@@ -64,21 +64,24 @@ export default function StoreReviewPage() {
     fetchData();
   }, []);
 
-  const handleMaintain = (e) => {
+  const handleMaintain = (prop) => {
+    //alert("신고한 리뷰를 유지하겠습니까?");
+    const ClickReviewIdx = prop;
     setResult("A");
-    //goResultAdmin();
+    goResultAdmin(ClickReviewIdx);
   };
 
-  const handleCancle = () => {
+  const handleCancle = (prop) => {
     setResult("D");
-    //goResultAdmin();
+    const ClickReviewIdx = prop;
+    goResultAdmin(ClickReviewIdx);
   };
 
   const token = getCookieToken();
 
-  async function goResultAdmin() {
+  async function goResultAdmin(idx) {
     const requestBody = {
-      // reviewIdx: ,
+      reviewIdx: idx,
       status: result,
     };
 
@@ -90,6 +93,7 @@ export default function StoreReviewPage() {
       },
       body: JSON.stringify(requestBody),
     };
+
     try {
       const response = await fetch(
         "https://www.insung.shop/jat/reviews/admin",
@@ -235,7 +239,7 @@ function ReviewCard({ results, maintain, cancle }) {
               <div
                 className={styles.maintain}
                 id={result.reviewIdx}
-                onClick={() => maintain()}
+                onClick={() => maintain(result.reviewIdx)}
               >
                 <CheckCircle />
                 <p>유지하기</p>
@@ -243,7 +247,7 @@ function ReviewCard({ results, maintain, cancle }) {
               <div
                 className={styles.delete}
                 id={result.reviewIdx}
-                onClick={() => cancle()}
+                onClick={() => cancle(result.reviewIdx)}
               >
                 <XCircle />
                 <p>삭제하기</p>
