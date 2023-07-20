@@ -91,7 +91,7 @@ export const checkRegisterMenu = () => {
     const firstLogin = getFirstLogin()
     const menuRegister = getMenuRegister()
     const storeStaute = getStoreStatus()
-    const result = firstLogin === "1" && menuRegister === "1" && storeStaute === "A"
+    const result = firstLogin === "0" && menuRegister === "1" && storeStaute === "A"
     if(!result){
         alert('올바르지 않은 권한 접근입니다.')
         return redirect('/')
