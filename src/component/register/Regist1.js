@@ -512,8 +512,10 @@ export default function Regist1Component({setStoreInfo}) {
             .then(response => response.json())
             .then(data => {
                 console.log(data);
-                if (data.code === 1000)
-                    navigate('/register/menu')
+                if (data.code === 1000){
+                    alert('가게 승인까지 최대 24시간 소요됩니다.')
+                    navigate('/')
+                }
             })
             .catch(error => {
                 console.error(error);
