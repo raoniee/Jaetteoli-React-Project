@@ -16,7 +16,7 @@ import { useNavigate } from "react-router-dom";
 export default function StoreRegisterPage() {
   const navigate = useNavigate();
   const [stores, setStores] = useState([]);
-  const [page, setPage] = useState(1); //페이지
+  const [page, setPage] = useState(1);
   const [startnum, setStartNum] = useState(1);
 
   const limit = 5; // posts가 보일 최대한의 갯수
