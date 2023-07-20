@@ -460,8 +460,6 @@ const Modify1Box5Wrapper = styled.div`
 `
 
 export default function Modify1() {
-    const [grid1Items, setGrid1Items] = useState(1);
-    const [grid2Items, setGrid2Items] = useState(1);
     const [previewImageSetters, setPreviewImageSetters] = useState(false);
     const previewImage0 = useRef({ 0: null, 1: null });
     const previewImage1 = useRef({ 0: null});
@@ -484,8 +482,8 @@ export default function Modify1() {
         storeOpen: "",
         storeClose: "",
         storePhone: "",
-        storeLogoUrl: "",
-        signUrl: ""
+        storeLogoUrl: new File([""], "empty.txt", { type: "image/jpeg"}),
+        signUrl: new File([""], "empty.txt", { type: "image/jpeg"})
     }
     const [ storeInfo, setStoreInfo ] = useState(initialStoreInfo)
 
@@ -516,6 +514,7 @@ export default function Modify1() {
                     setStoreInfo({...storeInfo, ...storeData});
                     previewImage0.current[0] = storeLogoUrl;
                     previewImage0.current[1] = signUrl;
+                    console.log(previewImage0.current)
                 }
 
             })
@@ -530,13 +529,11 @@ export default function Modify1() {
         const formData = new FormData();
         for (const key in storeInfo) {
             formData.append(key, storeInfo[key]);
-            console.log(key, storeInfo[key])
         }
 
         for (let pair of formData.entries()) {
             console.log(pair[0]+', '+pair[1])
         }
-        return;
 
         const requestOptions = {
             method: 'PATCH',
@@ -546,6 +543,7 @@ export default function Modify1() {
             body: formData
         };
 
+
         fetch('https://www.insung.shop/jat/stores', requestOptions)
             .then(response => response.json())
             .then(data => {
@@ -554,7 +552,6 @@ export default function Modify1() {
             .catch(error => {
                 console.error(error);
             });
-
     }
 
     const getMenuInfo = () => {
@@ -581,26 +578,314 @@ export default function Modify1() {
                             if (key === "menuUrl")
                                 previewImage1.current[index] = item[key]
                         }
-                        delete item.menuUrl
+                        item.isUpdated = 0; // isUpdated 속성을 추가하고 0으로 설정합니다.
+                        item.menuUrl = new File([""], "empty.txt", { type: "image/jpeg"})
                     })
                     sideMenuList.forEach((item, index) => {
                         for(let key in item){
                             if (key === "menuUrl")
                                 previewImage2.current[index] = item[key]
                         }
-                        delete item.menuUrl
+                        item.isUpdated = 0; // isUpdated 속성을 추가하고 0으로 설정합니다.
+                        item.menuUrl = new File([""], "empty.txt", { type: "image/jpeg"})
                     })
 
                     setMenuInfo({...menuInfo, storeIdx: storeIdx, mainMenuList: mainMenuList, sideMenuList: sideMenuList})
                     console.log(mainMenuList)
                     console.log(sideMenuList)
-                    setGrid1Items(mainMenuList.length)
-                    setGrid2Items(sideMenuList.length)
                 }
             })
             .catch(error => {
                 console.error(error);
             });
+    }
+    const patchMenuInfo = () => {
+        const token = getCookieToken();
+
+        const formData = new FormData();
+
+        menuInfo.mainMenuList.forEach((item, index) => {
+            for(let key in item){
+                formData.append(`mainMenuItems[${index}].${key}`, item[key]);
+            }
+        });
+
+        menuInfo.sideMenuList.forEach((item, index) => {
+            for(let key in item){
+                formData.append(`sideMenuItems[${index}].${key}`, item[key]);
+            }
+        });
+
+
+        for (let pair of formData.entries()) {
+            console.log(pair[0]+', '+pair[1])
+        }
+
+
+        const requestOptions = {
+            method: 'PATCH',
+            headers: {
+                'X-ACCESS-TOKEN': token, // X-ACCESS-TOKEN 헤더에 토큰 값을 추가합니다.
+            },
+            body: formData
+        };
+
+        fetch('https://www.insung.shop/jat/menus', requestOptions)
+            .then(response => response.json())
+            .then(data => {
+                console.log(data);
+            })
+            .catch(error => {
+                console.error(error);
+            });
+    }
+
+    const deleteMenuInfo = (_, index, type) => {
+        if (type === 1){
+            const deleteMenu = menuInfo.sideMenuList;
+            if ( deleteMenu[index].isUpdated === 3){
+                deleteMenu.splice(index,1);
+            }
+            else deleteMenu[index].isUpdated = 2;
+            setMenuInfo({...menuInfo, sideMenuList: deleteMenu})
+        }
+        else {
+            const deleteMenu = menuInfo.mainMenuList;
+            if ( deleteMenu[index].isUpdated === 3)
+                deleteMenu.splice(index,1)
+            else deleteMenu[index].isUpdated = 2;
+            setMenuInfo({...menuInfo, mainMenuList: deleteMenu})
+        }
+    }
+
+    const makeMainMenuComponent = () => {
+        let num = 0;
+        if (menuInfo.mainMenuList.length !== 0){
+            const component = Array.from({ length: menuInfo.mainMenuList.length}).map((_, index) => {
+                if (menuInfo.mainMenuList[index].isUpdated !== 2){
+                    num++;
+                    return (
+                        <Modify2FlexContinaer2Styled key={`grid1-${index}`}>
+                            <Modify2FlexBox1Styled>
+                                {num}
+                            </Modify2FlexBox1Styled>
+                            <Modify2FlexBox2Styled>
+                                <Modify2FlexTextArea1Styled
+                                    value={menuInfo.mainMenuList[index] ? menuInfo.mainMenuList[index].menuName : ""}
+                                    onChange={event => {
+                                        const newMainMenuName = event.target.value;
+                                        const updatedMainMenuList = [...menuInfo.mainMenuList]; // 기존 mainMenuList 복사
+                                        if (updatedMainMenuList[index].isUpdated === 0)
+                                            updatedMainMenuList[index] = {
+                                                ...updatedMainMenuList[index],
+                                                menuName: newMainMenuName,
+                                                isUpdated: 1
+                                            }; // 특정 인덱스의 menuName 업데이트
+                                        else updatedMainMenuList[index] = {
+                                            ...updatedMainMenuList[index],
+                                            menuName: newMainMenuName
+                                        }; // 특정 인덱스의 menuName 업데이트
+                                        setMenuInfo({...menuInfo, mainMenuList: updatedMainMenuList})
+                                    }}
+                                    placeholder={"연어 샐러드"}/>
+                            </Modify2FlexBox2Styled>
+                            <Modify2FlexBox2Styled>
+                                <Modify2FlexTextArea1Styled
+                                    value={menuInfo.mainMenuList[index] ? menuInfo.mainMenuList[index].price : ""}
+                                    onChange={event => {
+                                        const newMainMenuPrice = event.target.value;
+                                        const updatedMainMenuList = [...menuInfo.mainMenuList]; // 기존 mainMenuList 복사
+                                        if (updatedMainMenuList[index].isUpdated === 0)
+                                            updatedMainMenuList[index] = {
+                                                ...updatedMainMenuList[index],
+                                                price: newMainMenuPrice,
+                                                isUpdated: 1
+                                            }; // 특정 인덱스의 menuName 업데이트
+                                        else updatedMainMenuList[index] = {
+                                            ...updatedMainMenuList[index],
+                                            price: newMainMenuPrice
+                                        }; // 특정 인덱스의 menuName 업데이트
+                                        setMenuInfo({...menuInfo, mainMenuList: updatedMainMenuList})
+                                    }}
+                                    placeholder={"1000000"}/>
+                            </Modify2FlexBox2Styled>
+                            <Modify2FlexBox2Styled>
+                                <Modify2FlexTextArea1Styled
+                                    value={menuInfo.mainMenuList[index] ? menuInfo.mainMenuList[index].composition : ""}
+                                    onChange={event => {
+                                        const newMainMenuComposition = event.target.value;
+                                        const updatedMainMenuList = [...menuInfo.mainMenuList]; // 기존 mainMenuList 복사
+                                        if (updatedMainMenuList[index].isUpdated === 0)
+                                            updatedMainMenuList[index] = {
+                                                ...updatedMainMenuList[index],
+                                                composition: newMainMenuComposition,
+                                                isUpdated: 1
+                                            }; // 특정 인덱스의 menuName 업데이트
+                                        else updatedMainMenuList[index] = {
+                                            ...updatedMainMenuList[index],
+                                            composition: newMainMenuComposition
+                                        }; // 특정 인덱스의 menuName 업데이트
+                                        setMenuInfo({...menuInfo, mainMenuList: updatedMainMenuList})
+                                    }}
+                                    placeholder={"연어, 풀"}/>
+                            </Modify2FlexBox2Styled>
+                            <Modify2FlexBox3Styled>
+                                <Modify2FlexTextArea1Styled
+                                    value={menuInfo.mainMenuList[index] ? menuInfo.mainMenuList[index].description : ""}
+                                    onChange={event => {
+                                        const newMainMenuDescription = event.target.value;
+                                        const updatedMainMenuList = [...menuInfo.mainMenuList]; // 기존 mainMenuList 복사
+                                        if (updatedMainMenuList[index].isUpdated === 0)
+                                            updatedMainMenuList[index] = {
+                                                ...updatedMainMenuList[index],
+                                                description: newMainMenuDescription,
+                                                isUpdated: 1
+                                            }; // 특정 인덱스의 menuName 업데이트
+                                        else updatedMainMenuList[index] = {
+                                            ...updatedMainMenuList[index],
+                                            description: newMainMenuDescription
+                                        }; // 특정 인덱스의 menuName 업데이트
+                                        setMenuInfo({...menuInfo, mainMenuList: updatedMainMenuList})
+                                    }}
+                                    placeholder={"자연산 연어로 만들어서 싱싱해요."}/>
+                            </Modify2FlexBox3Styled>
+                            <Modify2FlexBox4Styled>
+                                <Modify2FlexBox5Styled
+                                    src={previewImage1.current[index] ? previewImage1.current[index] : "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"}/>
+                                <input type="file"
+                                       name="filename"
+                                       accept="image/jpeg, image/png"
+                                       ref={(a) => {
+                                           if (a) {
+                                               console.log(a, "마운트됨");
+                                               tempList1.push(a);
+                                           } else {
+                                               console.log("언마운트됨")
+                                           }
+                                       }
+                                       }
+                                       style={{display: "none"}}
+                                       onChange={(event) => {
+                                           handleImageChange(event, index, 1)
+                                       }}
+                                />
+                                <Modify2InputButtonStyled
+                                    onClick={() => {
+                                        tempList1[index].click();
+                                    }}>
+                                    이미지 업로드
+                                </Modify2InputButtonStyled>
+                            </Modify2FlexBox4Styled>
+                            <Modify2FlexBox6Styled>
+                                <DeleteButton onClick={event => deleteMenuInfo(event, index, 0)} />
+                            </Modify2FlexBox6Styled>
+                        </Modify2FlexContinaer2Styled>
+                    )
+                }
+                else return null;
+            })
+            return component;
+        }
+        else return null;
+    }
+
+    const makeSideMenuComponent = () => {
+        let num = 0;
+        if (menuInfo.sideMenuList.length !== 0){
+            const component = Array.from({ length: menuInfo.sideMenuList.length}).map((_, index) => {
+                if (menuInfo.sideMenuList[index].isUpdated !== 2){
+                    num++;
+                    return (
+                        <Modify2FlexContinaer2Styled key={`grid2-${index}`}>
+                            <Modify2FlexBox1Styled>
+                                {index + 1}
+                            </Modify2FlexBox1Styled>
+                            <Modify2FlexBox2Styled>
+                                <Modify2FlexTextArea1Styled
+                                    value={menuInfo.sideMenuList[index] ? menuInfo.sideMenuList[index].menuName : ""}
+                                    onChange={event => {
+                                        const newSideMenuName = event.target.value;
+                                        const updatedSideMenuList = [...menuInfo.sideMenuList]; // 기존 mainMenuList 복사
+                                        if (updatedSideMenuList[index].isUpdated === 0)
+                                            updatedSideMenuList[index] = { ...updatedSideMenuList[index], menuName: newSideMenuName, isUpdated: 1 }; // 특정 인덱스의 menuName 업데이트
+                                        else updatedSideMenuList[index] = { ...updatedSideMenuList[index], menuName: newSideMenuName }; // 특정 인덱스의 menuName 업데이트
+                                        setMenuInfo({...menuInfo, sideMenuList: updatedSideMenuList})
+                                    }}
+                                    placeholder={"연어 샐러드"} />
+                            </Modify2FlexBox2Styled>
+                            <Modify2FlexBox2Styled>
+                                <Modify2FlexTextArea1Styled
+                                    value={menuInfo.sideMenuList[index] ? menuInfo.sideMenuList[index].price : ""}
+                                    onChange={event => {
+                                        const newSideMenuPrice = event.target.value;
+                                        const updatedSideMenuList = [...menuInfo.sideMenuList]; // 기존 mainMenuList 복사
+                                        if (updatedSideMenuList[index].isUpdated === 0)
+                                            updatedSideMenuList[index] = { ...updatedSideMenuList[index], price: newSideMenuPrice, isUpdated: 1 }; // 특정 인덱스의 menuName 업데이트
+                                        else updatedSideMenuList[index] = { ...updatedSideMenuList[index], price: newSideMenuPrice }; // 특정 인덱스의 menuName 업데이트
+                                        setMenuInfo({...menuInfo, sideMenuList: updatedSideMenuList})
+                                    }}
+                                    placeholder={"1,000,000원"} />
+                            </Modify2FlexBox2Styled>
+                            <Modify2FlexBox2Styled>
+                                <Modify2FlexTextArea1Styled
+                                    value={menuInfo.sideMenuList[index] ? menuInfo.sideMenuList[index].composition : ""}
+                                    onChange={event => {
+                                        const newSideMenuComposition = event.target.value;
+                                        const updatedSideMenuList = [...menuInfo.sideMenuList]; // 기존 mainMenuList 복사
+                                        if (updatedSideMenuList[index].isUpdated === 0)
+                                            updatedSideMenuList[index] = { ...updatedSideMenuList[index], composition: newSideMenuComposition, isUpdated: 1 }; // 특정 인덱스의 menuName 업데이트
+                                        else updatedSideMenuList[index] = { ...updatedSideMenuList[index], composition: newSideMenuComposition }; // 특정 인덱스의 menuName 업데이트
+                                        setMenuInfo({...menuInfo, sideMenuList: updatedSideMenuList})
+                                    }}
+                                    placeholder={"연어, 풀"} />
+                            </Modify2FlexBox2Styled>
+                            <Modify2FlexBox3Styled>
+                                <Modify2FlexTextArea1Styled
+                                    value={menuInfo.sideMenuList[index] ? menuInfo.sideMenuList[index].description : ""}
+                                    onChange={event => {
+                                        const newSideMenuDescription = event.target.value;
+                                        const updatedSideMenuList = [...menuInfo.sideMenuList]; // 기존 mainMenuList 복사
+                                        if (updatedSideMenuList[index].isUpdated === 0)
+                                            updatedSideMenuList[index] = { ...updatedSideMenuList[index], description: newSideMenuDescription, isUpdated: 1 }; // 특정 인덱스의 menuName 업데이트
+                                        else updatedSideMenuList[index] = { ...updatedSideMenuList[index], description: newSideMenuDescription }; // 특정 인덱스의 menuName 업데이트
+                                        setMenuInfo({...menuInfo, sideMenuList: updatedSideMenuList})
+                                    }}
+                                    placeholder={"자연산 연어로 만들어서 싱싱해요."} />
+                            </Modify2FlexBox3Styled>
+                            <Modify2FlexBox4Styled>
+                                <Modify2FlexBox5Styled src={previewImage2.current[index] ? previewImage2.current[index] : "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"} />
+                                <input type="file"
+                                       name="filename"
+                                       accept="image/jpeg, image/png"
+                                       ref={(a) => {
+                                           if (a) {
+                                               console.log(a, "마운트됨");
+                                               tempList2.push(a);
+                                           }
+                                           else { console.log("언마운트됨") }
+                                       }
+                                       }
+                                       style={{ display: "none" }}
+                                       onChange={(event) => { handleImageChange(event, index, 2) }}
+                                />
+                                <Modify2InputButtonStyled
+                                    onClick={() => {
+                                        tempList2[index].click();
+                                    }}>
+                                    이미지 업로드
+                                </Modify2InputButtonStyled>
+                            </Modify2FlexBox4Styled>
+                            <Modify2FlexBox6Styled>
+                                <DeleteButton onClick={event => deleteMenuInfo(event, index, 1)} />
+                            </Modify2FlexBox6Styled>
+                        </Modify2FlexContinaer2Styled>
+                    )
+                }
+                else return null;
+            })
+            return component;
+        }
+        else return null;
     }
 
 
@@ -641,12 +926,16 @@ export default function Modify1() {
                         previewImage1.current[number] = imageUrl;
                         const updateMenuUrl = [...menuInfo.mainMenuList]
                         updateMenuUrl[number].menuUrl = selectedFile
+                        if (updateMenuUrl[number].isUpdated === 0)
+                            updateMenuUrl[number].isUpdated = 1
                         setMenuInfo({...menuInfo, mainMenuList: updateMenuUrl})
                     }
                     else{
                         previewImage2.current[number] = imageUrl;
-                        const updateMenuUrl = [...menuInfo.mainMenuList]
+                        const updateMenuUrl = [...menuInfo.sideMenuList]
                         updateMenuUrl[number].menuUrl = selectedFile
+                        if (updateMenuUrl[number].isUpdated === 0)
+                            updateMenuUrl[number].isUpdated = 1
                         setMenuInfo({...menuInfo, sideMenuList: updateMenuUrl})
                     }
                     setPreviewImageSetters(!previewImageSetters);
@@ -858,88 +1147,23 @@ export default function Modify1() {
                                 사진
                             </Modify2FlexBox9Styled>
                         </Modify2FlexContinaer2Styled>
-                        {Array.from({ length: grid1Items}).map((_, index) => (
-                            <Modify2FlexContinaer2Styled key={`grid1-${index}`}>
-                                <Modify2FlexBox1Styled>
-                                    {index + 1}
-                                </Modify2FlexBox1Styled>
-                                <Modify2FlexBox2Styled>
-                                    <Modify2FlexTextArea1Styled
-                                        value={menuInfo.mainMenuList[index] ? menuInfo.mainMenuList[index].menuName : ""}
-                                        onChange={event => {
-                                            const newMainMenuName = event.target.value;
-                                            const updatedMainMenuList = [...menuInfo.mainMenuList]; // 기존 mainMenuList 복사
-                                            updatedMainMenuList[index] = { ...updatedMainMenuList[index], menuName: newMainMenuName }; // 특정 인덱스의 menuName 업데이트
-                                            setMenuInfo({...menuInfo, mainMenuList: updatedMainMenuList})
-                                        }}
-                                        placeholder={"연어 샐러드"} />
-                                </Modify2FlexBox2Styled>
-                                <Modify2FlexBox2Styled>
-                                    <Modify2FlexTextArea1Styled
-                                        value={menuInfo.mainMenuList[index] ? menuInfo.mainMenuList[index].price : ""}
-                                        onChange={event => {
-                                            const newMainMenuPrice = event.target.value;
-                                            const updatedMainMenuList = [...menuInfo.mainMenuList]; // 기존 mainMenuList 복사
-                                            updatedMainMenuList[index] = { ...updatedMainMenuList[index], price: newMainMenuPrice }; // 특정 인덱스의 menuName 업데이트
-                                            setMenuInfo({...menuInfo, mainMenuList: updatedMainMenuList})
-                                        }}
-                                        placeholder={"1000000"} />
-                                </Modify2FlexBox2Styled>
-                                <Modify2FlexBox2Styled>
-                                    <Modify2FlexTextArea1Styled
-                                        value={menuInfo.mainMenuList[index] ? menuInfo.mainMenuList[index].composition : ""}
-                                        onChange={event => {
-                                            const newMainMenuComposition = event.target.value;
-                                            const updatedMainMenuList = [...menuInfo.mainMenuList]; // 기존 mainMenuList 복사
-                                            updatedMainMenuList[index] = { ...updatedMainMenuList[index], composition: newMainMenuComposition }; // 특정 인덱스의 menuName 업데이트
-                                            setMenuInfo({...menuInfo, mainMenuList: updatedMainMenuList})
-                                        }}
-                                        placeholder={"연어, 풀"} />
-                                </Modify2FlexBox2Styled>
-                                <Modify2FlexBox3Styled>
-                                    <Modify2FlexTextArea1Styled
-                                        value={menuInfo.mainMenuList[index] ? menuInfo.mainMenuList[index].description : ""}
-                                        onChange={event => {
-                                            const newMainMenuDescription = event.target.value;
-                                            const updatedMainMenuList = [...menuInfo.mainMenuList]; // 기존 mainMenuList 복사
-                                            updatedMainMenuList[index] = { ...updatedMainMenuList[index], description: newMainMenuDescription }; // 특정 인덱스의 menuName 업데이트
-                                            setMenuInfo({...menuInfo, mainMenuList: updatedMainMenuList})
-                                        }}
-                                        placeholder={"자연산 연어로 만들어서 싱싱해요."} />
-                                </Modify2FlexBox3Styled>
-                                <Modify2FlexBox4Styled>
-                                    <Modify2FlexBox5Styled src={previewImage1.current[index] ? previewImage1.current[index] : "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"} />
-                                    <input type="file"
-                                           name="filename"
-                                           accept="image/jpeg, image/png"
-                                           ref={(a) => {
-                                               if (a) {
-                                                   console.log(a, "마운트됨");
-                                                   tempList1.push(a);
-                                                   if (index == grid1Items.length - 1) {
-                                                       console.log(tempList1)
-                                                   }
-                                               }
-                                               else { console.log("언마운트됨") }
-                                           }
-                                           }
-                                           style={{ display: "none" }}
-                                           onChange={(event) => { handleImageChange(event, index, 1) }}
-                                    />
-                                    <Modify2InputButtonStyled
-                                        onClick={() => {
-                                            tempList1[index].click();
-                                        }}>
-                                        이미지 업로드
-                                    </Modify2InputButtonStyled>
-                                </Modify2FlexBox4Styled>
-                                <Modify2FlexBox6Styled>
-                                    <DeleteButton />
-                                </Modify2FlexBox6Styled>
-                            </Modify2FlexContinaer2Styled>
-                        ))}
+                        {
+                            makeMainMenuComponent()
+                        }
                     </Modify2FlexContainer1Styled>
-                    <Modify2Add onClick={() => { setGrid1Items([...grid1Items, grid1Items.length]) }}>
+                    <Modify2Add onClick={() => {
+                        const addMainMenu = menuInfo.mainMenuList;
+                        addMainMenu.push({
+                            menuIdx: 0,
+                            menuName: "",
+                            price: 0,
+                            composition: "",
+                            description: "",
+                            menuUrl: new File([""], "empty.txt", { type: "image/jpeg"}),
+                            isUpdated: 3
+                        })
+                        setMenuInfo({...menuInfo, mainMenuList: addMainMenu})
+                    }}>
                         항목 추가하기
                     </Modify2Add>
                     <Modify2FlexEmptyBoxStyled />
@@ -966,92 +1190,27 @@ export default function Modify1() {
                                 사진
                             </Modify2FlexBox9Styled>
                         </Modify2FlexContinaer2Styled>
-                        {Array.from({length: grid2Items}).map((_, index) => (
-                            <Modify2FlexContinaer2Styled key='grid2-{index}'>
-                                <Modify2FlexBox1Styled>
-                                    {index + 1}
-                                </Modify2FlexBox1Styled>
-                                <Modify2FlexBox2Styled>
-                                    <Modify2FlexTextArea1Styled
-                                        value={menuInfo.sideMenuList[index] ? menuInfo.sideMenuList[index].menuName : ""}
-                                        onChange={event => {
-                                            const newSideMenuName = event.target.value;
-                                            const updatedSideMenuList = [...menuInfo.sideMenuList]; // 기존 mainMenuList 복사
-                                            updatedSideMenuList[index] = { ...updatedSideMenuList[index], composition: newSideMenuName }; // 특정 인덱스의 menuName 업데이트
-                                            setMenuInfo({...menuInfo, sideMenuList: updatedSideMenuList})
-                                        }}
-                                        placeholder={"연어 샐러드"} />
-                                </Modify2FlexBox2Styled>
-                                <Modify2FlexBox2Styled>
-                                    <Modify2FlexTextArea1Styled
-                                        value={menuInfo.sideMenuList[index] ? menuInfo.sideMenuList[index].price : ""}
-                                        onChange={event => {
-                                            const newSideMenuPrice = event.target.value;
-                                            const updatedSideMenuList = [...menuInfo.sideMenuList]; // 기존 mainMenuList 복사
-                                            updatedSideMenuList[index] = { ...updatedSideMenuList[index], composition: newSideMenuPrice }; // 특정 인덱스의 menuName 업데이트
-                                            setMenuInfo({...menuInfo, sideMenuList: updatedSideMenuList})
-                                        }}
-                                        placeholder={"1,000,000원"} />
-                                </Modify2FlexBox2Styled>
-                                <Modify2FlexBox2Styled>
-                                    <Modify2FlexTextArea1Styled
-                                        value={menuInfo.sideMenuList[index] ? menuInfo.sideMenuList[index].composition : ""}
-                                        onChange={event => {
-                                            const newSideMenuComposition = event.target.value;
-                                            const updatedSideMenuList = [...menuInfo.sideMenuList]; // 기존 mainMenuList 복사
-                                            updatedSideMenuList[index] = { ...updatedSideMenuList[index], composition: newSideMenuComposition }; // 특정 인덱스의 menuName 업데이트
-                                            setMenuInfo({...menuInfo, sideMenuList: updatedSideMenuList})
-                                        }}
-                                        placeholder={"연어, 풀"} />
-                                </Modify2FlexBox2Styled>
-                                <Modify2FlexBox3Styled>
-                                    <Modify2FlexTextArea1Styled
-                                        value={menuInfo.sideMenuList[index] ? menuInfo.sideMenuList[index].description : ""}
-                                        onChange={event => {
-                                            const newSideMenuDescription = event.target.value;
-                                            const updatedSideMenuList = [...menuInfo.sideMenuList]; // 기존 mainMenuList 복사
-                                            updatedSideMenuList[index] = { ...updatedSideMenuList[index], description: newSideMenuDescription }; // 특정 인덱스의 menuName 업데이트
-                                            setMenuInfo({...menuInfo, sideMenuList: updatedSideMenuList})
-                                        }}
-                                        placeholder={"자연산 연어로 만들어서 싱싱해요."} />
-                                </Modify2FlexBox3Styled>
-                                <Modify2FlexBox4Styled>
-                                    <Modify2FlexBox5Styled src={previewImage2.current[index] ? previewImage2.current[index] : "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"} />
-                                    <input type="file"
-                                           name="filename"
-                                           accept="image/jpeg, image/png"
-                                           ref={(a) => {
-                                               if (a) {
-                                                   console.log(a, "마운트됨");
-                                                   tempList2.push(a);
-                                                   if (index == grid2Items.length - 1) {
-                                                       console.log(tempList2)
-                                                   }
-                                               }
-                                               else { console.log("언마운트됨") }
-                                           }
-                                           }
-                                           style={{ display: "none" }}
-                                           onChange={(event) => { handleImageChange(event, index, 2) }}
-                                    />
-                                    <Modify2InputButtonStyled
-                                        onClick={() => {
-                                            tempList2[index].click();
-                                        }}>
-                                        이미지 업로드
-                                    </Modify2InputButtonStyled>
-                                </Modify2FlexBox4Styled>
-                                <Modify2FlexBox6Styled>
-                                    <DeleteButton />
-                                </Modify2FlexBox6Styled>
-                            </Modify2FlexContinaer2Styled>
-                        ))}
+                        {
+                            makeSideMenuComponent()
+                        }
                     </Modify2FlexContainer1Styled>
-                    <Modify2Add onClick={() => { setGrid2Items([...grid2Items, grid2Items.length]) }}>
+                    <Modify2Add onClick={() => {
+                        const addSideMenu = menuInfo.sideMenuList;
+                        addSideMenu.push({
+                            menuIdx: 0,
+                            menuName: "",
+                            price: 0,
+                            composition: "",
+                            description: "",
+                            menuUrl: new File([""], "empty.txt", { type: "image/jpeg"}),
+                            isUpdated: 3
+                        })
+                        setMenuInfo({...menuInfo, sideMenuList: addSideMenu})
+                    }}>
                         항목 추가하기
                     </Modify2Add>
                     <Modify2SubmitContatiner>
-                        <Modify2Submit>
+                        <Modify2Submit onClick={patchMenuInfo}>
                             메뉴 수정 완료
                         </Modify2Submit>
                     </Modify2SubmitContatiner>
