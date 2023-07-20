@@ -58,9 +58,42 @@
   margin-bottom: 20px;
 }
 
-.wrap_review .review_card .review_source .starbox {
+/* .wrap_review .review_card .review_source .starbox {
   display: flex;
   gap: 3px;
+} */
+
+.starRating {
+  width: 100px;
+  height: 16px;
+  position: relative;
+  margin-right: 12px;
+}
+
+.starRatingDown {
+  width: 100px;
+  height: 16px;
+}
+
+.starRatingDown img {
+  width: 18px;
+  height: 16px;
+  margin: 0px 1px;
+}
+
+.starRatingUp {
+  width: 100px;
+  height: 16px;
+  overflow: hidden;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.starRatingUp img {
+  width: 18px;
+  height: 16px;
+  margin: 0px 1px;
 }
 
 .wrap_review .review_card .review_source .store_name {
