@@ -1,5 +1,131 @@
+/* * {
+  outline: 1px solid #363;
+} */
+
 .wrap {
   margin-top: 72px;
   display: flex;
   margin-bottom: 130px;
+}
+
+.wrap_review {
+  width: 100%;
+  margin-top: 122px;
+}
+
+.wrap_review .title {
+  display: block;
+  width: 70%;
+  font-weight: 700;
+  font-size: 32px;
+  padding-left: 152px;
+  padding-bottom: 30px;
+  margin-left: 150px;
+  margin-bottom: 60px;
+}
+
+.wrap_review .review_card {
+  background-color: #f5f3ff;
+  width: 100%;
+  padding-top: 50px;
+  padding-right: 50px;
+  padding-left: 50px;
+  border-top: 1px solid rgba(0, 0, 0, 0.5);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.5);
+}
+/* .review_card .top */
+.wrap_review .review_card .top {
+  display: flex;
+  justify-content: space-between;
+  height: 205px;
+  margin-right: 70px;
+}
+.wrap_review .review_card .top .review_info {
+  display: flex;
+  flex-direction: column;
+  width: 70%;
+}
+
+.wrap_review .review_card .user_name {
+  font-weight: 700;
+  font-size: 20px;
+  line-height: 20px;
+  margin-bottom: 6px;
+}
+
+.wrap_review .review_card .review_source {
+  display: flex;
+  margin-bottom: 20px;
+}
+
+.wrap_review .review_card .review_source .starbox {
+  display: flex;
+  gap: 3px;
+}
+
+.wrap_review .review_card .review_source .store_name {
+  margin-left: 13px;
+  color: rgba(0, 0, 0, 0.5);
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 100%; /* 18px */
+  letter-spacing: 0.5px;
+}
+
+.wrap_review .review_card .review_desc {
+  color: #000;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 200%; /* 32px */
+  letter-spacing: 0.5px;
+}
+
+.wrap_review .review_card .review_img {
+  width: 180px;
+  height: 180px;
+}
+
+/* .review_card .bottom */
+
+.wrap_review .review_card .bottom {
+  position: relative;
+  height: 80px;
+  border-top: 1px solid rgba(0, 0, 0, 0.2);
+}
+
+.wrap_review .review_card .bottom .result {
+  position: absolute;
+  top: 30px;
+  right: 55px;
+  transform: translate(0, -50%);
+  display: flex;
+  gap: 60px;
+  width: 212px;
+  height: 24px;
+}
+
+.wrap_review .review_card .bottom .maintain {
+  display: flex;
+  gap: 5px;
+  cursor: pointer;
+}
+
+.wrap_review .review_card .bottom .maintain p {
+  color: rgba(0, 0, 0, 0.8);
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 24px;
+}
+
+.wrap_review .review_card .bottom .delete {
+  display: flex;
+  gap: 5px;
+  cursor: pointer;
+}
+
+.wrap_review .review_card .bottom .delete p {
+  color: rgba(0, 0, 0, 0.8);
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 24px;
 }
