@@ -14,10 +14,10 @@ import { ReactComponent as Arrow_Left_1 } from "../../assets/images/arrow_left_1
 import { ReactComponent as Arrow_Left_2 } from "../../assets/images/arrow_left_2.svg";
 import { getCookieToken } from "../../store/common/Cookie";
 import Pagination from "react-js-pagination";
+import { type } from "@testing-library/user-event/dist/type";
 
 export default function StoreReviewPage() {
   const [reviews, setReviews] = useState([]);
-  const [result, setResult] = useState();
   const [page, setPage] = useState(1);
   const [startnum, setStartNum] = useState(1);
 
@@ -36,50 +36,47 @@ export default function StoreReviewPage() {
     setStartNum((page - 1) * 5 + 1);
   };
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await fetch(
-          "https://www.insung.shop/jat/review/admin",
-          {
-            method: "GET",
-            headers: {
-              "Content-Type": "application/json",
-              "X-ACCESS-TOKEN": getCookieToken(),
-            },
-          }
-        );
-        const data = await response.json();
-        if (!data.isSuccess) {
-          console.log(data.message);
-          return;
-        }
-        console.log(data.result);
-        setReviews(data.result);
-      } catch (err) {
-        console.log(err);
-      }
-    };
+  const token = getCookieToken();
 
+  const fetchData = async () => {
+    try {
+      const response = await fetch("https://www.insung.shop/jat/review/admin", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          "X-ACCESS-TOKEN": token,
+        },
+      });
+      const data = await response.json();
+      if (!data.isSuccess) {
+        console.log(data.message);
+        return;
+      }
+      console.log(data.result);
+      setReviews(data.result);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  useEffect(() => {
     fetchData();
   }, []);
 
-  const handleMaintain = (prop) => {
-    //alert("신고한 리뷰를 유지하겠습니까?");
+  const handleMaintain = (prop, result) => {
     const ClickReviewIdx = prop;
-    setResult("A");
-    goResultAdmin(ClickReviewIdx);
+    const ClickResult = result;
+    console.log(ClickResult);
+    goResultAdmin(ClickReviewIdx, ClickResult);
   };
 
-  const handleCancle = (prop) => {
-    setResult("D");
+  const handleCancle = (prop, result) => {
     const ClickReviewIdx = prop;
-    goResultAdmin(ClickReviewIdx);
+    const ClickResult = result;
+    goResultAdmin(ClickReviewIdx, ClickResult);
   };
 
-  const token = getCookieToken();
-
-  async function goResultAdmin(idx) {
+  async function goResultAdmin(idx, result) {
     const requestBody = {
       reviewIdx: idx,
       status: result,
@@ -96,11 +93,11 @@ export default function StoreReviewPage() {
 
     try {
       const response = await fetch(
-        "https://www.insung.shop/jat/reviews/admin",
+        "https://www.insung.shop/jat/review/admin",
         requestOptions
       );
       const data = await response.json();
-
+      fetchData();
       if (!data.isSuccess) {
         console.log(data.message);
         return;
@@ -239,7 +236,7 @@ function ReviewCard({ results, maintain, cancle }) {
               <div
                 className={styles.maintain}
                 id={result.reviewIdx}
-                onClick={() => maintain(result.reviewIdx)}
+                onClick={() => maintain(result.reviewIdx, "A")}
               >
                 <CheckCircle />
                 <p>유지하기</p>
@@ -247,7 +244,7 @@ function ReviewCard({ results, maintain, cancle }) {
               <div
                 className={styles.delete}
                 id={result.reviewIdx}
-                onClick={() => cancle(result.reviewIdx)}
+                onClick={() => cancle(result.reviewIdx, "D")}
               >
                 <XCircle />
                 <p>삭제하기</p>
