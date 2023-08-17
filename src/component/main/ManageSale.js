@@ -10,8 +10,8 @@ const ManageSale = () => {
     const [todayTotalSales, setTodayTotalSales] = useState(null);
 
     // 요일 별 매출
-    const [dayOfThisWeekSales, setDayOfThisWeekSales] = useState(null);
-    const [dayOfLastWeekSales, setDayOfLastWeekSales] = useState(null);
+    const [dayOfThisWeekSales, setDayOfThisWeekSales] = useState(null); // 이번 주 매출
+    const [dayOfLastWeekSales, setDayOfLastWeekSales] = useState(null); // 지난 주 매출
     const [dayData, setDayData] = useState([
         { name: '월', 이번주: 0, 지난주: 0 },
         { name: '화', 이번주: 0, 지난주: 0 },
@@ -23,10 +23,10 @@ const ManageSale = () => {
     ]);
 
     // 시간 별 매출
-    const [todayHourlySales, setTodayHourlySales] = useState(null);
-    const [yesterdayHourlySales, setYesterdayHourlySales] = useState(null);
-    const [openTime, setOpenTime] = useState(null);
-    const [closeTime, setCloseTime] = useState(null);
+    const [todayHourlySales, setTodayHourlySales] = useState(null); // 오늘 매출
+    const [yesterdayHourlySales, setYesterdayHourlySales] = useState(null); // 어제 매출
+    const [openTime, setOpenTime] = useState(null); // 가게 오픈 시간
+    const [closeTime, setCloseTime] = useState(null); // 가게 마감 시간
     const [timeData, setTimeData] = useState(null);
 
     // 월간 메뉴별 판매량
@@ -36,6 +36,7 @@ const ManageSale = () => {
 
     const token = getCookieToken();
 
+    // 오늘 총 매출액 api
     async function getTodayTotalsales() {
         const requestOptions = {
             method: 'GET',
@@ -49,17 +50,17 @@ const ManageSale = () => {
             const data = await response.json();
 
             if (!data.isSuccess) {
-                console.log(data.message);
+                console.log('오늘 총 매출액 api', data.message);
                 return;
             }
 
             return data.result.todayTotalSales;
         } catch (error) {
-            console.log('서버가 아직 안켜져있습니다.')
             console.log(error)
         }
     }
 
+    // 요일 별(이번주, 지난주) 매출 api
     async function getDayOfWeekSales() {
         const requestOptions = {
             method: 'GET',
@@ -73,17 +74,17 @@ const ManageSale = () => {
             const data = await response.json();
 
             if (!data.isSuccess) {
-                console.log(data.message);
+                console.log('요일 별(이번주, 지난주) 매출 api', data.message);
                 return;
             }
 
             return data.result;
         } catch (error) {
-            console.log('서버가 아직 안켜져있습니다.')
             console.log(error)
         }
     }
 
+    // 시간 별(오늘, 어제) 매출 api
     async function getHourlySales() {
         const requestOptions = {
             method: 'GET',
@@ -97,19 +98,18 @@ const ManageSale = () => {
             const data = await response.json();
 
             if (!data.isSuccess) {
-                console.log(data.message);
+                console.log('시간 별(오늘, 어제) 매출 api', data.message);
                 return;
             }
 
             return data.result;
         } catch (error) {
-            console.log('서버가 아직 안켜져있습니다.')
             console.log(error)
         }
     }
 
+    // 월간 매뉴 주문 비율 api
     async function getMontlySalesRatio() {
-
         const requestOptions = {
             method: 'GET',
             headers: {
@@ -122,14 +122,13 @@ const ManageSale = () => {
             const data = await response.json();
 
             if (!data.isSuccess) {
-                console.log(data.message);
+                console.log('월간 매뉴 주문 비율 api', data.message);
                 return;
             }
             console.log('ms', data);
 
             return data.result.itemOrdersRatio;
         } catch (error) {
-            console.log('서버가 아직 안켜져있습니다.')
             console.log(error)
         }
     }
@@ -153,7 +152,6 @@ const ManageSale = () => {
             })
         getMontlySalesRatio()
             .then(itemOrdersRatio => {
-                console.log('hi', itemOrdersRatio)
                 const pieData = itemOrdersRatio.map((item) => ({
                     name: item.menuName,
                     value: item.menuOrderCount,
@@ -210,8 +208,6 @@ const ManageSale = () => {
                 const index = hour - 10; // 시간에 해당하는 인덱스 계산
                 updatedTimeData[index].어제 = totalSalesPriceInTime; // 해당 시간의 어제 매출액 업데이트
             });
-
-            setTimeData(updatedTimeData); // 수정된 timeData 업데이트
         }
     }, [todayHourlySales, yesterdayHourlySales, timeData]);
 
