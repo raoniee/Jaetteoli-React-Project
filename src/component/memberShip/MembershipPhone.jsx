@@ -88,7 +88,7 @@ export default function MembershipPhone() {
       if (!data["isSuccess"]) {
         console.log(data["code"]);
         console.log(data["message"]);
-        alert(data['message'])
+        alert(data["message"]);
         return;
       }
     } catch (err) {
@@ -222,6 +222,7 @@ export default function MembershipPhone() {
         if (!data["isSuccess"]) {
           console.log(data["code"]);
           console.log(data["message"]);
+          alert("인증번호가 일치하지 않습니다.");
           return;
         }
         const result = data["result"];
@@ -240,7 +241,7 @@ export default function MembershipPhone() {
           navigate("/signup/begin");
         } else {
           //인증번호 실패
-          alert("인증번호가 일치하지 않습니다.");
+          //alert("인증번호가 일치하지 않습니다.");
           setIsCheck(false);
           setRemainingTime(180); // 인증 시간 초기화
         }
@@ -252,6 +253,38 @@ export default function MembershipPhone() {
       setIsCheck(false);
       setRemainingTime(180); // 인증 시간 초기화
     }
+  };
+
+  const RetryCertificationPhoneNum = async () => {
+    try {
+      const requestBody = {
+        name: userInfo.name,
+        birth: userInfo.birthday,
+        phoneNum: userInfo.phone,
+      };
+      console.log(requestBody);
+      const response = await fetch(
+        "https://www.insung.shop/jat/sellers/authy",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(requestBody),
+        }
+      );
+      const data = await response.json();
+      if (!data["isSuccess"]) {
+        console.log(data["code"]);
+        console.log(data["message"]);
+        alert(data["message"]);
+        return;
+      }
+    } catch (err) {
+      console.log(err);
+    }
+    setIsCheck(true);
+    setRemainingTime(180); // 인증 시간 초기화
   };
 
   return (
@@ -303,7 +336,7 @@ export default function MembershipPhone() {
                 인증번호 받기
               </button>
             )}
-            {isCheck && (
+            {/* {isCheck && (
               <button
                 className={style.phoneBtn}
                 onClick={handleResendNumber}
@@ -311,7 +344,7 @@ export default function MembershipPhone() {
               >
                 재전송하기
               </button>
-            )}
+            )} */}
           </div>
           {!isValid.phone && isClicked.phone && (
             <p className={style.validation}>
@@ -334,8 +367,11 @@ export default function MembershipPhone() {
           </div>
           <p className={style.phoneretry}>
             인증번호 전송은 통신사에 따라 최대 1분까지 소요할 수 있습니다.
-            인증번호가 도착하지 않으면 <strong>인증번호 재전송</strong>을
-            눌러주세요.
+            인증번호가 도착하지 않으면{" "}
+            <strong onClick={RetryCertificationPhoneNum}>
+              인증번호 재전송
+            </strong>
+            을 눌러주세요.
           </p>
         </form>
 

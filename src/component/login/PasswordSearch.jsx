@@ -99,13 +99,16 @@ export default function PasswordSearch() {
         }
         const passwordSearchSuccess = data["result"];
         console.log(passwordSearchSuccess);
-        if(passwordSearchSuccess["pwRestoreAble"] === 0) {
-          alert('비밀번호가 재설정 가능하지 않습니다.')
-          setButton(false)
-          return
+        if (passwordSearchSuccess["pwRestoreAble"] === 0) {
+          alert("비밀번호가 재설정 가능하지 않습니다.");
+          setButton(false);
+          return;
         }
         navigate("/help/new-pw", {
-          state: { uid: passwordSearchSuccess["uid"], jwt: passwordSearchSuccess["jwt"] },
+          state: {
+            uid: passwordSearchSuccess["uid"],
+            jwt: passwordSearchSuccess["jwt"],
+          },
         });
       } catch (err) {
         console.log(err);
@@ -156,6 +159,8 @@ export default function PasswordSearch() {
         <PasswordSearchPhone
           raminHandler={phoneRemainingTimeHandler}
           resultPhoneNumHandler={resultPhoneNumHandler}
+          inputPhone={inputPhone}
+          inputId={inputId}
         />
       ) : (
         ""
