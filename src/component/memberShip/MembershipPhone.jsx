@@ -256,6 +256,10 @@ export default function MembershipPhone() {
   };
 
   const RetryCertificationPhoneNum = async () => {
+    alert("인증번호가 재전송되었습니다.");
+
+    setRemainingTime(180);
+
     try {
       const requestBody = {
         name: userInfo.name,
