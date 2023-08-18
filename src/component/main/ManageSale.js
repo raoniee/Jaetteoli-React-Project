@@ -125,7 +125,6 @@ const ManageSale = () => {
                 console.log('월간 매뉴 주문 비율 api', data.message);
                 return;
             }
-            console.log('ms', data);
 
             return data.result.itemOrdersRatio;
         } catch (error) {
@@ -256,7 +255,7 @@ const ManageSale = () => {
         },
     ];
 
-    const COLORS = ['#8884d8', '#9F93EA', '#DDD1EE', '#82ca9d', '#a0dbb7', '#C3E8DD', ];
+    const COLORS = ['#8884d8', '#9F93EA', '#DDD1EE', '#82ca9d', '#a0dbb7', '#C3E8DD',];
 
     return (
         <div>
