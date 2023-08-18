@@ -60,10 +60,9 @@ const AlarmTitle = styled.div`
   width: 75%;
   height: 50px;
   font-family: Pretendard-Regular;
-  font-size: 15px;
-  font-weight: 700;
+  font-size: 13px;
+  font-weight: 500;
   line-height: 50px;
-  letter-spacing: 0em;
   text-align: left;
   padding-left: 20px;
 `
@@ -73,9 +72,8 @@ const AlarmText = styled.div`
   width: 75%;
   height: 100%;
   font-family: Pretendard-Regular;
-  font-size: 13px;
+  font-size: 12px;
   font-weight: 400;
-  letter-spacing: 0em;
   text-align: left;
   padding-left: 20px;
 `

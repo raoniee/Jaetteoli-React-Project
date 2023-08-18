@@ -2,7 +2,7 @@ import styled from "styled-components";
 import {useEffect, useRef, useState} from "react";
 import { useSelector } from 'react-redux';
 import { getCookieToken } from "../../store/common/Cookie";
-import {useLocation} from "react-router-dom";
+import {useLocation, useNavigate} from "react-router-dom";
 import Header from "../header/Header";
 import Footer from "../footer/Footer";
 import AlarmModal from "./AlarmModal";
@@ -233,6 +233,7 @@ export default function Regist3Component() {
     const [gridItems, setGridItems] = useState([0, 1, 2]);
     const menuInfo = useSelector((state) => state.menuRegistering)
     const location = useLocation();
+    const navigate = useNavigate();
     const ref = useRef(null);
     const [showAlarm, setShowAlarm] = useState(false);
     const [alarmTitle, setAlarmTitle] = useState("");
@@ -316,7 +317,13 @@ export default function Regist3Component() {
         fetch('https://www.insung.shop/jat/menus', requestOptions)
             .then(response => response.json())
             .then(data => {
-                console.log(data);
+                if (data.code === 1000) {
+                    console.log("가게 신청 성공!");
+                    localStorage.setItem("firstLogin", "0");
+                    localStorage.setItem("menuRegister", "0");
+                    localStorage.setItem("storeStatus", "A");
+                    navigate("/today/menu")
+                }
             })
             .catch(error => {
                 console.error(error);
