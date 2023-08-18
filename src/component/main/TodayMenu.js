@@ -175,6 +175,8 @@ const Main1 = () => {
         return;
       }
 
+      alert('정상적으로 등록이 완료되었습니다.')
+
       // POST 요청 이후에 GET 요청으로 데이터 가져오기
       const getResponse = await fetch("https://www.insung.shop/jat/today", {
         method: "GET",
