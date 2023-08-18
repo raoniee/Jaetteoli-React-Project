@@ -1,7 +1,7 @@
 
 import styled from "styled-components";
 import { ReactComponent as SelectButton} from "../../assets/images/Vector 30.svg";
-import {useEffect, useRef, useState} from "react";
+import {useCallback, useEffect, useRef, useState} from "react";
 import {useLocation, useNavigate} from 'react-router-dom';
 import AlarmModal from "./AlarmModal";
 import { getCookieToken } from "../../store/common/Cookie";
@@ -382,6 +382,11 @@ export default function Regist1Component({setStoreInfo}) {
     const [showAlarm, setShowAlarm] = useState(false);
     const [alarmTitle, setAlarmTitle] = useState("");
     const [alarmText, setAlarmText] = useState("");
+    const closeAlarm = useCallback(() => {
+        setShowAlarm(false);
+        if (alarmText === "가게 승인까지 최대 24시간 소요됩니다.")
+            navigate('/');
+    }, [alarmText])
     const [ storeNames, setStoreNames ] = useState(["",""]);
     const [ dupliCheck, setDupliCheck ] = useState(0);
     const location = useLocation();
@@ -513,8 +518,12 @@ export default function Regist1Component({setStoreInfo}) {
             .then(data => {
                 console.log(data);
                 if (data.code === 1000){
-                    alert('가게 승인까지 최대 24시간 소요됩니다.')
-                    navigate('/')
+                    setAlarmTitle("재떨이.com 내용:")
+                    setAlarmText("가게 승인까지 최대 24시간 소요됩니다.")
+                    localStorage.setItem("firstLogin", "0");
+                    localStorage.setItem("menuRegister", "1");
+                    localStorage.setItem("storeStatus", "W");
+                    setShowAlarm(true)
                 }
             })
             .catch(error => {
@@ -636,7 +645,7 @@ export default function Regist1Component({setStoreInfo}) {
             return;
         }
         else {
-            const phoneNumberRegex = /^\d{3}-\d{4}-\d{4}$/;
+            const phoneNumberRegex = /^(\d{2,3})-(\d{3,4})-(\d{4})$/;
             if (!phoneNumberRegex.test(storeInfoState.storePhone)){
                 if (!showAlarm){
                     setAlarmTitle("재떨이.com 내용:")
@@ -700,11 +709,6 @@ export default function Regist1Component({setStoreInfo}) {
             });
     }
 
-    // 모달창에 넘길 off함수
-    function onClose(){
-        setShowAlarm(false);
-    }
-
     useEffect(() => {
         if (storeNames[0] === "" || storeNames[1] === "")
             handleStoreInfo({ storeName: "" });
@@ -714,7 +718,7 @@ export default function Regist1Component({setStoreInfo}) {
     return (
         <>
             <Header />
-            <AlarmModal isOpen={showAlarm} onClose={() => onClose()} title={alarmTitle} text={alarmText} />
+            <AlarmModal isOpen={showAlarm} onClose={closeAlarm} title={alarmTitle} text={alarmText} />
             <RegistContainerStyled ref={ref}>
                 <Regist1Styled>
                     <Regist1BIStyled>
@@ -979,7 +983,7 @@ export default function Regist1Component({setStoreInfo}) {
                         <Regist1Box2Styled>
                             <Regist1TextBoxStyled
                                 style={{ fontFamily: 'Abhaya Libre, serif' }}
-                                placeholder="055-1234-5678"
+                                placeholder="xxx-xxxx-xxxx"
                                 onChange={(event)=>handleStoreInfo({storePhone:event.target.value})}/>
                         </Regist1Box2Styled>
                     </Regist1BoxContainer1Styled>
