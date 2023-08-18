@@ -5,6 +5,7 @@ import SideBar from "../sidebar/SideBar";
 import Header from "../header/Header";
 import { getCookieToken } from "../../store/common/Cookie";
 import store from "../../store";
+import AlarmModal from "../register/AlarmModal";
 
 const Modify1Styled = styled.div`
     display: flex;
@@ -188,6 +189,9 @@ const Modify1Submit = styled.div`
     text-align: center;
     color: rgba(255, 255, 255, 1);
 
+  &:hover {
+    cursor: pointer;
+  }
 `
 
 const Modify2Styled = styled.div`
@@ -306,6 +310,9 @@ const Modify2FlexBox6Styled = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
+  &:hover {
+    cursor: pointer;
+  }
 `
 
 const Modify2InputButtonStyled = styled.div`
@@ -326,6 +333,7 @@ const Modify2InputButtonStyled = styled.div`
   
   &:hover{
     background: #F5F3FF;
+    
   }
 `
 
@@ -364,6 +372,9 @@ const Modify2Add = styled.div`
     letter-spacing: 0em;
     text-align: center;
     color: rgba(0, 0, 0, 1);
+  &:hover {
+    cursor: pointer;
+  }
 `
 
 const Modify2SubmitContatiner = styled.div`
@@ -389,6 +400,10 @@ const Modify2Submit = styled.div`
     letter-spacing: 0em;
     text-align: center;
     color: rgba(255, 255, 255, 1);
+
+  &:hover {
+    cursor: pointer;
+  }
 `
 
 const Modify2FlexBox7Styled = styled.div`
@@ -461,6 +476,8 @@ const Modify1Box5Wrapper = styled.div`
 
 export default function Modify1() {
     const [previewImageSetters, setPreviewImageSetters] = useState(false);
+    const [visibleModal, setVisibleModal] = useState(false);
+    const [modalContent, setModalContent] = useState({title: "", text: ""});
     const previewImage0 = useRef({ 0: null, 1: null });
     const previewImage1 = useRef({ 0: null});
     const previewImage2 = useRef({ 0: null});
@@ -547,7 +564,11 @@ export default function Modify1() {
         fetch('https://www.insung.shop/jat/stores', requestOptions)
             .then(response => response.json())
             .then(data => {
-                console.log(data);
+                if (data.code === 1000) {
+                    console.log("가게정보 수정완료!")
+                    setVisibleModal(true)
+                    setModalContent({title: "재떨이.com 내용:" , text: "가게정보가 수정되었습니다."})
+                }
             })
             .catch(error => {
                 console.error(error);
@@ -617,11 +638,6 @@ export default function Modify1() {
         });
 
 
-        for (let pair of formData.entries()) {
-            console.log(pair[0]+', '+pair[1])
-        }
-
-
         const requestOptions = {
             method: 'PATCH',
             headers: {
@@ -633,7 +649,11 @@ export default function Modify1() {
         fetch('https://www.insung.shop/jat/menus', requestOptions)
             .then(response => response.json())
             .then(data => {
-                console.log(data);
+                if (data.code === 1000) {
+                    console.log("메뉴 수정 완료!")
+                    setVisibleModal(true)
+                    setModalContent({title: "재떨이.com 내용:", text: "메뉴가 수정되었습니다."})
+                }
             })
             .catch(error => {
                 console.error(error);
@@ -1216,6 +1236,12 @@ export default function Modify1() {
                     </Modify2SubmitContatiner>
                 </Modify2Styled>
             </Modify1ContainerStyled>
+
+            <AlarmModal
+                isOpen={visibleModal}
+                onClose={() => setVisibleModal(false)}
+                title={modalContent.title}
+                text={modalContent.text}/>
         </>
     );
 }
