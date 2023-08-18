@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 
 export default function IDSearch() {
   const navigate = useNavigate();
-  
+
   const [button, setButton] = useState(false);
   const [inputName, setInputName] = useState("");
   const [nameValid, setNameValid] = useState(true);
@@ -64,6 +64,7 @@ export default function IDSearch() {
         const data = await response.json();
         if (!data["isSuccess"]) {
           console.log(data["message"]);
+          alert(data["message"]);
           return;
         }
         const idSearchSuccess = data["result"]["smsIdx"];
@@ -94,12 +95,15 @@ export default function IDSearch() {
 
         const data = await response.json();
         if (!data["isSuccess"]) {
-          console.log('')
+          console.log("");
           return;
         }
         const idSearchSuccess = data["result"];
         navigate("/help/complete", {
-          state: { uid: idSearchSuccess[0]["uid"], signUpDate: idSearchSuccess[0]["signUpDate"] },
+          state: {
+            uid: idSearchSuccess[0]["uid"],
+            signUpDate: idSearchSuccess[0]["signUpDate"],
+          },
         });
       } catch (err) {
         console.log(err);
@@ -150,18 +154,16 @@ export default function IDSearch() {
         <IDSearchPhone
           remainHandler={phoneRemainingTimeHandler}
           resultPhoneNumHandler={resultPhoneNumHandler}
+          inputPhone={inputPhone}
+          inputName={inputName}
         />
       )}
-      <BTN
-        onClick={handleButton}
-        value={button}
-      />
+      <BTN onClick={handleButton} value={button} />
     </>
   );
 }
 
 function BTN({ value, onClick }) {
-
   return (
     <>
       {!value && (

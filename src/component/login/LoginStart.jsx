@@ -5,7 +5,12 @@ import { Link, useNavigate } from "react-router-dom";
 import Header from "../header/Header";
 import Footer from "../footer/Footer";
 import { SET_AUTH, TOKEN_TIME_OUT } from "../../store/auth";
-import { getCookieToken, getStoreUid, setStoreUid, setToken } from "../../store/common/Cookie";
+import {
+  getCookieToken,
+  getStoreUid,
+  setStoreUid,
+  setToken,
+} from "../../store/common/Cookie";
 
 export default function LoginStart() {
   const [inputId, setInputId] = useState("");
@@ -13,6 +18,7 @@ export default function LoginStart() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [isChecked, setIsChecked] = useState(false);
+  const [loginValue, setLoginValue] = useState(false);
 
   const handleCheckboxChange = () => {
     setIsChecked((prevChecked) => !prevChecked);
@@ -35,7 +41,7 @@ export default function LoginStart() {
 
   async function onClickLogin() {
     if (inputId.trim() === "" || inputPw.trim() === "") {
-      console.log("아이디또는 비밀번호를 입력해주세요.");
+      alert("아이디또는 비밀번호를 입력해주세요.");
       return;
     }
 
@@ -61,13 +67,14 @@ export default function LoginStart() {
       if (!data["isSuccess"]) {
         console.log(data["code"]);
         console.log(data["message"]);
+        setLoginValue(true);
         return;
       }
       const loginSuccess = data["result"];
 
       setToken(loginSuccess.jwt);
-      if(isChecked){
-        setStoreUid(inputId)
+      if (isChecked) {
+        setStoreUid(inputId);
       }
       //각 상태 localStorage.setItem
       localStorage.setItem("firstLogin", loginSuccess["first_login"]);
@@ -173,6 +180,13 @@ export default function LoginStart() {
             <Link to="/signup/agree">회원가입</Link>
           </div>
         </div>
+        {loginValue && (
+          <p className={style.alert}>
+            아이디(로그인 전용 아이디) 또는 비밀번호를 잘못 입력했습니다.
+            <br />
+            입력하신내용을 다시 확인해주세요.
+          </p>
+        )}
         <button className={style.bluebutton} onClick={onClickLogin}>
           로그인
         </button>

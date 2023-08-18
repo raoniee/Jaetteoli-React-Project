@@ -42,7 +42,7 @@
 .login_options {
   display: flex;
   justify-content: space-between;
-  margin-bottom: 80px;
+  /* margin-bottom: 80px; */
 }
 
 .login_options .left {
@@ -70,6 +70,14 @@
   line-height: 35px;
 }
 
+.alert {
+  color: #ff0000;
+  font-size: 14px;
+  line-height: 15.4px;
+  margin-top: 23px;
+  margin-bottom: -58px;
+}
+
 .bluebutton {
   display: block;
   margin: 0 auto;
@@ -81,4 +89,5 @@
   font-size: 20px;
   line-height: 22px;
   color: rgba(255, 255, 255, 1);
+  margin-top: 80px;
 }
