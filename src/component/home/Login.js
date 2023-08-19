@@ -30,7 +30,7 @@ const Login = () => {
                 </div>
             }
             {(token && firstLogin === '1' && menuRegister === '1' && storeStatus === 'W') &&
-                <div className={style.btnContainer}>
+                <div className={style.btnContainer} onClick={()=>alert('아직 가게 승인이 이루어지지 않았습니다. 가게 승인 후 메뉴가 등록 가능합니다. 승인이 완료될 때까지 조금만 기다려주세요')}>
                     <button className={style.signup}>메뉴 등록하기</button>
                 </div>
             }

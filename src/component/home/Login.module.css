@@ -24,4 +24,6 @@
 .signup {
     background-color: #604EF8;
     color: white;
+    display: flex;
+    align-items: center;
 }
