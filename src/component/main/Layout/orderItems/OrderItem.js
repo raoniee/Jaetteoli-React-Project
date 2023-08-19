@@ -35,7 +35,7 @@ const OrderItem = (props) => {
     return null;
   }
 
-  const completePickupHandler = async(orderIdx) => {
+  const completePickupHandler = async (orderIdx) => {
     try {
       // 픽업완료 API 호출
       await props.onCompletePickupHandler(orderIdx);
@@ -44,7 +44,7 @@ const OrderItem = (props) => {
     } catch (error) {
       console.log(error);
     }
-  }
+  };
 
   // 이미 접수 완료일 경우 해당 항목을 숨김
   if (isPickup) {
@@ -76,9 +76,10 @@ const OrderItem = (props) => {
               >
                 {props.reception.payStatus}
               </div>
-              {props.isStatus !== "complete" && props.reception.request !== "" && (
-                <div className={classes["ispayment-button"]}>요청있음</div>
-              )}
+              {props.isStatus !== "complete" &&
+                props.reception.request !== "" && (
+                  <div className={classes["ispayment-button"]}>요청있음</div>
+                )}
             </div>
             <p
               className={`${classes["menu"]} ${classes["p-margin"]} ${classes["menu-detail"]}`}
@@ -105,7 +106,10 @@ const OrderItem = (props) => {
               <br />
               인쇄
             </button>
-            <button className={`${classes.btn} ${classes["order-cancel"]}`} onClick={() => receiveOrderHandler(props.reception.orderIdx, 'D')} >
+            <button
+              className={`${classes.btn} ${classes["order-cancel"]}`}
+              onClick={() => receiveOrderHandler(props.reception.orderIdx, "D")}
+            >
               주문
               <br />
               취소하기
@@ -113,7 +117,7 @@ const OrderItem = (props) => {
 
             <button
               className={`${classes.btn} ${classes["do-order"]}`}
-              onClick={() => receiveOrderHandler(props.reception.orderIdx, 'P')}
+              onClick={() => receiveOrderHandler(props.reception.orderIdx, "P")}
             >
               접수
               <br />
@@ -136,7 +140,10 @@ const OrderItem = (props) => {
               <br />
               {timeMessage}
             </button>
-            <button className={`${classes.btn} ${classes["do-order"]}`} onClick={() => completePickupHandler(props.reception.orderIdx)}>
+            <button
+              className={`${classes.btn} ${classes["do-order"]}`}
+              onClick={() => completePickupHandler(props.reception.orderIdx)}
+            >
               픽업
               <br />
               완료
@@ -145,7 +152,10 @@ const OrderItem = (props) => {
         )}
         {props.isStatus === "complete" && (
           <div className={classes["button-div"]}>
-            <button className={`${classes.btn} ${classes["do-order"]}`}>
+            <button
+              className={`${classes.btn} ${classes["do-order"]}`}
+              onClick={() => props.onClick(props.reception.orderIdx)}
+            >
               영수증
               <br />
               인쇄
