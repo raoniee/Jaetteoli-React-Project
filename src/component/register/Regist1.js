@@ -28,9 +28,9 @@ const Regist1Styled = styled.div`
 `
 
 const Regist1BIStyled = styled.div`
-    font-family: Pretendard-Regular;
+    font-family: Pretendard-SemiBold;
     font-size: 32px;
-    font-weight: 600;
+    font-weight: 700;
     line-height: 35px;
     letter-spacing: 0em;
     text-align: left;
@@ -78,7 +78,7 @@ const Regist1BoxContainer3Styled = styled.div`
 const Regist1TextBox2Styled = styled.div`
   position: absolute;
   color: ${props => (props.error ? "#604EF8" : "#F00")};
-  font-family: Pretendard-Regular;
+  font-family: Pretendard-SemiBold;
   font-size: 14px;
   font-style: normal;
   font-weight: 600;
@@ -115,7 +115,7 @@ const Regist1Box1Styled = styled.div`
     width: 172px;
     height: 48px;
 
-    font-family: Pretendard-Regular;
+    font-family: Pretendard-SemiBold;
     font-size: 20px;
     font-weight: 700;
     line-height: 48px;
@@ -311,9 +311,9 @@ const Regist1Submit = styled.div`
     border-radius: 5px;
 
 
-  font-family: Pretendard-Regular;
+  font-family: Pretendard-SemiBold;
     font-size: 20px;
-    font-weight: 400;
+    font-weight: 700;
     line-height: 70px;
     letter-spacing: 0em;
     text-align: center;

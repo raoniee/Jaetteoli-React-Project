@@ -29,9 +29,9 @@ const Regist3Styled = styled.div`
 
 
 const Regist3BIStyled = styled.div`
-    font-family: Pretendard-Regular;
+    font-family: Pretendard-SemiBold;
     font-size: 32px;
-    font-weight: 600;
+    font-weight: 700;
     line-height: 35px;
     letter-spacing: 0em;
     text-align: left;
@@ -79,7 +79,7 @@ const Regist3FlexBox1Styled = styled.div`
     width: 17px;
     height: 35px;
     
-    font-family: Pretendard-Regular;
+    font-family: Pretendard-SemiBold;
     font-size: 32px;
     font-weight: 700;
     line-height: 35px;
@@ -92,7 +92,7 @@ const Regist3FlexBox2Styled = styled.div`
     height: 22px;
     margin-right: 23px;
     
-    font-family: Pretendard-Regular;
+    font-family: Pretendard-SemiBold;
     font-size: 20px;
     font-weight: 700;
     line-height: 22px;
@@ -105,7 +105,7 @@ const Regist3FlexBox3Styled = styled.div`
     height: 22px;
     margin-right: 23px;
     
-    font-family: Pretendard-Regular;
+    font-family: Pretendard-SemiBold;
     font-size: 20px;
     font-weight: 700;
     line-height: 22px;
@@ -117,7 +117,7 @@ const Regist3FlexBox4Styled = styled.div`
     width: 395px;
     height: 22px;
     
-    font-family: Pretendard-Regular;
+    font-family: Pretendard-SemiBold;
     font-size: 20px;
     font-weight: 700;
     line-height: 22px;
@@ -174,7 +174,7 @@ const Regist3Add = styled.div`
     box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
     border-radius: 5px;
 
-    font-family: Pretendard-Regular;
+    font-family: Pretendard-SemiBold;
     font-size: 20px;
     font-weight: 700;
     line-height: 70px;
@@ -201,7 +201,7 @@ const Regist3Submit = styled.div`
     
     background: rgba(96, 78, 248, 1);
 
-    font-family: Pretendard-Regular;
+    font-family: Pretendard-SemiBold;
     font-size: 20px;
     font-weight: 700;
     line-height: 70px;
