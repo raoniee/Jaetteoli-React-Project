@@ -10,10 +10,9 @@ export default function PasswordNew() {
 
   const [newPassword, setNewPassword] = useState(null);
   const [checkPassword, setCheckPassword] = useState(null);
-  const [isEquals, setIsEquals] = useState(true)
-  const [passwordValid, setPasswordValid] = useState(true)
-  const [isBlank, setIsBlank] = useState(false)
-
+  const [isEquals, setIsEquals] = useState(true);
+  const [passwordValid, setPasswordValid] = useState(true);
+  const [isBlank, setIsBlank] = useState(false);
 
   const handleInputPassword = (e) => {
     setNewPassword(e.target.value);
@@ -25,50 +24,50 @@ export default function PasswordNew() {
 
   const moveLoginHandler = async () => {
     //비밀번호 재설정 빈칸 유뮤
-    if(newPassword.trim() === "" || checkPassword.trim() === ""){
-      console.log('1')
-      setIsBlank(true)
-      return
-    }else{
-      console.log('2')
+    if (newPassword.trim() === "" || checkPassword.trim() === "") {
+      console.log("1");
+      setIsBlank(true);
+      return;
+    } else {
+      console.log("2");
 
-      setIsBlank(false)
+      setIsBlank(false);
     }
     //비밀번호 재설정 문자가 일치한지
-    if(newPassword !== checkPassword) {
-      console.log('3')
+    if (newPassword !== checkPassword) {
+      console.log("3");
 
-      setIsEquals(false)
-      return
-    }else{
-      console.log('4')
+      setIsEquals(false);
+      return;
+    } else {
+      console.log("4");
 
-      setIsEquals(true)
+      setIsEquals(true);
     }
     //정규식 처리
     const pattern =
       /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[@$!%*?&])[a-zA-Z\d@$!%*?&]{8,}$/;
     const isValid = pattern.test(newPassword);
-    if(!isValid){
-      console.log(newPassword)
-      console.log('5')
+    if (!isValid) {
+      console.log(newPassword);
+      console.log("5");
 
-      setPasswordValid(false)
-      return
-    }else{
-      console.log('6')
+      setPasswordValid(false);
+      return;
+    } else {
+      console.log("6");
 
-      setPasswordValid(true)
+      setPasswordValid(true);
     }
     // "eyJ0eXBlIjoiand0IiwiYWxnIjoiSFMyNTYifQ.eyJ1c2VySWR4Ijo3LCJpYXQiOjE2ODkyNjgzMzAsImV4cCI6MTY5MDczOTU1OX0.H35F2qY4p3D3QVaG4ZgPJkaqRSoPCPQ_kX2Inj8420E"
     const requestBody = {
-      pw : newPassword,
-      pwCheck : checkPassword
-    }
+      pw: newPassword,
+      pwCheck: checkPassword,
+    };
 
     //비밀번호 재설정 api 호출
     try {
-      console.log('7')
+      console.log("7");
 
       const response = await fetch(
         "https://www.insung.shop/jat/sellers/pw-restore",
@@ -76,7 +75,7 @@ export default function PasswordNew() {
           method: "PATCH",
           headers: {
             "Content-Type": "application/json",
-            "X-ACCESS-TOKEN": location.state.jwt
+            "X-ACCESS-TOKEN": location.state.jwt,
           },
           body: JSON.stringify(requestBody),
         }
@@ -88,7 +87,7 @@ export default function PasswordNew() {
       }
       const passwordSettingSuccess = data["result"];
       console.log(passwordSettingSuccess);
-      console.log('8')
+      console.log("8");
 
       navigate("/login");
     } catch (err) {
@@ -105,16 +104,18 @@ export default function PasswordNew() {
           <label htmlFor="">새 비밀번호</label>
           <p>영문+숫자 10자 이상 또는 영문+숫자+특수기호 8자 이상</p>
           <input
-            type="text"
+            type="password"
             placeholder="새 비밀번호 입력"
             className={style.newpassword}
             onChange={handleInputPassword}
           />
           {isBlank && <p>빈 칸입니다.</p>}
-          {!passwordValid && <p>영문+숫자 10자 이상 또는 영문+숫자+특수기호 8자 이상</p>}
+          {!passwordValid && (
+            <p>영문+숫자 10자 이상 또는 영문+숫자+특수기호 8자 이상</p>
+          )}
           <label htmlFor="">새 비밀번호 확인</label>
           <input
-            type="text"
+            type="password"
             placeholder="새 비밀번호 재입력"
             onChange={handleInputCheckPassword}
           />
