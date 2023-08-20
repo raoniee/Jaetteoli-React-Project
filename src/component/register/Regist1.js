@@ -520,7 +520,7 @@ export default function Regist1Component({setStoreInfo}) {
                 if (data.code === 1000){
                     setAlarmTitle("재떨이.com 내용:")
                     setAlarmText("가게 승인까지 최대 24시간 소요됩니다.")
-                    localStorage.setItem("firstLogin", "0");
+                    localStorage.setItem("firstLogin", "1");
                     localStorage.setItem("menuRegister", "1");
                     localStorage.setItem("storeStatus", "W");
                     setShowAlarm(true)
