@@ -28,7 +28,7 @@ const Regist2Styled = styled.div`
 `
 
 const Regist2BIStyled = styled.div`
-    font-family: Pretendard-Regular;
+    font-family: Pretendard-SemiBold;
     font-size: 32px;
     font-weight: 600;
     line-height: 35px;
@@ -79,7 +79,7 @@ const Regist2FlexBox1Styled = styled.div`
     width: 17px;
     height: 35px;
     
-    font-family: Pretendard-Regular;
+    font-family: Pretendard-SemiBold;
     font-size: 32px;
     font-weight: 700;
     line-height: 35px;
@@ -134,7 +134,7 @@ const Regist2InputButtonStyled = styled.div`
     border-radius: 0 0 5px 5px;
     border: 2px solid #604EF8;
     
-    font-family: Pretendard-Regular;
+    font-family: Pretendard-SemiBold;
     font-size: 13px;
     font-weight: 700;
     line-height: 30px;
@@ -174,7 +174,7 @@ const Regist2Add = styled.div`
     border-radius: 5px;
 
 
-    font-family: Pretendard-Regular;
+    font-family: Pretendard-SemiBold;
     font-size: 20px;
     font-weight: 700;
     line-height: 70px;
@@ -203,7 +203,7 @@ const Regist2Submit = styled.div`
     
     background: rgba(96, 78, 248, 1);
 
-    font-family: Pretendard-Regular;
+    font-family: Pretendard-SemiBold;
     font-size: 20px;
     font-weight: 700;
     line-height: 70px;
@@ -216,7 +216,7 @@ const Regist2FlexBox7Styled = styled.div`
     width: 182px;
     height: 22px;
     
-    font-family: Pretendard-Regular;
+    font-family: Pretendard-SemiBold;
     font-size: 20px;
     font-weight: 700;
     line-height: 22px;
@@ -228,7 +228,7 @@ const Regist2FlexBox8Styled = styled.div`
     width: 275px;
     height: 22px;
     
-    font-family: Pretendard-Regular;
+    font-family: Pretendard-SemiBold;
     font-size: 20px;
     font-weight: 700;
     line-height: 22px;
@@ -241,7 +241,7 @@ const Regist2FlexBox9Styled = styled.div`
     width: 122px;
     height: 22px;
     
-    font-family: Pretendard-Regular;
+    font-family: Pretendard-SemiBold;
     font-size: 20px;
     font-weight: 700;
     line-height: 22px;
