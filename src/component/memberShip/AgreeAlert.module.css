@@ -61,14 +61,21 @@
   flex-grow: 1;
 }
 
-.middle .information p {
+.middle .information .desc {
+  display: block;
+  height: 360px;
   padding: 10px 7px;
-  height: 360.97px;
   font-weight: 400;
-  font-size: 11px;
-  line-height: 13.2px;
+  font-size: 13px;
+  line-height: normal;
   border: 1px solid #dadada;
+  /* overflow-y: auto; */
   overflow-y: scroll;
+}
+
+.middle .information .desc pre {
+  white-space: pre-line;
+  width: 680px;
 }
 
 .bottom {

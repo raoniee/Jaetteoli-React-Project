@@ -53,6 +53,7 @@
 .login_options .left .checkbox {
   width: 30px;
   height: 30px;
+  cursor: pointer;
 }
 
 .login_options .left label {

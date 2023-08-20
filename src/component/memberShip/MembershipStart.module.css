@@ -153,6 +153,7 @@
   margin-bottom: 45px;
   background: rgba(96, 78, 248, 1);
   border: 1px solid rgba(0, 0, 0, 0.5);
+  cursor: pointer;
 }
 
 .phone_agree p {

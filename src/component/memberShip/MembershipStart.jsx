@@ -26,6 +26,7 @@ export default function MembershipStart() {
     isEmail: false,
     isPhone: false,
   });
+  //const [param, setParam] = useState("");
 
   const [twoState, setTwoState] = useState(
     agreements.isSns && agreements.isEmail && agreements.isPhone
