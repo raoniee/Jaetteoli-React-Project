@@ -13,7 +13,8 @@
 .title {
   display: block;
   text-align: center;
-  font-weight: 300;
+  font-family: "Abhaya Libre-Bold";
+  /* font-weight: 300; */
   font-size: 32px;
   line-height: 35.2px;
   margin-bottom: 76px;
@@ -33,7 +34,8 @@
 }
 
 .LOGIN_FORM input::placeholder {
-  font-weight: 300;
+  font-family: "Abhaya Libre-Bold";
+  /* font-weight: 300; */
   font-size: 16px;
   line-height: 17.6px;
   color: rgba(0, 0, 0, 0.5);
@@ -58,7 +60,8 @@
 
 .login_options .left label {
   display: block;
-  font-weight: 300;
+  font-family: "Abhaya Libre-Bold";
+  /* font-weight: 300; */
   font-size: 16px;
   line-height: 35px;
 }
@@ -66,12 +69,14 @@
 .login_options .right {
   display: flex;
   gap: 15px;
-  font-weight: 300;
+  font-family: "Abhaya Libre-Bold";
+  /* font-weight: 300; */
   font-size: 14px;
   line-height: 35px;
 }
 
 .alert {
+  font-family: "Abhaya Libre-Bold";
   color: #ff0000;
   font-size: 14px;
   line-height: 15.4px;
@@ -86,7 +91,8 @@
   height: 62px;
   border: 1px solid rgba(0, 0, 0, 0.5);
   background-color: rgba(96, 78, 248, 1);
-  font-weight: 700;
+  font-family: "Pretendard-SemiBold";
+  /* font-weight: 700; */
   font-size: 20px;
   line-height: 22px;
   color: rgba(255, 255, 255, 1);

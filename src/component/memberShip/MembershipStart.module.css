@@ -13,17 +13,17 @@
 }
 
 .start_title {
+  font-family: "Abhaya Libre-Bold";
   display: block;
   font-size: 24px;
-  font-weight: 300;
   line-height: 26.4px;
   text-align: center;
   margin-bottom: 24px;
 }
 
 .start_desc {
+  font-family: "Abhaya Libre-Bold";
   text-align: center;
-  font-weight: 300;
   font-size: 16px;
   line-height: 17.6px;
   color: #939393;
@@ -52,7 +52,7 @@
 }
 
 .full_agreement label {
-  font-weight: 300;
+  font-family: "Abhaya Libre-Bold";
   font-size: 16px;
   line-height: 53px;
   margin-left: 68px;
@@ -60,13 +60,14 @@
 
 /* agree_first */
 .agree_first {
+  font-family: "Abhaya Libre-Bold";
   display: flex;
   flex-direction: column;
   width: 510px;
   margin: 0 auto;
   margin-bottom: 67px;
 
-  font-weight: 300;
+  /* font-weight: 300; */
   font-size: 16px;
   line-height: 17.6px;
 }
@@ -95,6 +96,7 @@
 
 /* agree_second */
 .agree_second {
+  font-family: "Abhaya Libre-Bold";
   display: flex;
   flex-direction: column;
   gap: 25px;
@@ -102,7 +104,7 @@
   margin: 0 auto;
   margin-bottom: 40px;
 
-  font-weight: 300;
+  /* font-weight: 300; */
   font-size: 16px;
   line-height: 17.6px;
   white-space: nowrap;
@@ -161,7 +163,8 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  font-weight: 300;
+  font-family: "Abhaya Libre-Bold";
+  /* font-weight: 300; */
   font-size: 16px;
   line-height: 17.6px;
   color: rgba(255, 255, 255, 1);

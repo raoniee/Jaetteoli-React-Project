@@ -13,7 +13,8 @@
 .title {
   display: block;
   text-align: center;
-  font-weight: 300;
+  font-family: "Abhaya Libre-Bold";
+  /* font-weight: 300; */
   font-size: 32px;
   line-height: 35.2px;
   margin-bottom: 48px;
@@ -31,7 +32,8 @@
 
 .search_option li {
   flex-grow: 1;
-  font-weight: 300;
+  font-family: "Abhaya Libre-Bold";
+  /* font-weight: 300; */
   font-size: 16px;
   line-height: 62px;
   text-align: center;
