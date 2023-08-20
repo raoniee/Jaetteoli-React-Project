@@ -1139,7 +1139,7 @@ export default function Modify1() {
                     </Modify1BoxContainer2Styled>
                     <Modify1SubmitContainer>
                         <Modify1Submit onClick={patchStoreInfo}>
-                            가게정보 수정완료
+                            가게정보 수정
                         </Modify1Submit>
                     </Modify1SubmitContainer>
                 </Modify1Styled>
@@ -1231,7 +1231,7 @@ export default function Modify1() {
                     </Modify2Add>
                     <Modify2SubmitContatiner>
                         <Modify2Submit onClick={patchMenuInfo}>
-                            메뉴 수정 완료
+                            메뉴 수정
                         </Modify2Submit>
                     </Modify2SubmitContatiner>
                 </Modify2Styled>
