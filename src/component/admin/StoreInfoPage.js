@@ -31,7 +31,7 @@ const AdminStoreStyled = styled.div`
 `;
 
 const AdminStoreBIStyled = styled.div`
-  font-family: Pretendard-Regular;
+  font-family: Pretendard-SemiBold;
   font-size: 32px;
   font-weight: 600;
   line-height: 35px;
@@ -81,7 +81,7 @@ const AdminStoreBoxContainer3Styled = styled.div`
 const AdminStoreTextBox2Styled = styled.div`
   position: absolute;
   color: ${(props) => (props.error ? "#604EF8" : "#F00")};
-  font-family: Pretendard-Regular;
+  font-family: Pretendard-SemiBold;
   font-size: 14px;
   font-style: normal;
   font-weight: 600;
@@ -118,7 +118,7 @@ const AdminStoreBox1Styled = styled.div`
   width: 172px;
   height: 48px;
 
-  font-family: Pretendard-Regular;
+  font-family: Pretendard-SemiBold;
   font-size: 20px;
   font-weight: 700;
   line-height: 48px;
