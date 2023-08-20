@@ -30,7 +30,7 @@ const Regist2Styled = styled.div`
 const Regist2BIStyled = styled.div`
     font-family: Pretendard-SemiBold;
     font-size: 32px;
-    font-weight: 600;
+    font-weight: 700;
     line-height: 35px;
     letter-spacing: 0em;
     text-align: left;
