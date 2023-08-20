@@ -461,13 +461,7 @@ export default function StoreInfoPage() {
             <AdminStoreBox2Styled>
               <AdminStoreTextBoxStyled
                 readOnly
-                value={() => {
-                  switch (storeInfoState.categoryName) {
-                    case 1:
-                      return "백화점";
-                    case 2:
-                  }
-                }}
+                value={storeInfoState.categoryName}
               />
             </AdminStoreBox2Styled>
           </AdminStoreBoxContainer1Styled>
