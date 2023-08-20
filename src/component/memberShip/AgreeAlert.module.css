@@ -1,5 +1,4 @@
 * {
-  font-family: "Fira Sans";
   box-sizing: border-box;
 }
 
@@ -20,7 +19,8 @@
 }
 
 .top .title {
-  font-weight: 500;
+  font-family: "Fira Sans-Medium";
+  /* font-weight: 500; */
   font-size: 14px;
   line-height: 55.8px;
   color: #ffffff;
@@ -44,7 +44,8 @@
 }
 
 .middle .information ul li {
-  font-weight: 500;
+  font-family: "Fira Sans-Medium";
+  /* font-weight: 500; */
   font-size: 13px;
   line-height: 15.6px;
 }
@@ -65,7 +66,8 @@
   display: block;
   height: 360px;
   padding: 10px 7px;
-  font-weight: 400;
+  font-family: "Fira Sans-Regular";
+  /* font-weight: 400; */
   font-size: 13px;
   line-height: normal;
   border: 1px solid #dadada;
@@ -85,6 +87,7 @@
 }
 
 .bottom button {
+  font-family: "Fira Sans-Regular";
   position: absolute;
   bottom: 21px;
   right: 30.5px;

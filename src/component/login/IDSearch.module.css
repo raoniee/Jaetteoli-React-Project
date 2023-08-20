@@ -53,7 +53,8 @@
 }
 
 .ID_SEARCH label {
-  font-weight: 300;
+  font-family: "Abhaya Libre-Bold";
+  /* font-weight: 300; */
   font-size: 16px;
   line-height: 17.6px;
   margin-bottom: 9px;
@@ -66,7 +67,8 @@
 }
 
 .ID_SEARCH input::placeholder {
-  font-weight: 300;
+  font-family: "Abhaya Libre-Bold";
+  /* font-weight: 300; */
   font-size: 16px;
   line-height: 17.6px;
 }
@@ -86,7 +88,8 @@
   height: 62px;
   border: 1px solid rgba(0, 0, 0, 0.5);
   background-color: rgba(96, 78, 248, 1);
-  font-weight: 700;
+  font-family: "Pretendard-SemiBold";
+  /* font-weight: 700; */
   font-size: 20px;
   line-height: 22px;
   color: rgba(255, 255, 255, 1);

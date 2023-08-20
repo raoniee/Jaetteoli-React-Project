@@ -10,11 +10,12 @@
 }
 
 .title {
+  font-family: "Pretendard-SemiBold";
   display: block;
   line-height: 35.2px;
   margin-bottom: 48px;
   font-size: 24px;
-  font-weight: 300;
+  /* font-weight: 300; */
   line-height: 26.4px;
   text-align: center;
   margin-bottom: 24px;
@@ -33,7 +34,8 @@
   flex-direction: column;
   margin-bottom: 20px;
   width: 486px;
-  font-weight: 300;
+  font-family: "Pretendard-SemiBold";
+  /* font-weight: 300; */
   font-size: 16px;
   line-height: 17.6px;
 }
@@ -52,7 +54,8 @@
 }
 
 .wrap input::placeholder {
-  font-weight: 300;
+  font-family: "Pretendard-SemiBold";
+  /* font-weight: 300; */
   font-size: 16px;
   line-height: 17.6px;
   color: rgba(0, 0, 0, 0.5);
@@ -123,6 +126,7 @@
 }
 
 .bluebutton {
+  font-family: "Pretendard-SemiBold";
   display: block;
   margin: 0 auto;
   width: 486px;
@@ -229,6 +233,7 @@
 }
 
 .option {
+  font-family: "Pretendard-SemiBold";
   font-size: 14px;
   padding: 6px 8px;
   transition: background-color 0.2s ease-in;
