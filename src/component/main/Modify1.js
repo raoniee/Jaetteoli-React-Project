@@ -17,7 +17,7 @@ const Modify1Styled = styled.div`
 `
 
 const Modify1BIStyled = styled.div`
-    font-family: Pretendard-Regular;
+    font-family: Pretendard-SemiBold;
     font-size: 32px;
     font-weight: 600;
     line-height: 35px;
@@ -60,7 +60,7 @@ const Modify1Box1Styled = styled.div`
     width: 172px;
     height: 48px;
 
-    font-family: Pretendard-Regular;
+    font-family: Pretendard-SemiBold;
     font-size: 20px;
     font-weight: 700;
     line-height: 48px;
@@ -203,7 +203,7 @@ const Modify2Styled = styled.div`
 `
 
 const Modify2BIStyled = styled.div`
-    font-family: Pretendard-Regular;
+    font-family: Pretendard-SemiBold;
     font-size: 32px;
     font-weight: 600;
     line-height: 35px;
@@ -254,7 +254,7 @@ const Modify2FlexBox1Styled = styled.div`
     width: 17px;
     height: 35px;
     
-    font-family: Pretendard-Regular;
+    font-family: Pretendard-SemiBold;
     font-size: 32px;
     font-weight: 700;
     line-height: 35px;
@@ -410,7 +410,7 @@ const Modify2FlexBox7Styled = styled.div`
     width: 182px;
     height: 22px;
     
-    font-family: Pretendard-Regular;
+    font-family: Pretendard-SemiBold;
     font-size: 20px;
     font-weight: 700;
     line-height: 22px;
@@ -422,7 +422,7 @@ const Modify2FlexBox8Styled = styled.div`
     width: 275px;
     height: 22px;
     
-    font-family: Pretendard-Regular;
+    font-family: Pretendard-SemiBold;
     font-size: 20px;
     font-weight: 700;
     line-height: 22px;
@@ -435,7 +435,7 @@ const Modify2FlexBox9Styled = styled.div`
     width: 122px;
     height: 22px;
     
-    font-family: Pretendard-Regular;
+    font-family: Pretendard-SemiBold;
     font-size: 20px;
     font-weight: 700;
     line-height: 22px;
@@ -1139,7 +1139,7 @@ export default function Modify1() {
                     </Modify1BoxContainer2Styled>
                     <Modify1SubmitContainer>
                         <Modify1Submit onClick={patchStoreInfo}>
-                            가게정보 수정
+                            가게정보 수정완료
                         </Modify1Submit>
                     </Modify1SubmitContainer>
                 </Modify1Styled>
@@ -1231,7 +1231,7 @@ export default function Modify1() {
                     </Modify2Add>
                     <Modify2SubmitContatiner>
                         <Modify2Submit onClick={patchMenuInfo}>
-                            메뉴 수정
+                            메뉴 수정 완료
                         </Modify2Submit>
                     </Modify2SubmitContatiner>
                 </Modify2Styled>
