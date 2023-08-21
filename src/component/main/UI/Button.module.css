@@ -9,6 +9,9 @@
     color: white;
     padding: 0.25rem 2rem;
     border-radius: 5px;
-    font-weight: bold;
+    font-weight: 700;
+    line-height: 140%;
+    font-family: 'Abhaya Libre';
+    font-style: normal;
     float: right;
 }
