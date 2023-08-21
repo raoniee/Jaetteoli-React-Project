@@ -162,3 +162,29 @@ a {
   font-weight: 700;
   font-display: swap;
 }
+
+@font-face {
+  font-family: "Abhaya Libre-Bold";
+  src: url("https://db.onlinewebfonts.com/t/97eb726ed2f6f08f26d142b9e8288f6e.ttf")
+    format("truetype");
+}
+
+@font-face {
+  font-family: "Abhaya Libre";
+  src: url("https://db.onlinewebfonts.com/t/5f8214881324fcd907652ae0592fe5f7.ttf")
+    format("truetype");
+}
+
+@font-face {
+  font-family: "Fira Sans-Regular";
+  src: url("/src/assets/font/FiraSans-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Fira Sans-Medium";
+  src: url("/src/assets/font/FiraSans-Regular.ttf") format("truetype");
+  font-weight: 500;
+  font-style: normal;
+}

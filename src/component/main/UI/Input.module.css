@@ -16,10 +16,17 @@
 
 .custom-input {
   position: relative;
+  font-weight: 700;
+  font-size: 13px;
+  font-style: normal;
+  font-family: 'Abhaya Libre';
 }
 
 .readonly-input {
   color: rgba(0, 0, 0, 0.5);
-  font-weight: 400;
+  font-weight: 700;
+  font-size: 13px;
+  font-style: normal;
+  font-family: 'Abhaya Libre';
   cursor:text;
 }

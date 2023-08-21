@@ -21,13 +21,18 @@
 
 .title {
     font-size: 1.7rem;
-    font-weight: 650;
+    font-weight: 700;
+    font-family: 'Pretendard-Regular';
+    line-height: 110%;
 }
 
 .subTitle {
     margin-top: 25px;
     font-size: 1rem;
     color: #697077;
+    font-weight: 400;
+    font-family: 'Pretendard-Regular';
+    line-height: 140%;
 }
 
 .type07 {
@@ -40,7 +45,10 @@
 
 .type07 thead th {
     padding: 10px;
-    font-weight: bold;
+    font-weight: 700;
+    font-size: 20px;
+    font-family: 'Pretendard-Regular';
+    line-height: 110%;
     vertical-align: top;
 }
 
