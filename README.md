@@ -15,7 +15,9 @@
 - 실시간으로 갱신되는 할인 품목들을 확인하고 할인된 가격에 음식을 구매 할 수 있다.
 - 발생 가능한 폐기비용을 줄여준다.
 - 판매자들과 소비자들에게 안전하고 신뢰 가능한 음식 서비스를 제공한다.
+
 <br>
+
 ![](https://velog.velcdn.com/images/raoni/post/fbb2a57d-1449-4a8c-8597-9f137f91e3ed/image.png)
 ![](https://velog.velcdn.com/images/raoni/post/2f7df688-13be-4a8d-ac5d-33028ac3d23a/image.png)
 
