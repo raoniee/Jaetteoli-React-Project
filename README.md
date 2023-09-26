@@ -15,15 +15,16 @@
 - 실시간으로 갱신되는 할인 품목들을 확인하고 할인된 가격에 음식을 구매 할 수 있다.
 - 발생 가능한 폐기비용을 줄여준다.
 - 판매자들과 소비자들에게 안전하고 신뢰 가능한 음식 서비스를 제공한다.
+
 <br>
-![](https://velog.velcdn.com/images/raoni/post/2aeed140-1c19-4db6-81d8-7df4ae9449f8/image.png)
-![](https://velog.velcdn.com/images/raoni/post/a4b6898e-6cfd-47a7-8d2c-c3a5c53fa1ab/image.png)
+<img src="https://velog.velcdn.com/images/raoni/post/2aeed140-1c19-4db6-81d8-7df4ae9449f8/image.png" width="800"/>
+<img src="https://velog.velcdn.com/images/raoni/post/a4b6898e-6cfd-47a7-8d2c-c3a5c53fa1ab/image.png" width="800"/>
 
 
 <br>
 
 ## 💡 2-2. 판매자, 구매자 각각의 입장에서 물건을 사고 팔 수 있도록 구현하였습니다.
-![](https://velog.velcdn.com/images/raoni/post/650e708a-d87b-449f-8f76-21b2bf89b5d3/image.png)
+<img src="https://velog.velcdn.com/images/raoni/post/650e708a-d87b-449f-8f76-21b2bf89b5d3/image.png" width="800"/>
 
 
 <br>
