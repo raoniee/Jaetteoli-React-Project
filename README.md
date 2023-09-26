@@ -83,6 +83,7 @@
 |![](https://velog.velcdn.com/images/raoni/post/1a4210b1-20c9-44fe-95d7-d47ae84752bb/image.png)|![](https://velog.velcdn.com/images/raoni/post/99bae1d8-85e3-4899-8503-8312b1d90c8a/image.png)|
 |알림센터 화면|내 정보 수정 화면|
 
+<br>
 
 # 🖥️ 3. 기술 스택
 ## 판매자 화면 (웹)
@@ -95,19 +96,22 @@
 - xcode
 - expo
 
+<br>
+
 # 🧷 4. APi 문서
 [https://docs.google.com/spreadsheets/d/1hR-vChgKXHmXQk5oXA3tq_3WOnSCR2WnJVpdXZDa1ZI/edit#gid=588458306](https://docs.google.com/spreadsheets/d/1hR-vChgKXHmXQk5oXA3tq_3WOnSCR2WnJVpdXZDa1ZI/edit#gid=588458306)
+
+<br>
 
 # 🖌️ 5. Figma 문서
 [https://www.figma.com/file/jnAcxzUFlM1Ht6nyt8hfQJ/%EC%9E%AC%EB%96%A8%EC%9D%B4?type=design&node-id=0-1&mode=design&t=sjlyde3MQqOoLfeL-0](https://www.figma.com/file/jnAcxzUFlM1Ht6nyt8hfQJ/%EC%9E%AC%EB%96%A8%EC%9D%B4?type=design&node-id=0-1&mode=design&t=sjlyde3MQqOoLfeL-0)
 
-
 <br>
-
-
 
 # 👀 6. 실제 동작 시연 (직접 시연)
 [https://www.notion.so/Web-App-2bf20e3211ac4a7bac4752b4ec8bbbca?pvs=4](https://www.notion.so/Web-App-2bf20e3211ac4a7bac4752b4ec8bbbca?pvs=4)
+
+<br>
 
 # 🙋🏻 7. What did I do
 ## - 구현 기능
